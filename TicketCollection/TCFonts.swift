@@ -24,9 +24,6 @@ extension Font {
     static func tcTechnicBold(_ fixedSize: CGFloat) -> Font {
         return .custom("Technic-Bold", fixedSize: fixedSize)
     }
-    static func tcTechnic(_ fixedSize: CGFloat) -> Font {
-        return .custom("Technic", fixedSize: fixedSize)
-    }
     static func tcArialUMS(_ fixedSize: CGFloat) -> Font {
         return .custom("Arial Unicode MS", fixedSize: fixedSize)
     }

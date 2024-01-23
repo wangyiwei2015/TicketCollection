@@ -21,6 +21,7 @@ struct EditorView: View {
         comments: "报销凭证 遗失不补\n退票改签时须交回车站",
         ticketSerial: "26468311140823K009985 JM"
     )
+
     @State var trainDate: Date {
         willSet {
             let dateStr = df.string(from: newValue)
@@ -36,6 +37,16 @@ struct EditorView: View {
     
     var body: some View {
         VStack(spacing: 10) {
+            HStack {
+                /*ShareLink("Export Image", item: {
+                    let data = TicketView(ticketInfo: .constant(ticket)).snapshot().jpegData(compressionQuality: 1.0)!
+                    let file = URL.documentsDirectory.appending(path: "ticket.jpg")
+                    try! data.write(to: file, options: .atomic)
+                    return file.path()
+                }())
+                */
+                ShareLink("Export PDF", item: TicketView(ticketInfo: .constant(ticket)).render())
+            }
             TicketView(ticketInfo: $ticket).padding(.bottom)
             Group {
                 HStack {

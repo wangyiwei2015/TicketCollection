@@ -7,18 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B33812292B5EB6BB00A80E5D /* 黑体_SimHei.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B33812282B5EB6BB00A80E5D /* 黑体_SimHei.ttf */; };
 		B3708CB92B5D412500357B12 /* 仿宋_GB2312.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B3708CB02B59549500357B12 /* 仿宋_GB2312.ttf */; };
-		B3708CBA2B5D412700357B12 /* 黑体_常规.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B3708CB52B59549500357B12 /* 黑体_常规.ttf */; };
 		B3708CBB2B5D412A00357B12 /* 宋体_SimSun.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B3708CB82B59640D00357B12 /* 宋体_SimSun.ttf */; };
 		B3708CBC2B5D413000357B12 /* Arial Unicode.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B3708CB62B59549500357B12 /* Arial Unicode.ttf */; };
 		B3708CBD2B5D413200357B12 /* HuawenSongti.ttc in Resources */ = {isa = PBXBuildFile; fileRef = B3708CB22B59549500357B12 /* HuawenSongti.ttc */; };
 		B3708CBF2B5D413800357B12 /* TechnicBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B3708CB42B59549500357B12 /* TechnicBold.ttf */; };
 		B3708CC12B5D41D000357B12 /* TCFonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3708CC02B5D41D000357B12 /* TCFonts.swift */; };
 		B3708CC32B5D471800357B12 /* TicketView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3708CC22B5D471800357B12 /* TicketView.swift */; };
-		B3708CC62B5D5B1E00357B12 /* technic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B3708CC42B5D598600357B12 /* technic.ttf */; };
 		B3708CCA2B5E395500357B12 /* QRGen.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3708CC92B5E395500357B12 /* QRGen.swift */; };
 		B3708CCC2B5E3D7A00357B12 /* EditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3708CCB2B5E3D7A00357B12 /* EditorView.swift */; };
-		B3708CCE2B5E40CA00357B12 /* DateHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3708CCD2B5E40CA00357B12 /* DateHelper.swift */; };
+		B3708CCE2B5E40CA00357B12 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3708CCD2B5E40CA00357B12 /* Helpers.swift */; };
 		B3C339F62B00FE540003BEF4 /* TicketCollectionApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3C339F52B00FE540003BEF4 /* TicketCollectionApp.swift */; };
 		B3C339F82B00FE540003BEF4 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3C339F72B00FE540003BEF4 /* ContentView.swift */; };
 		B3C339FA2B00FE550003BEF4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B3C339F92B00FE550003BEF4 /* Assets.xcassets */; };
@@ -26,19 +25,18 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		B33812282B5EB6BB00A80E5D /* 黑体_SimHei.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "黑体_SimHei.ttf"; sourceTree = "<group>"; };
 		B3708CB02B59549500357B12 /* 仿宋_GB2312.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "仿宋_GB2312.ttf"; sourceTree = "<group>"; };
 		B3708CB22B59549500357B12 /* HuawenSongti.ttc */ = {isa = PBXFileReference; lastKnownFileType = file; path = HuawenSongti.ttc; sourceTree = "<group>"; };
 		B3708CB42B59549500357B12 /* TechnicBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = TechnicBold.ttf; sourceTree = "<group>"; };
-		B3708CB52B59549500357B12 /* 黑体_常规.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "黑体_常规.ttf"; sourceTree = "<group>"; };
 		B3708CB62B59549500357B12 /* Arial Unicode.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Arial Unicode.ttf"; sourceTree = "<group>"; };
 		B3708CB72B5954BC00357B12 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		B3708CB82B59640D00357B12 /* 宋体_SimSun.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "宋体_SimSun.ttf"; sourceTree = "<group>"; };
 		B3708CC02B5D41D000357B12 /* TCFonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TCFonts.swift; sourceTree = "<group>"; };
 		B3708CC22B5D471800357B12 /* TicketView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketView.swift; sourceTree = "<group>"; };
-		B3708CC42B5D598600357B12 /* technic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = technic.ttf; sourceTree = "<group>"; };
 		B3708CC92B5E395500357B12 /* QRGen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRGen.swift; sourceTree = "<group>"; };
 		B3708CCB2B5E3D7A00357B12 /* EditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorView.swift; sourceTree = "<group>"; };
-		B3708CCD2B5E40CA00357B12 /* DateHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateHelper.swift; sourceTree = "<group>"; };
+		B3708CCD2B5E40CA00357B12 /* Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
 		B3C339F22B00FE540003BEF4 /* TicketCollection.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TicketCollection.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B3C339F52B00FE540003BEF4 /* TicketCollectionApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketCollectionApp.swift; sourceTree = "<group>"; };
 		B3C339F72B00FE540003BEF4 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -61,12 +59,11 @@
 			isa = PBXGroup;
 			children = (
 				B3708CB02B59549500357B12 /* 仿宋_GB2312.ttf */,
-				B3708CB52B59549500357B12 /* 黑体_常规.ttf */,
 				B3708CB82B59640D00357B12 /* 宋体_SimSun.ttf */,
+				B33812282B5EB6BB00A80E5D /* 黑体_SimHei.ttf */,
 				B3708CB62B59549500357B12 /* Arial Unicode.ttf */,
 				B3708CB22B59549500357B12 /* HuawenSongti.ttc */,
 				B3708CB42B59549500357B12 /* TechnicBold.ttf */,
-				B3708CC42B5D598600357B12 /* technic.ttf */,
 			);
 			path = fonts;
 			sourceTree = "<group>";
@@ -98,7 +95,7 @@
 				B3708CC02B5D41D000357B12 /* TCFonts.swift */,
 				B3708CC92B5E395500357B12 /* QRGen.swift */,
 				B3708CCB2B5E3D7A00357B12 /* EditorView.swift */,
-				B3708CCD2B5E40CA00357B12 /* DateHelper.swift */,
+				B3708CCD2B5E40CA00357B12 /* Helpers.swift */,
 				B3C339F92B00FE550003BEF4 /* Assets.xcassets */,
 				B3C339FB2B00FE550003BEF4 /* Preview Content */,
 			);
@@ -171,11 +168,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B3708CBA2B5D412700357B12 /* 黑体_常规.ttf in Resources */,
 				B3708CBC2B5D413000357B12 /* Arial Unicode.ttf in Resources */,
-				B3708CC62B5D5B1E00357B12 /* technic.ttf in Resources */,
 				B3708CBB2B5D412A00357B12 /* 宋体_SimSun.ttf in Resources */,
 				B3708CBF2B5D413800357B12 /* TechnicBold.ttf in Resources */,
+				B33812292B5EB6BB00A80E5D /* 黑体_SimHei.ttf in Resources */,
 				B3708CB92B5D412500357B12 /* 仿宋_GB2312.ttf in Resources */,
 				B3C339FD2B00FE550003BEF4 /* Preview Assets.xcassets in Resources */,
 				B3C339FA2B00FE550003BEF4 /* Assets.xcassets in Resources */,
@@ -195,7 +191,7 @@
 				B3708CCA2B5E395500357B12 /* QRGen.swift in Sources */,
 				B3708CCC2B5E3D7A00357B12 /* EditorView.swift in Sources */,
 				B3708CC32B5D471800357B12 /* TicketView.swift in Sources */,
-				B3708CCE2B5E40CA00357B12 /* DateHelper.swift in Sources */,
+				B3708CCE2B5E40CA00357B12 /* Helpers.swift in Sources */,
 				B3C339F62B00FE540003BEF4 /* TicketCollectionApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

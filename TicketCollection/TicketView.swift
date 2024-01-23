@@ -40,7 +40,7 @@ struct TicketView: View {
     
     @ViewBuilder var contents: some View {
         VStack(spacing: 0) {
-            topLabels.frame(height: 26).padding(.horizontal, 20)
+            topLabels.frame(height: 26).padding(.horizontal, 20).padding(.top, 6)
             trainInfo.padding(.horizontal, 20)
             Spacer()
             passengerInfo.padding(.horizontal, 20)
@@ -91,17 +91,16 @@ struct TicketView: View {
         VStack(spacing: 0) {
             HStack(spacing: 0) {
                 HStack(spacing: 0) {
-                    ForEach(0..<cn.count-1, id: \.self) {strIndex in
-                        Text(cn.prefix(strIndex + 1).suffix(1))
+                    ForEach(0..<cn.count, id: \.self) {strIndex in
                         Spacer(minLength: 0)
+                        Text(cn.prefix(strIndex + 1).suffix(1))
                     }
-                    Text(cn.suffix(1))
                 }.font(.tc黑体(20))
                     
-                Text("站").font(.tc宋体(12)).padding(.leading, 4)
+                Text("站").font(.tc宋体(12)).padding(.leading, 5)
             }
             Text(en).font(.tc宋体(12))
-        }.frame(width: 106)
+        }.frame(width: 108)
     }
     
     @ViewBuilder var trainstation: some View {
@@ -232,6 +231,41 @@ struct TicketView: View {
                 .font(.tc仿宋(14)).foregroundColor(.black)
             Spacer()
         }
+    }
+    
+    // MARK: - Methods
+    
+    @MainActor func render() -> URL {
+        // 1: Render Hello World with some modifiers
+        let renderer = ImageRenderer(
+            content: TicketView(ticketInfo: .constant(ticketInfo))
+        )
+        
+        // 2: Save it to our documents directory
+        let url = URL.documentsDirectory.appending(path: "ticket.pdf")
+        
+        // 3: Start the rendering process
+        renderer.render { size, context in
+            // 4: Tell SwiftUI our PDF should be the same size as the views we're rendering
+            var box = CGRect(x: 0, y: 0, width: size.width, height: size.height)
+            
+            // 5: Create the CGContext for our PDF pages
+            guard let pdf = CGContext(url as CFURL, mediaBox: &box, nil) else {
+                return
+            }
+            
+            // 6: Start a new PDF page
+            pdf.beginPDFPage(nil)
+            
+            // 7: Render the SwiftUI view data onto the page
+            context(pdf)
+            
+            // 8: End the page and close the file
+            pdf.endPDFPage()
+            pdf.closePDF()
+        }
+        
+        return url
     }
 }
 

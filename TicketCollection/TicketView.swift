@@ -216,8 +216,10 @@ struct TicketView: View {
                             .font(.tc宋体(11))
                     }.frame(height: 29).padding(.trailing, 16)
                 }
-                Image(uiImage: QRGen.shared.generateQRCode(from: "com.wyw.TicketCollection"))
-                    .resizable().interpolation(.none).scaledToFit()
+                Image(uiImage: QRGen.shared.generateQRCode(
+                    from: "com.wyw.TicketCollection", w: 56 * UIScreen.main.scale, h: 56 * UIScreen.main.scale
+                ))
+                    //.resizable().interpolation(.none).scaledToFit()
                     .frame(width: 56, height: 56)
             }
         }.foregroundColor(.black)

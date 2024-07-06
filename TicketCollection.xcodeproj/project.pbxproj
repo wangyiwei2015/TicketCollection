@@ -22,6 +22,7 @@
 		B3C339F82B00FE540003BEF4 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3C339F72B00FE540003BEF4 /* ContentView.swift */; };
 		B3C339FA2B00FE550003BEF4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B3C339F92B00FE550003BEF4 /* Assets.xcassets */; };
 		B3C339FD2B00FE550003BEF4 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B3C339FC2B00FE550003BEF4 /* Preview Assets.xcassets */; };
+		B3DB59852C37D54E00CFC01E /* TicketInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3DB59842C37D54E00CFC01E /* TicketInfo.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +43,7 @@
 		B3C339F72B00FE540003BEF4 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		B3C339F92B00FE550003BEF4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B3C339FC2B00FE550003BEF4 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		B3DB59842C37D54E00CFC01E /* TicketInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketInfo.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -95,6 +97,7 @@
 				B3708CC02B5D41D000357B12 /* TCFonts.swift */,
 				B3708CC92B5E395500357B12 /* QRGen.swift */,
 				B3708CCB2B5E3D7A00357B12 /* EditorView.swift */,
+				B3DB59842C37D54E00CFC01E /* TicketInfo.swift */,
 				B3708CCD2B5E40CA00357B12 /* Helpers.swift */,
 				B3C339F92B00FE550003BEF4 /* Assets.xcassets */,
 				B3C339FB2B00FE550003BEF4 /* Preview Content */,
@@ -189,6 +192,7 @@
 				B3C339F82B00FE540003BEF4 /* ContentView.swift in Sources */,
 				B3708CC12B5D41D000357B12 /* TCFonts.swift in Sources */,
 				B3708CCA2B5E395500357B12 /* QRGen.swift in Sources */,
+				B3DB59852C37D54E00CFC01E /* TicketInfo.swift in Sources */,
 				B3708CCC2B5E3D7A00357B12 /* EditorView.swift in Sources */,
 				B3708CC32B5D471800357B12 /* TicketView.swift in Sources */,
 				B3708CCE2B5E40CA00357B12 /* Helpers.swift in Sources */,
@@ -344,6 +348,9 @@
 				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.wyw.TicketCollection;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -376,6 +383,9 @@
 				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.wyw.TicketCollection;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

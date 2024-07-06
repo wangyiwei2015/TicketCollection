@@ -26,7 +26,7 @@ struct EditorView: View {
         willSet {
             let dateStr = df.string(from: newValue)
             ticket.departTime = UInt64(dateStr) ?? 202312310000
-            print(dateStr)
+            //print(dateStr)
         }
     }
     @State var priceStr: String = "9876.54" {
@@ -46,6 +46,20 @@ struct EditorView: View {
                 }())
                 */
                 ShareLink("Export PDF", item: TicketView(ticketInfo: .constant(ticket)).render())
+                Button("Clear") {
+                    ticket = TicketInfo.newEmpty()
+                }
+                Button("save") {
+                    do {
+                        try ticket.save()
+                    } catch(let err) {
+                        print(err.localizedDescription)
+                    }
+                }
+                Button("load") {
+                    let firstFile = try? FileManager.default.contentsOfDirectory(atPath: "\(NSHomeDirectory())/Documents")
+                    print(firstFile)
+                }
             }
             TicketView(ticketInfo: $ticket).padding(.bottom)
             Group {

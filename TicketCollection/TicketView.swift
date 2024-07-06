@@ -271,32 +271,6 @@ struct TicketView: View {
     }
 }
 
-// MARK: - Supporttings
-
-struct TicketInfo {
-    var id: UUID = UUID()
-    var ticketID: String
-    var entrance: String
-    var stationSrcCN: String
-    var stationSrcEN: String
-    var stationDstCN: String
-    var stationDstEN: String
-    var trainNumber: String
-    var departTime: UInt64 //202401011405
-    var carriage: String //02
-    var seat: String //01A
-    var price: Float
-    var seatLevel: String
-    var isOnline: Bool = false
-    var isStudent: Bool = false
-    var isDiscount: Bool = false
-    var notes: String //仅供报销使用
-    var passengerID: String
-    var passengerName: String
-    var comments: String
-    var ticketSerial: String
-}
-
 #Preview {
     TicketView(
         ticketInfo: .constant(

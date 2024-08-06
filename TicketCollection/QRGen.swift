@@ -22,15 +22,19 @@ class QRGen {
         if let outputImage = filter.outputImage {
             let transparent = outputImage.tinted(using: .black)!
             
-            if let _w = w, let _h = h {
-                let adjustedExtent = CGRect(
-                    x: -(_w - transparent.extent.width) / 2,
-                    y: -(_h - transparent.extent.height) / 2,
-                    width: _w, height: _h)
-                let cgImg = context.createCGImage(transparent.cropped(to: adjustedExtent), from: adjustedExtent)!
-                print(cgImg.width)
-                return UIImage(cgImage: cgImg)
-            }
+            let osz = transparent.extent.size
+            let resizedImg = transparent.transformed(by: CGAffineTransform(scaleX: w! / osz.width, y: h! / osz.height))
+            return UIImage(cgImage: context.createCGImage(resizedImg, from: resizedImg.extent)!)
+            
+//            if let _w = w, let _h = h {
+//                let adjustedExtent = CGRect(
+//                    x: -(_w - transparent.extent.width) / 2,
+//                    y: -(_h - transparent.extent.height) / 2,
+//                    width: _w, height: _h)
+//                let cgImg = context.createCGImage(transparent.cropped(to: adjustedExtent), from: adjustedExtent)!
+//                print(cgImg.width)
+//                return UIImage(cgImage: cgImg)
+//            }
             
             //if let cgimg = context.createCGImage(transparent, from: CGRect(x: 0, y: 0, width: 56, height: 56)) {
             //if let cgimg = context.createCGImage(transparent, from: transparent.extent.insetBy(dx: -28, dy: -28)) {
@@ -38,7 +42,7 @@ class QRGen {
                 if let _w = w, let _h = h {
                     if let resized = scaleCGImg(cgimg, w: _w, h: _h) {
                         return UIImage(cgImage: resized)
-                    }
+                    } else { fatalError("resize err") }
                 } else {
                     print(cgimg.width)
                     return UIImage(cgImage: cgimg)
@@ -51,13 +55,16 @@ class QRGen {
     
     func scaleCGImg(_ originalCGImage: CGImage, w: CGFloat, h: CGFloat) -> CGImage? {
         guard let newContext = CGContext(
-            data: nil, width: Int(w), height: Int(h),
+            //data: nil, width: Int(w), height: Int(h),
+            data: nil, width: originalCGImage.width, height: originalCGImage.width,
             bitsPerComponent: originalCGImage.bitsPerComponent,
             bytesPerRow: originalCGImage.bytesPerRow,
             space: originalCGImage.colorSpace ?? CGColorSpace(name: CGColorSpace.sRGB)!,
             bitmapInfo: originalCGImage.bitmapInfo.rawValue
         ) else { return nil }
         newContext.interpolationQuality = .none // 关键步骤：设置插值质量为none，避免平滑处理
+        let (ow, oh) = (CGFloat(originalCGImage.width), CGFloat(originalCGImage.height))
+        newContext.concatenate(CGAffineTransform(scaleX: w / ow, y: h / oh))
         // 绘制原始CGImage到新的上下文中
         newContext.draw(originalCGImage, in: CGRect(x: 0, y: 0, width: w, height: h))
         // 从上下文中创建新的CGImage

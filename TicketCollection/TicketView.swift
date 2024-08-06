@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct TicketView: View {
-    //@Binding var ticketInfo: TicketInfo
     @Bindable var ticketInfo: TicketItem
     let ticketBG1 = Color(hue: 0.53, saturation: 0.15, brightness: 0.98)
     let ticketBG2 = Color(hue: 0.53, saturation: 0.40, brightness: 0.92)
@@ -67,11 +66,8 @@ struct TicketView: View {
     
     @ViewBuilder var trainInfo: some View {
         VStack {
-            //station train station
             trainstation
-            //time seat
             departime(ticketInfo.departTime)
-            //price level
             pricelevel
         }.foregroundColor(.black)
     }
@@ -125,26 +121,7 @@ struct TicketView: View {
             station(ticketInfo.stationDstCN, ticketInfo.stationDstEN)
         }
     }
-    
-//    @ViewBuilder func departime(_ t: UInt64) -> some View {
-//        let dbt = Double(t)
-//        let year = String(format: "%d", Int(dbt / 1e8))
-//        let month = String(format: "%02d", Int(dbt / 1e6) % 100)
-//        let day = String(format: "%02d", Int(dbt / 1e4) % 100)
-//        let time = String(format: "%02d:%02d", Int(dbt / 1e2) % 100, t % 100)
-//        HStack(spacing: 0) {
-//            Text(year).font(.tcTechnicBold(16))
-//            Text("年").font(.tc宋体(9)).padding(.trailing, 6)
-//            Text(month).font(.tcTechnicBold(16))
-//            Text("月").font(.tc宋体(9)).padding(.trailing, 6)
-//            Text(day).font(.tcTechnicBold(16))
-//            Text("日").font(.tc宋体(9)).padding(.trailing, 6)
-//            Text(time).font(.tcTechnicBold(16))
-//            Text("开").font(.tc宋体(9))
-//            Spacer()
-//            seats.frame(width: 100)
-//        }
-//    }
+
     @ViewBuilder func departime(_ t: Date) -> some View {
         let (year, month, day, hour, minute) = t.components
         HStack(spacing: 0) {
@@ -187,15 +164,9 @@ struct TicketView: View {
                 Spacer()
             }.frame(width: 100)
             Spacer()
-            if ticketInfo.isOnline {
-                circledText("网")
-            }
-            if ticketInfo.isStudent {
-                circledText("学").padding(.horizontal, 4)
-            }
-            if ticketInfo.isDiscount {
-                circledText("惠")
-            }
+            if ticketInfo.isOnline { circledText("网") }
+            if ticketInfo.isStudent { circledText("学").padding(.horizontal, 4) }
+            if ticketInfo.isDiscount { circledText("惠") }
             Spacer()
             HStack(spacing: 0) {
                 Text(ticketInfo.seatLevel).font(.tc宋体(14))
@@ -259,31 +230,24 @@ struct TicketView: View {
         let renderer = ImageRenderer(
             content: TicketView(ticketInfo: ticketInfo)
         )
-        
         // 2: Save it to our documents directory
         let url = URL.documentsDirectory.appending(path: "ticket.pdf")
-        
         // 3: Start the rendering process
         renderer.render { size, context in
             // 4: Tell SwiftUI our PDF should be the same size as the views we're rendering
             var box = CGRect(x: 0, y: 0, width: size.width, height: size.height)
-            
             // 5: Create the CGContext for our PDF pages
             guard let pdf = CGContext(url as CFURL, mediaBox: &box, nil) else {
                 return
             }
-            
             // 6: Start a new PDF page
             pdf.beginPDFPage(nil)
-            
             // 7: Render the SwiftUI view data onto the page
             context(pdf)
-            
             // 8: End the page and close the file
             pdf.endPDFPage()
             pdf.closePDF()
         }
-        
         return url
     }
 }

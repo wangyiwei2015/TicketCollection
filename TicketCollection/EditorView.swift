@@ -11,32 +11,12 @@ import SwiftData
 struct EditorView: View {
     @Environment(\.modelContext) var modelContext
     @Bindable var ticketItem: TicketItem
-    
-//    @State var ticket = TicketInfo(
-//        ticketID: "Z156N032758",entrance: "检票:90AB",
-//        stationSrcCN: "郑州", stationSrcEN: "Zhengzhou",
-//        stationDstCN: "上海虹桥", stationDstEN: "Shanghaihongqiao",
-//        trainNumber: "G9876", departTime: 202401311405,
-//        carriage: "02", seat: "01A",
-//        price: 9876.54, seatLevel: "一等座",
-//        isOnline: false, isStudent: true, isDiscount: false,
-//        notes: "仅供报销使用", passengerID: "1234567890****9876",
-//        passengerName: "姓名",
-//        comments: "报销凭证 遗失不补\n退票改签时须交回车站",
-//        ticketSerial: "26468311140823K009985 JM"
-//    )
 
     @State var trainDate: Date {
-        willSet {
-            //let dateStr = df.string(from: newValue)
-            //ticket.departTime = UInt64(dateStr) ?? 202312310000
-            ticketItem.departTime = newValue
-        }
+        willSet { ticketItem.departTime = newValue }
     }
     @State var priceStr: String = "9876.54" {
-        willSet {
-            ticketItem.price = Float(newValue) ?? 0.0
-        }
+        willSet { ticketItem.price = Float(newValue) ?? 0.0 }
     }
     
     var body: some View {
@@ -50,24 +30,11 @@ struct EditorView: View {
                 }())
                 */
                 ShareLink("Export PDF", item: TicketView(ticketInfo: ticketItem).render())
-                //Button("Clear") {
-                    //ticket = TicketInfo.newEmpty()
-                    //ticketItem flush
-                //}
-                Button("save") {
-                    do {
-                        //try ticket.save()
-                        try! modelContext.save()
-                    } catch(let err) {
-                        print(err.localizedDescription)
-                    }
-                }
-//                Button("load") {
-//                    let firstFile = try? FileManager.default.contentsOfDirectory(atPath: "\(NSHomeDirectory())/Documents")
-//                    print(firstFile)
-//                }
+                Button("save") { try! modelContext.save() }
             }
+            
             TicketView(ticketInfo: ticketItem).padding(.bottom)
+            
             Group {
                 HStack {
                     TextField("Ticket ID", text: $ticketItem.ticketID, prompt: Text("车票编号"))
@@ -108,11 +75,11 @@ struct EditorView: View {
                 TextField("Comments", text: $ticketItem.comments, prompt: Text("提示")).lineLimit(2)
                 TextField("Serial", text: $ticketItem.ticketSerial, prompt: Text("底部编号"))
             }
-        }.textFieldStyle(.roundedBorder)
+        }
+        .textFieldStyle(.roundedBorder)
         .padding()
         
         .onSubmit {
-            //ticket.departTime = UInt64(df.string(from: trainDate)) ?? 202312310000
             ticketItem.price = Float(priceStr) ?? 0.0
         }
     }

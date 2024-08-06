@@ -18,6 +18,7 @@
 		B3708CCA2B5E395500357B12 /* QRGen.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3708CC92B5E395500357B12 /* QRGen.swift */; };
 		B3708CCC2B5E3D7A00357B12 /* EditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3708CCB2B5E3D7A00357B12 /* EditorView.swift */; };
 		B3708CCE2B5E40CA00357B12 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3708CCD2B5E40CA00357B12 /* Helpers.swift */; };
+		B3BF587E2C627AE000AD72DF /* DebugView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3BF587D2C627AE000AD72DF /* DebugView.swift */; };
 		B3C339F62B00FE540003BEF4 /* TicketCollectionApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3C339F52B00FE540003BEF4 /* TicketCollectionApp.swift */; };
 		B3C339F82B00FE540003BEF4 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3C339F72B00FE540003BEF4 /* ContentView.swift */; };
 		B3C339FA2B00FE550003BEF4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B3C339F92B00FE550003BEF4 /* Assets.xcassets */; };
@@ -38,6 +39,7 @@
 		B3708CC92B5E395500357B12 /* QRGen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRGen.swift; sourceTree = "<group>"; };
 		B3708CCB2B5E3D7A00357B12 /* EditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorView.swift; sourceTree = "<group>"; };
 		B3708CCD2B5E40CA00357B12 /* Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
+		B3BF587D2C627AE000AD72DF /* DebugView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugView.swift; sourceTree = "<group>"; };
 		B3C339F22B00FE540003BEF4 /* TicketCollection.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TicketCollection.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B3C339F52B00FE540003BEF4 /* TicketCollectionApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketCollectionApp.swift; sourceTree = "<group>"; };
 		B3C339F72B00FE540003BEF4 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -101,6 +103,7 @@
 				B3708CCD2B5E40CA00357B12 /* Helpers.swift */,
 				B3C339F92B00FE550003BEF4 /* Assets.xcassets */,
 				B3C339FB2B00FE550003BEF4 /* Preview Content */,
+				B3BF587D2C627AE000AD72DF /* DebugView.swift */,
 			);
 			path = TicketCollection;
 			sourceTree = "<group>";
@@ -192,6 +195,7 @@
 				B3C339F82B00FE540003BEF4 /* ContentView.swift in Sources */,
 				B3708CC12B5D41D000357B12 /* TCFonts.swift in Sources */,
 				B3708CCA2B5E395500357B12 /* QRGen.swift in Sources */,
+				B3BF587E2C627AE000AD72DF /* DebugView.swift in Sources */,
 				B3DB59852C37D54E00CFC01E /* TicketInfo.swift in Sources */,
 				B3708CCC2B5E3D7A00357B12 /* EditorView.swift in Sources */,
 				B3708CC32B5D471800357B12 /* TicketView.swift in Sources */,
@@ -328,7 +332,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_ASSET_PATHS = "\"TicketCollection/Preview Content\"";
 				DEVELOPMENT_TEAM = JS2ME2LTBF;
 				ENABLE_PREVIEWS = YES;
@@ -345,7 +349,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.1;
+				MARKETING_VERSION = 1.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.wyw.TicketCollection;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -363,7 +367,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_ASSET_PATHS = "\"TicketCollection/Preview Content\"";
 				DEVELOPMENT_TEAM = JS2ME2LTBF;
 				ENABLE_PREVIEWS = YES;
@@ -380,7 +384,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.1;
+				MARKETING_VERSION = 1.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.wyw.TicketCollection;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";

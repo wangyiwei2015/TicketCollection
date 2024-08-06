@@ -6,9 +6,13 @@
 //
 
 import SwiftUI
+import SwiftData
 
 @MainActor
 struct ContentView: View {
+    @Environment(\.modelContext) var modelContext
+    @Query(sort: [SortDescriptor(\TicketItem.departTime)]) var tickets: [TicketItem]
+    
     @State var showsEditor = false
     
     let str: [String] = [
@@ -36,10 +40,12 @@ struct ContentView: View {
             }
             ShareLink("Export PDF", item: render())
             Button("Editor") {showsEditor = true}.buttonStyle(.borderedProminent).font(.title)
+            Button("debug show") {print(tickets.count)}
+            Button("Add empty") {modelContext.insert(TicketItem()); try! modelContext.save()}
         }
         .padding()
         .fullScreenCover(isPresented: $showsEditor) {
-            EditorView(trainDate: Date())
+            EditorView(ticketItem: tickets[0], trainDate: Date())
         }
     }
     
@@ -83,5 +89,15 @@ struct ContentView: View {
 }
 
 #Preview {
-    ContentView()
+    let config = ModelConfiguration(isStoredInMemoryOnly: true)
+    let container = try! ModelContainer(for: TicketItem.self, configurations: config)
+    
+    for i in 1..<5 {
+        let t = TicketItem()
+        t.departTime = Date(timeIntervalSinceNow: TimeInterval(60 * i))
+        container.mainContext.insert(t)
+    }
+    
+    return ContentView()
+        .modelContainer(container)
 }

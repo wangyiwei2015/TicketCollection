@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct TicketView: View {
-    @Binding var ticketInfo: TicketInfo
+    //@Binding var ticketInfo: TicketInfo
+    @Bindable var ticketInfo: TicketItem
     let ticketBG1 = Color(hue: 0.53, saturation: 0.15, brightness: 0.98)
     let ticketBG2 = Color(hue: 0.53, saturation: 0.40, brightness: 0.92)
     
@@ -125,20 +126,35 @@ struct TicketView: View {
         }
     }
     
-    @ViewBuilder func departime(_ t: UInt64) -> some View {
-        let dbt = Double(t)
-        let year = String(format: "%d", Int(dbt / 1e8))
-        let month = String(format: "%02d", Int(dbt / 1e6) % 100)
-        let day = String(format: "%02d", Int(dbt / 1e4) % 100)
-        let time = String(format: "%02d:%02d", Int(dbt / 1e2) % 100, t % 100)
+//    @ViewBuilder func departime(_ t: UInt64) -> some View {
+//        let dbt = Double(t)
+//        let year = String(format: "%d", Int(dbt / 1e8))
+//        let month = String(format: "%02d", Int(dbt / 1e6) % 100)
+//        let day = String(format: "%02d", Int(dbt / 1e4) % 100)
+//        let time = String(format: "%02d:%02d", Int(dbt / 1e2) % 100, t % 100)
+//        HStack(spacing: 0) {
+//            Text(year).font(.tcTechnicBold(16))
+//            Text("年").font(.tc宋体(9)).padding(.trailing, 6)
+//            Text(month).font(.tcTechnicBold(16))
+//            Text("月").font(.tc宋体(9)).padding(.trailing, 6)
+//            Text(day).font(.tcTechnicBold(16))
+//            Text("日").font(.tc宋体(9)).padding(.trailing, 6)
+//            Text(time).font(.tcTechnicBold(16))
+//            Text("开").font(.tc宋体(9))
+//            Spacer()
+//            seats.frame(width: 100)
+//        }
+//    }
+    @ViewBuilder func departime(_ t: Date) -> some View {
+        let (year, month, day, hour, minute) = t.components
         HStack(spacing: 0) {
-            Text(year).font(.tcTechnicBold(16))
+            Text(String(year)).font(.tcTechnicBold(16))
             Text("年").font(.tc宋体(9)).padding(.trailing, 6)
-            Text(month).font(.tcTechnicBold(16))
+            Text(String(month)).font(.tcTechnicBold(16))
             Text("月").font(.tc宋体(9)).padding(.trailing, 6)
-            Text(day).font(.tcTechnicBold(16))
+            Text(String(day)).font(.tcTechnicBold(16))
             Text("日").font(.tc宋体(9)).padding(.trailing, 6)
-            Text(time).font(.tcTechnicBold(16))
+            Text("\(hour):\(minute)").font(.tcTechnicBold(16))
             Text("开").font(.tc宋体(9))
             Spacer()
             seats.frame(width: 100)
@@ -241,7 +257,7 @@ struct TicketView: View {
     @MainActor func render() -> URL {
         // 1: Render Hello World with some modifiers
         let renderer = ImageRenderer(
-            content: TicketView(ticketInfo: .constant(ticketInfo))
+            content: TicketView(ticketInfo: ticketInfo)
         )
         
         // 2: Save it to our documents directory
@@ -273,21 +289,21 @@ struct TicketView: View {
 }
 
 #Preview {
-    TicketView(
-        ticketInfo: .constant(
-            TicketInfo(
-                ticketID: "Z156N032758",entrance: "检票:90AB",
-                stationSrcCN: "上海", stationSrcEN: "Shanghai",
-                stationDstCN: "上海虹桥", stationDstEN: "Shanghaihongqiao",
-                trainNumber: "G7631", departTime: 202401311405,
-                carriage: "02", seat: "01A",
-                price: 9876.54, seatLevel: "一等座",
-                isOnline: false, isStudent: true, isDiscount: false,
-                notes: "仅供报销使用", passengerID: "1234567890****9876",
-                passengerName: "姓名",
-                comments: "报销凭证 遗失不补\n退票改签时须交回车站",
-                ticketSerial: "26468311140823K009985 JM"
-            )
-        )
+    TicketView(ticketInfo: .init()
+//        ticketInfo: .constant(
+//            TicketInfo(
+//                ticketID: "Z156N032758",entrance: "检票:90AB",
+//                stationSrcCN: "上海", stationSrcEN: "Shanghai",
+//                stationDstCN: "上海虹桥", stationDstEN: "Shanghaihongqiao",
+//                trainNumber: "G7631", departTime: 202401311405,
+//                carriage: "02", seat: "01A",
+//                price: 9876.54, seatLevel: "一等座",
+//                isOnline: false, isStudent: true, isDiscount: false,
+//                notes: "仅供报销使用", passengerID: "1234567890****9876",
+//                passengerName: "姓名",
+//                comments: "报销凭证 遗失不补\n退票改签时须交回车站",
+//                ticketSerial: "26468311140823K009985 JM"
+//            )
+//        )
     )
 }

@@ -13,6 +13,6 @@ struct TicketCollectionApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
-        }.modelContainer(for: TicketItem.self)
+        }.modelContainer(for: TicketItem.self, isAutosaveEnabled: false)
     }
 }

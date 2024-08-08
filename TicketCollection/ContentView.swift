@@ -178,9 +178,9 @@ struct ContentView: View {
             VStack {
                 ZStack {
                     HStack {
-                        RoundedRectangle(cornerRadius: 20, style: .continuous)
+                        RoundedRectangle(cornerRadius: 24, style: .continuous)
                             .fill(Color(UIColor.systemGray6))
-                            .frame(maxWidth: topBarHidden ? 40 : .infinity)
+                            .frame(maxWidth: topBarHidden ? 48 : .infinity)
                             .shadow(color: .black.opacity(0.5), radius: 4, y: 2)
                         if topBarHidden {
                             Spacer()
@@ -234,7 +234,7 @@ struct ContentView: View {
                                 }.buttonStyle(RoundedBtnStyle(filled: false))
                                     .tint(ticketColorDarker)
                             }
-                        }.frame(height: 28).padding(6)
+                        }.frame(height: 36).padding(6)
                         
                         if filterOn {
                             Spacer(minLength: 0)
@@ -243,7 +243,7 @@ struct ContentView: View {
                         }
                     }
                 }
-                .frame(height: filterOn ? 120 : 40).padding(.top, 60).padding(.horizontal, 30)
+                .frame(height: filterOn ? 120 : 48).padding(.top, 60).padding(.horizontal, 30)
                 
                 Spacer()
                 

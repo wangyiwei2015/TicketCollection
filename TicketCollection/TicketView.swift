@@ -35,7 +35,9 @@ struct TicketView: View {
                 }.frame(width: 86*4, height: 20+10)
             }
             contents.frame(width: 86*4, height: 54*4)
-        }.frame(width: 87*4, height: 54*4)
+        }
+        .frame(width: 87*4, height: 54*4)
+        .drawingGroup()
     }
     
     @ViewBuilder var contents: some View {

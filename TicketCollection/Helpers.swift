@@ -72,3 +72,30 @@ extension String {
         }
     }
 }
+
+// - MARK: 2D operations
+
+extension CGSize {
+    static func +(lhs: CGSize, rhs: CGSize) -> CGSize {
+        return CGSize(width: lhs.width + rhs.width, height: lhs.height + rhs.height)
+    }
+    static func +=(lhs: inout CGSize, rhs: CGSize) {
+        lhs = lhs + rhs
+    }
+}
+
+// - MARK: Misc
+let ticketColor = Color(hue: 0.53, saturation: 0.40, brightness: 0.92)
+let ticketColorDarker = Color(hue: 0.53, saturation: 0.6, brightness: 0.65)
+
+struct TCButtonStyle: ButtonStyle {
+    var filled: Bool
+    func makeBody(configuration: Configuration) -> some View {
+        ZStack {
+            RoundedRectangle(cornerRadius: 8)
+                .fill(filled ? ticketColorDarker : Color(UIColor.systemBackground))
+                .shadow(color: .black.opacity(0.5), radius: 2, y: 1)
+            configuration.label.bold().foregroundColor(filled ? .white : ticketColorDarker)
+        }.frame(height: 32)
+    }
+}

@@ -29,7 +29,7 @@ struct ContentView: View {
         }
         .padding()
         .fullScreenCover(isPresented: $showsEditor) {
-            EditorView(ticketItem: tickets[0], trainDate: Date())
+            EditorView(ticketItem: tickets[0])
         }
         //.fullScreenCover(item: Binding<Identifiable?>, content: (Identifiable) -> View)
         // use navigation stack to show detail view

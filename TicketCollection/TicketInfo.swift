@@ -83,3 +83,9 @@ extension Date {
         return t
     }
 }
+
+let defFormatter: DateFormatter = {
+    let d = DateFormatter()
+    d.dateFormat = "yyyy.MM.dd\n(hh:mm)"
+    return d
+}()

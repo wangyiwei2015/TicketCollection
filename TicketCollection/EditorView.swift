@@ -172,6 +172,7 @@ struct EditorView: View {
                 Text("车")
                 TextField("Seat", text: $ticketItem.seat, prompt: Text("座位"))
                     .multilineTextAlignment(.center).foregroundColor(ticketColorDarker).frame(width: 60)
+                Text("号")
                 Spacer()
             }
             HStack {

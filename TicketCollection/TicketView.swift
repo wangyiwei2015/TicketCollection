@@ -133,7 +133,7 @@ struct TicketView: View {
             Text("月").font(.tc宋体(9)).padding(.trailing, 6)
             Text(String(day)).font(.tcTechnicBold(16))
             Text("日").font(.tc宋体(9)).padding(.trailing, 6)
-            Text("\(hour):\(minute)").font(.tcTechnicBold(16))
+            Text(String(format: "%02d:%02d", hour, minute)).font(.tcTechnicBold(16))
             Text("开").font(.tc宋体(9))
             Spacer()
             seats.frame(width: 100)

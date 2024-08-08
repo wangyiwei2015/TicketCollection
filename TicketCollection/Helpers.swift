@@ -84,7 +84,7 @@ extension CGSize {
     }
 }
 
-// - MARK: Misc
+// - MARK: UI
 let ticketColor = Color(hue: 0.53, saturation: 0.40, brightness: 0.92)
 let ticketColorDarker = Color(hue: 0.53, saturation: 0.6, brightness: 0.65)
 
@@ -94,8 +94,50 @@ struct TCButtonStyle: ButtonStyle {
         ZStack {
             RoundedRectangle(cornerRadius: 8)
                 .fill(filled ? ticketColorDarker : Color(UIColor.systemBackground))
-                .shadow(color: .black.opacity(0.5), radius: 2, y: 1)
+                .shadow(
+                    color: .black.opacity(0.5),
+                    radius: configuration.isPressed ? 1 : 2,
+                    y: configuration.isPressed ? 0 : 1
+                )
             configuration.label.bold().foregroundColor(filled ? .white : ticketColorDarker)
         }.frame(height: 32)
+    }
+}
+
+struct RoundedBtnStyle: ButtonStyle {
+    var filled: Bool
+    func makeBody(configuration: Configuration) -> some View {
+        ZStack {
+            Circle()
+                .fill(
+                    filled
+                    ? ticketColorDarker
+                    : (configuration.isPressed
+                       ? Color(UIColor.systemGray5)
+                       : Color(UIColor.systemBackground)
+                    )
+                )
+                .shadow(
+                    color: .black.opacity(0.5),
+                    radius: configuration.isPressed ? 1 : 2,
+                    y: configuration.isPressed ? 0 : 1
+                )
+            configuration.label.foregroundColor(filled ? .white : ticketColorDarker)
+        }.aspectRatio(1, contentMode: .fit)
+    }
+}
+
+extension AnyTransition {
+    static var ticketView: AnyTransition {
+        AnyTransition.modifier(
+            active: TicketTransitionModifier(isShown: false),
+            identity: TicketTransitionModifier(isShown: true)
+        )
+    }
+}
+fileprivate struct TicketTransitionModifier: ViewModifier {
+    let isShown: Bool
+    func body(content: Content) -> some View {
+        content.rotationEffect(.degrees(isShown ? 0 : -20), anchor: .center)
     }
 }

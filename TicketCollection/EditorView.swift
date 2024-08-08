@@ -54,7 +54,7 @@ struct EditorView: View {
                     .background(
                         RoundedRectangle(cornerRadius: 10, style: .continuous)
                             .fill(.black.opacity(exp(-abs(dragOffset.width) / 400)))
-                            .scaleEffect(CGSize(width: 0.985, height: 1.0))
+                            .scaleEffect(CGSize(width: 0.985, height: 0.99))
                             .shadow(
                                 color: .black.opacity(0.5),
                                 radius: 2 + abs(dragOffset.width) / 10,

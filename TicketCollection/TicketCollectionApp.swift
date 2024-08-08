@@ -12,7 +12,9 @@ import SwiftData
 struct TicketCollectionApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            NavigationStack {
+                ContentView()
+            }
         }.modelContainer(for: TicketItem.self, isAutosaveEnabled: false)
     }
 }

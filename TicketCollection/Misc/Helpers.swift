@@ -100,7 +100,7 @@ struct TCButtonStyle: ButtonStyle {
                     y: configuration.isPressed ? 0 : 1
                 )
             configuration.label.bold().foregroundColor(filled ? .white : ticketColorDarker)
-        }.frame(height: 32)
+        }.frame(height: 36)
     }
 }
 
@@ -124,6 +124,24 @@ struct RoundedBtnStyle: ButtonStyle {
                 )
             configuration.label.foregroundColor(filled ? .white : ticketColorDarker)
         }.aspectRatio(1, contentMode: .fit)
+    }
+}
+
+struct ListItemBtnStyle: ButtonStyle {
+    let colorScheme: ColorScheme
+    func makeBody(configuration: Configuration) -> some View {
+        ZStack {
+            RoundedRectangle(cornerRadius: 10, style: .continuous)
+                .fill(Color(
+                    colorScheme == .dark || configuration.isPressed
+                    ? UIColor.systemGray6 : UIColor.systemBackground
+                ))
+                .shadow(
+                    color: .black.opacity(0.5),
+                    radius: configuration.isPressed ? 1 : 3,
+                    y: configuration.isPressed ? 0 : 2)
+            configuration.label
+        } // zstack
     }
 }
 

@@ -41,13 +41,13 @@ struct EditorView: View {
                         try! modelContext.save()
                         dismiss()
                     } label: {
-                        Label("返回", systemImage: "swift")
+                        Label("返回", systemImage: "chevron.left")
                     }.buttonStyle(TCButtonStyle(filled: false))
                         .frame(width: 90)
                     Spacer()
-                    ShareLink("导出 PDF", item: TicketView(ticketInfo: ticketItem).render())
+                    ShareLink("导出", item: TicketView(ticketInfo: ticketItem).render())
                         .buttonStyle(TCButtonStyle(filled: true))
-                        .frame(width: 130)
+                        .frame(width: 90)
                 }.ignoresSafeArea().padding(.bottom)
                 
                 TicketView(ticketInfo: ticketItem)

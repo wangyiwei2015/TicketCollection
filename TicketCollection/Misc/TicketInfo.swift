@@ -56,15 +56,15 @@ import SwiftData
     }
     convenience init() {
         self.init(
-            ticketID: "XXX", entrance: "检票:99AB",
+            ticketID: "A888888", entrance: "检票:99AB",
             stationSrcCN: "城市", stationSrcEN: "pinyin",
             stationDstCN: "城市", stationDstEN: "pinyin",
             trainNumber: "G9999", departTime: Date(),
-            carriage: "16", seat: "01A", price: 0.01, seatLevel: "二等座",
+            carriage: "15", seat: "01A", price: 0.01, seatLevel: "一等座",
             isOnline: false, isStudent: false, isDiscount: false,
             notes: "仅供报销使用", passengerID: "1234567890****9876",
             passengerName: "姓名", comments: "报销凭证 遗失不补\n退票改签时须交回车站",
-            ticketSerial: "0000 XX"
+            ticketSerial: "00000000000000A888888 JM"
         )
     }
 }

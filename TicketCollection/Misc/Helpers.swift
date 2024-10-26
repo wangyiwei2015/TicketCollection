@@ -90,6 +90,7 @@ let ticketColorDarker = Color(hue: 0.53, saturation: 0.6, brightness: 0.65)
 
 struct TCButtonStyle: ButtonStyle {
     var filled: Bool
+    var height: CGFloat = 36
     func makeBody(configuration: Configuration) -> some View {
         ZStack {
             RoundedRectangle(cornerRadius: 8)
@@ -100,7 +101,7 @@ struct TCButtonStyle: ButtonStyle {
                     y: configuration.isPressed ? 0 : 1
                 )
             configuration.label.bold().foregroundColor(filled ? .white : ticketColorDarker)
-        }.frame(height: 36)
+        }.frame(height: height)
     }
 }
 

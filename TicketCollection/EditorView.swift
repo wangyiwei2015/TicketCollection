@@ -238,15 +238,16 @@ struct EditorView: View {
                 }
             }
             
-            if notesTemplate == 0 {
+            //if notesTemplate == 0 {
                 Group {
                     TextField("Notes", text: $ticketItem.notes, prompt: Text("备注"))
-                        .foregroundColor(ticketColorDarker)
+                        .foregroundColor(notesTemplate == 0 ? ticketColorDarker : .gray)
                     TextField("Comments", text: $ticketItem.comments, prompt: Text("提示"), axis: .vertical)
                         .lineLimit(2, reservesSpace: true)
-                        .foregroundColor(ticketColorDarker)
-                }.transition(.opacity)
-            }
+                        .foregroundColor(notesTemplate == 0 ? ticketColorDarker : .gray)
+                }.disabled(notesTemplate != 0) //.transition(.opacity)
+                .opacity(notesTemplate == 0 ? 1.0 : 0.5)
+            //}
             
             Spacer()
         }

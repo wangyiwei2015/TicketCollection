@@ -57,11 +57,56 @@ extension ContentView {
             
             VStack {
                 Spacer()
-                Button("Editor") {
-                    showsEditor = true
-                }.buttonStyle(.borderedProminent).font(.title)
-            }.transition(.move(edge: .bottom))
-                .zIndex(4)
+                
+                HStack {
+                    Button {
+                        showsEditor = true
+                    } label: {
+                        Label("编辑车票", systemImage: "chevron.left")
+                    }.buttonStyle(TCButtonStyle(filled: true, height: 48))
+                        .frame(width: 130)
+                    Spacer()
+                    Button {
+                        //
+                    } label: {
+                        Label("删除设计", systemImage: "chevron.left")
+                    }.buttonStyle(TCButtonStyle(filled: false, height: 48))
+                        .frame(width: 130)
+                }.transition(.move(edge: .top)).padding(.horizontal, 40)
+                
+                Spacer().frame(height: 300)
+                
+                HStack {
+                    Button {
+                        //
+                    } label: {
+                        Label("保存图像", systemImage: "chevron.left")
+                    }.buttonStyle(TCButtonStyle(filled: true, height: 48))
+                        .frame(width: 130)
+                    Spacer()
+                    ShareLink("导出PDF", item: TicketView(ticketInfo: selectedTicket ?? .init()).render())
+                        .buttonStyle(TCButtonStyle(filled: true, height: 48))
+                        .frame(width: 130)
+                }.transition(.move(edge: .bottom)).padding(.horizontal, 40)
+                
+                Spacer()
+            }.zIndex(4)
         }
     }
+}
+
+import SwiftData
+
+#Preview {
+    let config = ModelConfiguration(isStoredInMemoryOnly: true)
+    let container = try! ModelContainer(for: TicketItem.self, configurations: config)
+    
+    for i in 1...15 {
+        let t = TicketItem()
+        t.departTime = Date(timeIntervalSinceNow: TimeInterval(60 * i))
+        container.mainContext.insert(t)
+    }
+    
+    return ContentView()
+        .modelContainer(container)
 }

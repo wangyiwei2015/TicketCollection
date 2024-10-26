@@ -91,6 +91,10 @@ struct ContentView: View {
         .sheet(isPresented: $showsDebug) {
             DebugView()
         }
+        
+        #if DEBUG
+        .onAppear { selectedTicket = tickets.first }
+        #endif
     }
 }
 

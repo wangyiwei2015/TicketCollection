@@ -241,7 +241,8 @@ struct EditorView: View {
             //if notesTemplate == 0 {
                 Group {
                     TextField("Notes", text: $ticketItem.notes, prompt: Text("备注"))
-                        .foregroundColor(notesTemplate == 0 ? ticketColorDarker : .gray)
+                        .foregroundColor(notesTemplate == 0 ? .secondary : .gray)
+                        .bold()
                     TextField("Comments", text: $ticketItem.comments, prompt: Text("提示"), axis: .vertical)
                         .lineLimit(2, reservesSpace: true)
                         .foregroundColor(notesTemplate == 0 ? ticketColorDarker : .gray)

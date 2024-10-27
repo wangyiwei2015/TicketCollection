@@ -37,7 +37,12 @@ extension ContentView {
                             Button {
                                 //
                             } label: {
-                                Label("act", systemImage: "swift")
+                                Label("关于TicketBox", systemImage: "info.circle")
+                            }
+                            Button {
+                                //
+                            } label: {
+                                Label("偏好设置", systemImage: "gearshape")
                             }
                         } label: {
                             Image(systemName: "gearshape")

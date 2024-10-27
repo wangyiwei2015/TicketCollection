@@ -23,12 +23,13 @@ extension ContentView {
             }.zIndex(2)
             
             TicketView(ticketInfo: selection)
-                .id(selection).transition(
-                    .asymmetric(
-                        insertion: .opacity.combined(with: .move(edge: .leading)).combined(with: .ticketView),
-                        removal: .opacity.combined(with: .scale(scale: 0.8)).combined(with: .ticketView)
-                    )
-                )
+                .id(selection)//.transition(
+            //    .asymmetric(
+            //        insertion: .opacity.combined(with: .move(edge: .leading)).combined(with: .ticketView),
+            //        removal: .opacity.combined(with: .scale(scale: 0.8)).combined(with: .ticketView)
+            //    )
+            //)
+                .matchedGeometryEffect(id: "ticket", in: namespace, properties: .frame)
                 .overlay(
                     RoundedRectangle(cornerRadius: 10, style: .continuous)
                         .fill(Color(white: 0.48 - translation2Degrees(dragOffset.width) / 100, opacity: translation2Degrees(dragOffset.width) / 100))
@@ -53,8 +54,10 @@ extension ContentView {
                     axis: (x: 0.0, y: 1.0, z: 0.0),
                     perspective: 0.4
                 )
-                .zIndex(3)
-            
+                .zIndex(4)
+        }
+        
+        if selectedTicket != nil {
             VStack {
                 Spacer()
                 
@@ -62,36 +65,39 @@ extension ContentView {
                     Button {
                         showsEditor = true
                     } label: {
-                        Label("编辑车票", systemImage: "chevron.left")
-                    }.buttonStyle(TCButtonStyle(filled: true, height: 48))
+                        Label("编辑车票", systemImage: "square.and.pencil")
+                    }.buttonStyle(TCButtonStyle(filled: false, height: 48))
                         .frame(width: 130)
+                        .transition(.offset(x: 50, y: 150))
                     Spacer()
                     Button {
                         //
                     } label: {
-                        Label("删除设计", systemImage: "chevron.left")
-                    }.buttonStyle(TCButtonStyle(filled: false, height: 48))
+                        Label("删除设计", systemImage: "trash")
+                    }.buttonStyle(TCButtonStyle(filled: false, height: 48, tint: .red))
                         .frame(width: 130)
-                }.transition(.move(edge: .top)).padding(.horizontal, 40)
+                }.padding(.horizontal, 40)
                 
                 Spacer().frame(height: 300)
                 
                 HStack {
                     Button {
-                        //
+                        //withAnimation(.easeInOut) {
+                            //modelContext.delete(item)
+                        //}
                     } label: {
-                        Label("保存图像", systemImage: "chevron.left")
+                        Label("保存图像", systemImage: "tray.and.arrow.down.fill")
                     }.buttonStyle(TCButtonStyle(filled: true, height: 48))
                         .frame(width: 130)
                     Spacer()
                     ShareLink("导出PDF", item: TicketView(ticketInfo: selectedTicket ?? .init()).render())
                         .buttonStyle(TCButtonStyle(filled: true, height: 48))
                         .frame(width: 130)
-                }.transition(.move(edge: .bottom)).padding(.horizontal, 40)
+                }.padding(.horizontal, 40)
                 
                 Spacer()
-            }.zIndex(4)
-        }
+            }.zIndex(3)
+        } // end if
     }
 }
 

@@ -8,6 +8,7 @@
 import SwiftUI
 
 extension ContentView {
+    
     @ViewBuilder var flowView: some View {
         LazyVGrid(columns: [GridItem(.flexible())]) {
             Spacer(minLength: filterOn ? 150 : 100)
@@ -27,7 +28,9 @@ extension ContentView {
                                         color: .black.opacity(0.5),
                                         radius: 3 + y / 400, y: -2 - y / 400
                                     )
+                                    .opacity(selectedTicket == item ? 0 : 1)
                             )
+                            .matchedGeometryEffect(id: selectedTicket == item ? "ticket" : "", in: namespace, properties: .frame, isSource: false)
                             .rotation3DEffect(
                                 .degrees(-y / 16 - 20),
                                 axis: (x: 1, y: 0, z: 0),
@@ -62,6 +65,7 @@ extension ContentView {
                                 RoundedRectangle(cornerRadius: 4, style: .continuous)
                                     .fill(ticketColor)
                                     .frame(width: 87/2, height: 54/2)
+                                    .matchedGeometryEffect(id: selectedTicket == item ? "ticket" : "", in: namespace, properties: .frame, isSource: false)
                                 VStack(spacing: 0) {
                                     Spacer()
                                     RoundedRectangle(cornerRadius: 3)
@@ -117,7 +121,9 @@ extension ContentView {
                                     .shadow(
                                         color: .black.opacity(0.5), radius: 4, y: 4
                                     )
+                                    .opacity(selectedTicket == item ? 0 : 1)
                             )
+                            .matchedGeometryEffect(id: selectedTicket == item ? "ticket" : "", in: namespace, properties: .frame, isSource: false)
                             .rotation3DEffect(
                                 .degrees(r),
                                 axis: (x: 1, y: 0, z: 0),

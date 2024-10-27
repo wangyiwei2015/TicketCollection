@@ -91,16 +91,17 @@ let ticketColorDarker = Color(hue: 0.53, saturation: 0.6, brightness: 0.65)
 struct TCButtonStyle: ButtonStyle {
     var filled: Bool
     var height: CGFloat = 36
+    var tint: Color = ticketColorDarker
     func makeBody(configuration: Configuration) -> some View {
         ZStack {
             RoundedRectangle(cornerRadius: 8)
-                .fill(filled ? ticketColorDarker : Color(UIColor.systemBackground))
+                .fill(filled ? tint : Color(UIColor.systemBackground))
                 .shadow(
                     color: .black.opacity(0.5),
                     radius: configuration.isPressed ? 1 : 2,
                     y: configuration.isPressed ? 0 : 1
                 )
-            configuration.label.bold().foregroundColor(filled ? .white : ticketColorDarker)
+            configuration.label.bold().foregroundColor(filled ? .white : tint)
         }.frame(height: height)
     }
 }

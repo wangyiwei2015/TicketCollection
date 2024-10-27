@@ -16,6 +16,8 @@ struct ContentView: View {
     
     @Environment(\.colorScheme) var colorScheme
     
+    @Namespace var namespace
+    
     @AppStorage("ViewMode") var viewMode: Int = 0
     let viewModeIcons: [String] = ["list.bullet", "circle.grid.2x2.fill", "square.stack"]
     
@@ -56,6 +58,7 @@ struct ContentView: View {
                 default: Spacer()
                 }
             }.scrollDisabled(selectedTicket != nil)
+            .blur(radius: selectedTicket == nil ? 0 : 5)
             .zIndex(0)
             .padding()
             
@@ -65,13 +68,28 @@ struct ContentView: View {
                 Spacer()
                 
                 HStack {
-                    Button("Add empty") {
-                        modelContext.insert(TicketItem())
+                    Button {
+                        let newItem = TicketItem()
+                        modelContext.insert(newItem)
                         try! modelContext.save()
+                        withAnimation(.easeInOut(duration: 0.3)) {
+                            selectedTicket = newItem
+                            showsEditor = true
+                        }
+                    } label: {
+                        ZStack {
+                            Circle().fill(
+                                ticketColorDarker
+                                    .shadow(.inner(color: .white.opacity(0.3), radius: 4, y: 4))
+                                ).shadow(color: .black.opacity(0.5), radius: 3, y: 3)
+                            Image(systemName: "plus")
+                                .font(.system(size: 30, weight: .semibold)).tint(ticketColor)
+                        }.frame(height: 60).aspectRatio(1, contentMode: .fit)
                     }
-                    Button("debug") { showsDebug = true }
-                }.padding(.bottom, 30)
-            }.zIndex(1)
+                    //Button("debug") { showsDebug = true }
+                }.padding(.bottom, 20)
+            }.blur(radius: selectedTicket == nil ? 0 : 5)
+            .zIndex(1)
             
             VStack {
                 LinearGradient(
@@ -93,7 +111,7 @@ struct ContentView: View {
         }
         
         #if DEBUG
-        .onAppear { selectedTicket = tickets.first }
+        //.onAppear { selectedTicket = tickets.first }
         #endif
     }
 }

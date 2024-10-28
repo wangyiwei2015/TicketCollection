@@ -250,6 +250,7 @@ struct TicketView: View {
             pdf.endPDFPage()
             pdf.closePDF()
         }
+        print("render pdf")
         return url
     }
 }

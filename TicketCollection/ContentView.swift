@@ -59,7 +59,7 @@ struct ContentView: View {
             Label(item.starred ? "取消收藏" : "收藏", systemImage: item.starred ? "star.slash" : "star")
         }
 
-        ShareLink("分享", item: TicketView(ticketInfo: item).render())
+        //ShareLink("分享", item: TicketView(ticketInfo: item).render(), preview: SharePreview("file", image: Image(systemName: "swift")))
         Button(role: .destructive) {
             itemToDelete = item
             showsDelWarning = true
@@ -265,7 +265,7 @@ struct ContentView: View {
     let config = ModelConfiguration(isStoredInMemoryOnly: true)
     let container = try! ModelContainer(for: TicketItem.self, configurations: config)
     
-    for i in 1...3 {
+    for i in 1...153 {
         let t = TicketItem()
         t.departTime = Date(timeIntervalSinceNow: TimeInterval(3303 * i))
         container.mainContext.insert(t)

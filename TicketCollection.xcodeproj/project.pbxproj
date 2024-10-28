@@ -51,7 +51,7 @@
 		B3BF58852C65236C00AD72DF /* STSongti-SC-Bold.subset.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "STSongti-SC-Bold.subset.ttf"; sourceTree = "<group>"; };
 		B3BF58862C65236C00AD72DF /* SimSun.subset.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = SimSun.subset.ttf; sourceTree = "<group>"; };
 		B3BF58872C65236C00AD72DF /* STSong.subset.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = STSong.subset.ttf; sourceTree = "<group>"; };
-		B3BF58912C65CBC800AD72DF /* ContentView+Layouts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ContentView+Layouts.swift"; sourceTree = "<group>"; };
+		B3BF58912C65CBC800AD72DF /* ContentView+Layouts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ContentView+Layouts.swift"; sourceTree = "<group>"; wrapsLines = 0; };
 		B3BF58932C65CC0000AD72DF /* ContentView+TicketPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ContentView+TicketPreview.swift"; sourceTree = "<group>"; };
 		B3BF58952C65CC6300AD72DF /* ContentView+Controls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ContentView+Controls.swift"; sourceTree = "<group>"; };
 		B3C339F22B00FE540003BEF4 /* TicketCollection.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TicketCollection.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -368,7 +368,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 16;
+				CURRENT_PROJECT_VERSION = 17;
 				DEVELOPMENT_ASSET_PATHS = "\"TicketCollection/Preview Content\"";
 				DEVELOPMENT_TEAM = JS2ME2LTBF;
 				ENABLE_PREVIEWS = YES;
@@ -386,7 +386,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.3.1;
+				MARKETING_VERSION = 1.3.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.wyw.TicketCollection;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -404,7 +404,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 16;
+				CURRENT_PROJECT_VERSION = 17;
 				DEVELOPMENT_ASSET_PATHS = "\"TicketCollection/Preview Content\"";
 				DEVELOPMENT_TEAM = JS2ME2LTBF;
 				ENABLE_PREVIEWS = YES;
@@ -422,7 +422,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.3.1;
+				MARKETING_VERSION = 1.3.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.wyw.TicketCollection;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";

@@ -155,9 +155,6 @@ extension ContentView {
                                         selectedTicket = item
                                     }
                                 }
-                                .contextMenu(ContextMenu {
-                                    itemActions(for: item)
-                                })
                                 .scaleEffect(x: 0.4, y: 0.4)
                                 .background(
                                     RoundedRectangle(cornerRadius: 10, style: .continuous)
@@ -169,8 +166,11 @@ extension ContentView {
                                         .opacity(selectedTicket == item ? 0 : 1)
                                 )
                                 .matchedGeometryEffect(id: selectedTicket == item ? "ticket" : "", in: namespace, properties: .frame, isSource: false)
+                                .contextMenu(ContextMenu {
+                                    itemActions(for: item)
+                                })
                                 .overlay {
-                                    if item.starred {
+                                    if item.starred && selectedTicket != item {
                                         Image(systemName: "star.fill").font(.system(size: 16))
                                             .foregroundStyle(.yellow).shadow(color: .black.opacity(0.8), radius: 0.8)
                                             .rotationEffect(.degrees(15))
@@ -183,9 +183,8 @@ extension ContentView {
                                     perspective: 0.5
                                 )
                                 .scaleEffect(x: s, y: s)
-                                .drawingGroup()
                             // ticket view
-                        }
+                        }.drawingGroup()
                         Spacer()
                     } // hstack
                 }.frame(width: 1000, height: 100)

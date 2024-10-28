@@ -35,12 +35,16 @@ extension ContentView {
                     if !topBarHidden {
                         Menu {
                             Button {
-                                //
+                                withAnimation(.spring(duration: 0.3, bounce: 0.4)) {
+                                    showsAbout = true
+                                }
                             } label: {
                                 Label("关于TicketBox", systemImage: "info.circle")
                             }
                             Button {
-                                //
+                                withAnimation(.spring(duration: 0.3, bounce: 0.4)) {
+                                    showsConfig = true
+                                }
                             } label: {
                                 Label("偏好设置", systemImage: "gearshape")
                             }
@@ -108,11 +112,11 @@ extension ContentView {
                                 }.buttonStyle(TCButtonStyle(filled: filters[index]))
                             }
                         }
-                    }.padding()
+                    }.padding(10).padding(.bottom, 10)
                     Spacer(minLength: 0)
                 }
             }
         }
-        .frame(height: filterOn ? 100 : 48).padding(.top, 60).padding(.horizontal, 30)
+        .frame(height: filterOn ? 160 : 48).padding(.top, 60).padding(.horizontal, 30)
     }
 }

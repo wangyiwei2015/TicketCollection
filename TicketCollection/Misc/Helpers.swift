@@ -87,6 +87,10 @@ extension CGSize {
 // - MARK: UI
 let ticketColor = Color(hue: 0.53, saturation: 0.40, brightness: 0.92)
 let ticketColorDarker = Color(hue: 0.53, saturation: 0.6, brightness: 0.65)
+let overlayGradient = LinearGradient(
+    gradient: Gradient(colors: [Color.black.opacity(0.65), Color.black.opacity(0.85)]),
+    startPoint: .top, endPoint: .bottom
+)
 
 struct TCButtonStyle: ButtonStyle {
     var filled: Bool

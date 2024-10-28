@@ -11,10 +11,7 @@ extension ContentView {
     @ViewBuilder var ticketPreview: some View {
         // selected
         if let selection = selectedTicket {
-            LinearGradient(
-                gradient: Gradient(colors: [Color.black.opacity(0.65), Color.black.opacity(0.85)]),
-                startPoint: .top, endPoint: .bottom
-            )
+            overlayGradient
             .ignoresSafeArea()
             .onTapGesture {
                 withAnimation(.easeInOut(duration: 0.3)) {
@@ -57,26 +54,47 @@ extension ContentView {
                 .zIndex(4)
         }
         
-        if selectedTicket != nil {
+        if let showingTicket = selectedTicket {
             VStack {
                 Spacer()
                 
                 HStack {
+//                    Button {
+//                        showsEditor = true
+//                    } label: {
+//                        Label("编辑车票", systemImage: "square.and.pencil")
+//                    }.buttonStyle(TCButtonStyle(filled: false, height: 48))
+//                        .frame(width: 130)
+//                        .transition(.offset(x: 50, y: 150))
+//                    Spacer()
+//                    Button {
+//                        itemToDelete = showingTicket
+//                        showsDelWarning = true
+//                    } label: {
+//                        Label("删除设计", systemImage: "trash")
+//                    }.buttonStyle(TCButtonStyle(filled: false, height: 48, tint: .red))
+//                        .frame(width: 130)
                     Button {
                         showsEditor = true
                     } label: {
-                        Label("编辑车票", systemImage: "square.and.pencil")
-                    }.buttonStyle(TCButtonStyle(filled: false, height: 48))
-                        .frame(width: 130)
-                        .transition(.offset(x: 50, y: 150))
+                        Image(systemName: "square.and.pencil")
+                    }.buttonStyle(TCButtonStyle(filled: true, height: 48))
+                    .frame(width: 80)
                     Spacer()
                     Button {
-                        itemToDelete = selectedTicket
+                        withAnimation(.linear(duration: 0.2)) { showingTicket.starred.toggle() }
+                    } label: {
+                        Image(systemName: showingTicket.starred ? "star.fill" : "star.slash")
+                    }.buttonStyle(TCButtonStyle(filled: showingTicket.starred, height: 48, tint: .yellow))
+                    .frame(width: 80)
+                    Spacer()
+                    Button {
+                        itemToDelete = showingTicket
                         showsDelWarning = true
                     } label: {
-                        Label("删除设计", systemImage: "trash")
+                        Image(systemName: "trash")
                     }.buttonStyle(TCButtonStyle(filled: false, height: 48, tint: .red))
-                        .frame(width: 130)
+                    .frame(width: 80)
                 }.padding(.horizontal, 40)
                 
                 Spacer().frame(height: 300)
@@ -108,7 +126,7 @@ import SwiftData
     let config = ModelConfiguration(isStoredInMemoryOnly: true)
     let container = try! ModelContainer(for: TicketItem.self, configurations: config)
     
-    for i in 1...15 {
+    for i in 1...3 {
         let t = TicketItem()
         t.departTime = Date(timeIntervalSinceNow: TimeInterval(60 * i))
         container.mainContext.insert(t)

@@ -31,7 +31,7 @@ extension ContentView {
     
     @ViewBuilder var flowView: some View {
         LazyVGrid(columns: [GridItem(.flexible())]) {
-            Spacer(minLength: filterOn ? 150 : 100)
+            Spacer(minLength: filterOn ? 190 : 100)
             ForEach(filteredTickets) { item in
                 GeometryReader { geo in
                     //let isSelected = selectedTicket == item
@@ -50,6 +50,7 @@ extension ContentView {
                                 }
                             )
                             .scaleEffect(x: 0.8, y: 0.8)
+                            .drawingGroup()
                             .background(
                                 RoundedRectangle(cornerRadius: 10, style: .continuous)
                                     .fill(.black.opacity(exp(y / 400)))
@@ -82,7 +83,7 @@ extension ContentView {
     
     @ViewBuilder var listView: some View {
         LazyVGrid(columns: [GridItem(.flexible())]) {
-            Spacer(minLength: filterOn ? 200 : 120)
+            Spacer(minLength: filterOn ? 220 : 120)
             ForEach(filteredTickets) { item in
                 HStack {
                     Button {
@@ -138,7 +139,7 @@ extension ContentView {
     
     @ViewBuilder var gridView: some View {
         LazyVGrid(columns: [GridItem(.adaptive(minimum: 160))]) {
-            Spacer(); Spacer(minLength: filterOn ? 110 : 70)
+            Spacer(); Spacer(minLength: filterOn ? 150 : 70)
             ForEach(filteredTickets) { item in
                 GeometryReader { geo in
                     //let isSelected = selectedTicket == item
@@ -168,20 +169,22 @@ extension ContentView {
                                         .opacity(selectedTicket == item ? 0 : 1)
                                 )
                                 .matchedGeometryEffect(id: selectedTicket == item ? "ticket" : "", in: namespace, properties: .frame, isSource: false)
+                                .overlay {
+                                    if item.starred {
+                                        Image(systemName: "star.fill").font(.system(size: 16))
+                                            .foregroundStyle(.yellow).shadow(color: .black.opacity(0.8), radius: 0.8)
+                                            .rotationEffect(.degrees(15))
+                                            .offset(x: 70, y: -44)
+                                    }
+                                }
                                 .rotation3DEffect(
                                     .degrees(r),
                                     axis: (x: 1, y: 0, z: 0),
                                     perspective: 0.5
                                 )
                                 .scaleEffect(x: s, y: s)
+                                .drawingGroup()
                             // ticket view
-                            
-                            if item.starred {
-                                Image(systemName: "star.fill").font(.system(size: 16))
-                                    .foregroundStyle(.yellow).shadow(color: .black.opacity(0.8), radius: 0.8)
-                                    .rotationEffect(.degrees(15))
-                                    .offset(x: 70, y: -44)
-                            }
                         }
                         Spacer()
                     } // hstack
@@ -198,7 +201,7 @@ import SwiftData
     let config = ModelConfiguration(isStoredInMemoryOnly: true)
     let container = try! ModelContainer(for: TicketItem.self, configurations: config)
     
-    for i in 1...8 {
+    for i in 1...15 {
         let t = TicketItem()
         t.departTime = Date(timeIntervalSinceNow: TimeInterval(60 * i))
         if i % 2 == 1 {

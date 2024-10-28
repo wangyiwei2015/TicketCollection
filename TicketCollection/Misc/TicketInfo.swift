@@ -31,6 +31,7 @@ import SwiftData
     var passengerName: String
     var comments: String
     var ticketSerial: String
+    var starred: Bool = false
     
     init(ticketID: String, entrance: String, stationSrcCN: String, stationSrcEN: String, stationDstCN: String, stationDstEN: String, trainNumber: String, departTime: Date, carriage: String, seat: String, price: Float, seatLevel: String, isOnline: Bool = false, isStudent: Bool = false, isDiscount: Bool = false, notes: String = "仅供报销使用", passengerID: String, passengerName: String, comments: String = "报销凭证 遗失不补\n退票改签时须交回车站", ticketSerial: String) {
         self.ticketID = ticketID

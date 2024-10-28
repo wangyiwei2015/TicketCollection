@@ -11,7 +11,12 @@ import SwiftData
 @MainActor
 struct ContentView: View {
     @Environment(\.modelContext) var modelContext
-    @Query(sort: [SortDescriptor(\TicketItem.departTime)]) var tickets: [TicketItem]
+    @Query(
+        //filter: #Predicate<TicketItem> { ticket in
+        //    !filters[0] || ticket.starred
+        //},
+        sort: [SortDescriptor(\TicketItem.departTime)]
+    ) var tickets: [TicketItem]
     @State var selectedTicket: TicketItem? = nil
     
     @Environment(\.colorScheme) var colorScheme
@@ -25,6 +30,12 @@ struct ContentView: View {
     @State var filterOn = false
     @State var showsEditor = false
     @State var showsDebug = false
+    @State var showsDelWarning = false
+    @State var itemToDelete: TicketItem? = nil
+    
+    let filterNames: [String] = ["已收藏","未出行","学生票","G","D","Z","T","K","C",]
+    let filterImages: [String] = ["star","calendar.badge.clock","tag",]
+    @State var filters: [Bool] = Array(repeating: false, count: 9)
     
     @State var dragOffset: CGSize = .zero
     func translation2Degrees(_ x: CGFloat) -> Double {
@@ -35,16 +46,24 @@ struct ContentView: View {
     
     @ViewBuilder func itemActions(for item: TicketItem) -> some View {
         Button {
-            //
+            selectedTicket = item
+            showsEditor = true
         } label: {
-            Label("action", systemImage: "swift")
+            Label("编辑", systemImage: "square.and.pencil")
         }
-        Button(role: .destructive) {
-            withAnimation(.easeInOut) {
-                modelContext.delete(item)
-            }
+        Button {
+            item.starred.toggle()
+            Task { try! modelContext.save() }
         } label: {
-            Label("Delete", systemImage: "trash.fill")
+            Label(item.starred ? "取消收藏" : "收藏", systemImage: item.starred ? "star.slash" : "star")
+        }
+
+        ShareLink("分享", item: TicketView(ticketInfo: item).render())
+        Button(role: .destructive) {
+            itemToDelete = item
+            showsDelWarning = true
+        } label: {
+            Label("删除设计", systemImage: "trash.fill")
         }
     }
     
@@ -102,6 +121,19 @@ struct ContentView: View {
             ticketPreview
         }
         .ignoresSafeArea()
+        
+        .alert("删除确认", isPresented: $showsDelWarning, actions: {
+            Button("取消", role: .cancel) { itemToDelete = nil }
+            Button("删除此车票", role: .destructive) {
+                withAnimation(.easeInOut) {
+                    modelContext.delete(itemToDelete!)
+                    itemToDelete = nil
+                    selectedTicket = nil
+                }
+            }
+        }, message: {
+            Text("即将删除这张\(itemToDelete?.trainNumber ?? "nil")的车票，删除后无法恢复。")
+        })
         
         .fullScreenCover(isPresented: $showsEditor) {
             EditorView(ticketItem: selectedTicket!)

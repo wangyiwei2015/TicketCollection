@@ -71,7 +71,8 @@ extension ContentView {
                         .transition(.offset(x: 50, y: 150))
                     Spacer()
                     Button {
-                        //
+                        itemToDelete = selectedTicket
+                        showsDelWarning = true
                     } label: {
                         Label("删除设计", systemImage: "trash")
                     }.buttonStyle(TCButtonStyle(filled: false, height: 48, tint: .red))

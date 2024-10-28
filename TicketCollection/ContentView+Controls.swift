@@ -49,6 +49,12 @@ extension ContentView {
                         }.buttonStyle(RoundedBtnStyle(filled: false))
                             .tint(ticketColorDarker)
                     }
+                    Spacer()
+                    
+                    if !topBarHidden {
+                        Text("\(filteredTickets.count != tickets.count ? "\(filteredTickets.count)/" : "")\(tickets.count)张车票").font(.system(size: 18, weight: .semibold, design: .monospaced))
+                            .foregroundStyle(.gray)
+                    }
                     
                     Spacer()
                     if !topBarHidden {
@@ -59,7 +65,12 @@ extension ContentView {
                         } label: {
                             Image(systemName: "line.3.horizontal.decrease") //dot.scope
                         }.buttonStyle(RoundedBtnStyle(filled: filterOn))
-                            .tint(ticketColorDarker)
+                        .tint(ticketColorDarker)
+                        .overlay {
+                            Circle().fill(ticketColor).frame(width: 10, height: 10)
+                                .offset(x: 14, y: -14)
+                                .opacity(filters.contains(where: {$0}) ? 1 : 0)
+                        }
                         
                         Menu {
                             Picker("View mode", selection: $viewMode) {
@@ -76,11 +87,32 @@ extension ContentView {
                 
                 if filterOn {
                     Spacer(minLength: 0)
-                    Text("filter")
+                    VStack {
+                        HStack {
+                            ForEach(0...2, id:\.self) { index in
+                                Button {
+                                    withAnimation(.easeInOut(duration: 0.2)) {
+                                        filters[index].toggle()
+                                    }
+                                } label: {
+                                    Label(filterNames[index], systemImage: filterImages[index])
+                                }.buttonStyle(TCButtonStyle(filled: filters[index]))
+                            }
+                        }
+                        HStack {
+                            ForEach(3...8, id:\.self) { index in
+                                Button(filterNames[index]) {
+                                    withAnimation(.easeInOut(duration: 0.2)) {
+                                        filters[index].toggle()
+                                    }
+                                }.buttonStyle(TCButtonStyle(filled: filters[index]))
+                            }
+                        }
+                    }.padding()
                     Spacer(minLength: 0)
                 }
             }
         }
-        .frame(height: filterOn ? 120 : 48).padding(.top, 60).padding(.horizontal, 30)
+        .frame(height: filterOn ? 100 : 48).padding(.top, 60).padding(.horizontal, 30)
     }
 }

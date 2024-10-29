@@ -165,3 +165,15 @@ fileprivate struct TicketTransitionModifier: ViewModifier {
         content.rotationEffect(.degrees(isShown ? 0 : -20), anchor: .center)
     }
 }
+
+// - MARK: Operators
+
+infix operator ||=
+func ||=(lhs: inout Bool, rhs: Bool) -> Void {
+    lhs = lhs || rhs
+}
+
+infix operator &&=
+func &&=(lhs: inout Bool, rhs: Bool) -> Void {
+    lhs = lhs && rhs
+}

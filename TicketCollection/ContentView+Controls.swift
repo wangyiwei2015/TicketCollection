@@ -6,10 +6,55 @@
 //
 
 import SwiftUI
+import SwiftData
 
 extension ContentView {
     @ViewBuilder var topBar: some View {
         ZStack {
+            
+            //search bar
+            Group {
+                Capsule().fill(Color(UIColor.systemGray5))
+                    .strokeBorder(searchEmpty ? .clear : ticketColor, lineWidth: 4)
+                    .stroke(Color(UIColor.systemBackground), lineWidth: 2)
+                TextField("SearchTerm", text: $searchTerm, prompt: Text("搜索"))
+                    .textFieldStyle(.plain).submitLabel(.search)
+                    .scrollDismissesKeyboard(.never)
+                    .multilineTextAlignment(searchEmpty ? .center : .leading)
+                    .font(.system(size: 22))
+                    .foregroundStyle(searchEmpty ? .gray : ticketColorDarker)
+                    .padding(.horizontal)
+                    .onSubmit {
+                        withAnimation(.linear(duration: 0.2)) {
+                            appliedSearchTerm = searchTerm
+                        }
+                    }
+                    .onChange(of: searchTerm) {
+                        withAnimation(.easeOut(duration: 0.2)) {
+                            searchEmpty = searchTerm == ""
+                        }
+                    }
+            }
+            .frame(height: 40).padding(.horizontal, 70)
+            .scaleEffect(x: topBarHidden ? 1.0 : 0.3, y: topBarHidden ? 1.0 : 0.3)
+            
+            HStack {
+                Spacer()
+                Button {
+                    withAnimation(.linear(duration: 0.2)) {
+                        appliedSearchTerm = ""
+                        searchTerm = ""
+                    }
+                } label: {
+                    Image(systemName: "xmark")
+                }.buttonStyle(RoundedBtnStyle(filled: true))
+                .tint(.gray).frame(width: 32, height: 32)
+                .scaleEffect(searchEmpty || !topBarHidden ? 0.3 : 1.0, anchor: .leading)
+                .opacity(searchEmpty || !topBarHidden ? 0 : 1)
+                .padding(.trailing, 28)
+            }
+            
+            //BG
             HStack {
                 RoundedRectangle(cornerRadius: 24, style: .continuous)
                     .fill(Color(UIColor.systemGray6))
@@ -20,6 +65,7 @@ extension ContentView {
                 }
             }
             VStack(spacing: 0) {
+                //top buttons
                 HStack {
                     Button {
                         withAnimation(.easeInOut(duration: 0.2)) {
@@ -69,12 +115,12 @@ extension ContentView {
                         } label: {
                             Image(systemName: "line.3.horizontal.decrease") //dot.scope
                         }.buttonStyle(RoundedBtnStyle(filled: filterOn))
-                        .tint(ticketColorDarker)
-                        .overlay {
-                            Circle().fill(ticketColor).frame(width: 10, height: 10)
-                                .offset(x: 14, y: -14)
-                                .opacity(filters.contains(where: {$0}) ? 1 : 0)
-                        }
+                            .tint(ticketColorDarker)
+                            .overlay {
+                                Circle().fill(ticketColor).frame(width: 10, height: 10)
+                                    .offset(x: 14, y: -14)
+                                    .opacity(filters.contains(where: {$0}) ? 1 : 0)
+                            }
                         
                         Menu {
                             Picker("View mode", selection: $viewMode) {
@@ -119,4 +165,18 @@ extension ContentView {
         }
         .frame(height: filterOn ? 160 : 48).padding(.top, 60).padding(.horizontal, 30)
     }
+}
+
+#Preview {
+    let config = ModelConfiguration(isStoredInMemoryOnly: true)
+    let container = try! ModelContainer(for: TicketItem.self, configurations: config)
+    
+    for i in 1...3 {
+        let t = TicketItem()
+        t.departTime = Date(timeIntervalSinceNow: TimeInterval(60 * i))
+        container.mainContext.insert(t)
+    }
+    
+    return ContentView()
+        .modelContainer(container)
 }

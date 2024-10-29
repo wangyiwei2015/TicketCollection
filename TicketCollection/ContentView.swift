@@ -25,12 +25,17 @@ struct ContentView: View {
     let viewModeIcons: [String] = ["list.bullet", "circle.grid.2x2.fill", "square.stack"]
     @AppStorage("BackgroundImage") var bgImgName: String = "nil"
     
-    @State var topBarHidden = false
+    @State var topBarHidden = true
     @State var filterOn = false
+    @State var searchTerm: String = ""
+    @State var searchEmpty: Bool = true
+    @State var appliedSearchTerm: String = ""
+    
     @State var showsEditor = false
     @State var showsDebug = false
     @State var showsDelWarning = false
     @State var itemToDelete: TicketItem? = nil
+    
     @State var showsAbout = false
     @State var showsConfig = false
     

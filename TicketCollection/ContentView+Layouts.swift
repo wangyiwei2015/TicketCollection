@@ -11,6 +11,8 @@ extension ContentView {
     
     var filteredTickets: [TicketItem] {
         tickets.filter { item in
+            var matched = true
+            
             let starFiltered = !filters[0] || item.starred
             let futureFiltered = !filters[1] || item.departTime > .now
             let studentFiltered = !filters[2] || item.isStudent
@@ -22,10 +24,32 @@ extension ContentView {
             let fK = filters[7] && item.trainNumber.first == "K"
             let fC = filters[8] && item.trainNumber.first == "C"
             let filtered2 = fG || fD || fZ || fT || fK || fC
-            if !filters[3...8].contains(where: {$0}) {
-                return filtered1 // 字母一个都没选 就不筛
+            // 字母一个都没选 就不筛
+            if !filters[3...8].contains(where: {$0}) { matched = filtered1 }
+            else { matched = filtered1 && filtered2 }
+            
+            if appliedSearchTerm != "" {
+                //deal with search
+                var searchMatched = false
+                searchMatched ||= item.trainNumber.contains(appliedSearchTerm)
+                searchMatched ||= item.comments.contains(appliedSearchTerm)
+                searchMatched ||= item.notes.contains(appliedSearchTerm)
+                searchMatched ||= item.seat.contains(appliedSearchTerm)
+                searchMatched ||= item.carriage.contains(appliedSearchTerm)
+                searchMatched ||= item.entrance.contains(appliedSearchTerm)
+                searchMatched ||= item.stationSrcCN.contains(appliedSearchTerm)
+                searchMatched ||= item.stationSrcEN.contains(appliedSearchTerm)
+                searchMatched ||= item.stationDstCN.contains(appliedSearchTerm)
+                searchMatched ||= item.stationDstEN.contains(appliedSearchTerm)
+                searchMatched ||= item.seatLevel.contains(appliedSearchTerm)
+                searchMatched ||= item.passengerName.contains(appliedSearchTerm)
+                searchMatched ||= item.passengerID.contains(appliedSearchTerm)
+                searchMatched ||= item.ticketID.contains(appliedSearchTerm)
+                searchMatched ||= item.ticketSerial.contains(appliedSearchTerm)
+                //finally
+                matched &&= searchMatched
             }
-            return filtered1 && filtered2
+            return matched
         }
     }
     

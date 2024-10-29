@@ -64,7 +64,7 @@ struct ContentView: View {
             Label(item.starred ? "取消收藏" : "收藏", systemImage: item.starred ? "star.slash" : "star")
         }
 
-        //ShareLink("分享", item: TicketView(ticketInfo: item).render(), preview: SharePreview("file", image: Image(systemName: "swift")))
+        ShareLink("分享", item: TransferableTicket(item), preview: exportPreview)
         Button(role: .destructive) {
             itemToDelete = item
             showsDelWarning = true
@@ -164,25 +164,7 @@ struct ContentView: View {
                 }.zIndex(10)
                 ZStack {
                     RoundedRectangle(cornerRadius: 20).fill(Color(UIColor.systemBackground))
-                    VStack {
-                        HStack {
-                            Group {
-                                Image(systemName: "info.circle.fill").foregroundStyle(.gray)
-                                Text("关于TicketBox").foregroundStyle(ticketColorDarker)
-                            }.font(.title2).bold()
-                            Spacer()
-                            Button {
-                                withAnimation(.easeOut(duration: 0.3)) {
-                                    showsAbout = false
-                                }
-                            } label: {Image(systemName: "xmark")
-                            }.buttonStyle(TCButtonStyle(filled: false))
-                                .frame(width: 50, height: 40)
-                        }.padding()
-                        ScrollView(.vertical) {
-                            Text("V\(ver) (\(build))")
-                        }
-                    }
+                    aboutView
                 }.padding(.horizontal)
                 .padding(.vertical, 148)
                 .transition(.asymmetric(
@@ -200,32 +182,7 @@ struct ContentView: View {
                 }.zIndex(10)
                 ZStack {
                     RoundedRectangle(cornerRadius: 20).fill(Color(UIColor.systemBackground))
-                    VStack {
-                        HStack {
-                            Group {
-                                Image(systemName: "gearshape.fill").foregroundStyle(.gray)
-                                Text("应用偏好设置").foregroundStyle(ticketColorDarker)
-                            }.font(.title2).bold()
-                            Spacer()
-                            Button {
-                                withAnimation(.easeOut(duration: 0.3)) {
-                                    showsConfig = false
-                                }
-                            } label: {Image(systemName: "xmark")
-                            }.buttonStyle(TCButtonStyle(filled: false))
-                                .frame(width: 50, height: 40)
-                        }.padding()
-                        ScrollView(.vertical) {
-                            Text("主页背景图片")
-                            Picker(selection: $bgImgName) {
-                                Text("空白").tag("nil")
-                                Text("皮革纹理").tag("bgp")
-                                Text("牛皮纸纹理").tag("bgn")
-                            } label: {
-                                Label("background", systemImage: "swift")
-                            }
-                        }
-                    }
+                    configView
                 }.padding(.horizontal)
                 .padding(.vertical, 80)
                 .transition(.asymmetric(
@@ -256,10 +213,6 @@ struct ContentView: View {
         .sheet(isPresented: $showsDebug) {
             DebugView()
         }
-        
-        #if DEBUG
-        //.onAppear { selectedTicket = tickets.first }
-        #endif
     }
     
     let ver = Bundle.main.infoDictionary!["CFBundleShortVersionString"] as! String? ?? "0"

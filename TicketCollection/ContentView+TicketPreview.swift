@@ -101,17 +101,16 @@ extension ContentView {
                 
                 HStack {
                     Button {
-                        //withAnimation(.easeInOut) {
-                            //modelContext.delete(item)
-                        //}
+                        //
                     } label: {
                         Label("保存图像", systemImage: "tray.and.arrow.down.fill")
                     }.buttonStyle(TCButtonStyle(filled: true, height: 48))
                         .frame(width: 130)
                     Spacer()
-                    ShareLink("导出PDF", item: TicketView(ticketInfo: selectedTicket ?? .init()).render())
-                        .buttonStyle(TCButtonStyle(filled: true, height: 48))
-                        .frame(width: 130)
+                    ShareLink(
+                        "导出PDF", item: TransferableTicket(selectedTicket ?? .init()),
+                        preview: exportPreview
+                    ).buttonStyle(TCButtonStyle(filled: true, height: 48)).frame(width: 130)
                 }.padding(.horizontal, 40)
                 
                 Spacer()

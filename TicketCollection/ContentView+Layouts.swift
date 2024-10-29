@@ -28,24 +28,28 @@ extension ContentView {
             if !filters[3...8].contains(where: {$0}) { matched = filtered1 }
             else { matched = filtered1 && filtered2 }
             
-            if appliedSearchTerm != "" {
+            let searchItems = appliedSearchTerm
+                .split(separator: try! Regex(",|;| |，|；"), omittingEmptySubsequences: true)
+            if !searchItems.isEmpty {
                 //deal with search
                 var searchMatched = false
-                searchMatched ||= item.trainNumber.contains(appliedSearchTerm)
-                searchMatched ||= item.comments.contains(appliedSearchTerm)
-                searchMatched ||= item.notes.contains(appliedSearchTerm)
-                searchMatched ||= item.seat.contains(appliedSearchTerm)
-                searchMatched ||= item.carriage.contains(appliedSearchTerm)
-                searchMatched ||= item.entrance.contains(appliedSearchTerm)
-                searchMatched ||= item.stationSrcCN.contains(appliedSearchTerm)
-                searchMatched ||= item.stationSrcEN.contains(appliedSearchTerm)
-                searchMatched ||= item.stationDstCN.contains(appliedSearchTerm)
-                searchMatched ||= item.stationDstEN.contains(appliedSearchTerm)
-                searchMatched ||= item.seatLevel.contains(appliedSearchTerm)
-                searchMatched ||= item.passengerName.contains(appliedSearchTerm)
-                searchMatched ||= item.passengerID.contains(appliedSearchTerm)
-                searchMatched ||= item.ticketID.contains(appliedSearchTerm)
-                searchMatched ||= item.ticketSerial.contains(appliedSearchTerm)
+                for term in searchItems {
+                    searchMatched ||= item.trainNumber.contains(term)
+                    searchMatched ||= item.comments.contains(term)
+                    searchMatched ||= item.notes.contains(term)
+                    searchMatched ||= item.seat.contains(term)
+                    searchMatched ||= item.carriage.contains(term)
+                    searchMatched ||= item.entrance.contains(term)
+                    searchMatched ||= item.stationSrcCN.contains(term)
+                    searchMatched ||= item.stationSrcEN.contains(term)
+                    searchMatched ||= item.stationDstCN.contains(term)
+                    searchMatched ||= item.stationDstEN.contains(term)
+                    searchMatched ||= item.seatLevel.contains(term)
+                    searchMatched ||= item.passengerName.contains(term)
+                    searchMatched ||= item.passengerID.contains(term)
+                    searchMatched ||= item.ticketID.contains(term)
+                    searchMatched ||= item.ticketSerial.contains(term)
+                }
                 //finally
                 matched &&= searchMatched
             }

@@ -16,7 +16,7 @@ struct EditorView: View {
 
     @State var selectedSection: Int = 0
     @State var notesTemplate: Int = 1
-    @State var priceStr: String = "9876.54" {
+    @State var priceStr: String = "0.01" {
         willSet { ticketItem.price = Float(newValue) ?? 0.0 }
     }
     @State private var dragOffset: CGSize = .zero
@@ -45,9 +45,12 @@ struct EditorView: View {
                     }.buttonStyle(TCButtonStyle(filled: false))
                         .frame(width: 90)
                     Spacer()
-                    ShareLink("导出", item: TicketView(ticketInfo: ticketItem).render())
-                        .buttonStyle(TCButtonStyle(filled: true))
-                        .frame(width: 90)
+                    Menu {
+                        ShareLink("导出为PDF", item: TransferableTicket(ticketItem), preview: exportPreview)
+                    } label: {
+                        Label("导出", systemImage: "square.and.arrow.up")
+                    }.buttonStyle(TCButtonStyle(filled: true))
+                    .frame(width: 90)
                 }.ignoresSafeArea().padding(.bottom)
                 
                 TicketView(ticketInfo: ticketItem)

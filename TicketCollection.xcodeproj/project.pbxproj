@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B365AACB2CD0D57E00D78107 /* ContentView+Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = B365AACA2CD0D57400D78107 /* ContentView+Config.swift */; };
 		B3708CBF2B5D413800357B12 /* TechnicBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B3708CB42B59549500357B12 /* TechnicBold.ttf */; };
 		B3708CC12B5D41D000357B12 /* TCFonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3708CC02B5D41D000357B12 /* TCFonts.swift */; };
 		B3708CC32B5D471800357B12 /* TicketView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3708CC22B5D471800357B12 /* TicketView.swift */; };
@@ -34,6 +35,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		B365AACA2CD0D57400D78107 /* ContentView+Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ContentView+Config.swift"; sourceTree = "<group>"; };
 		B3708CB42B59549500357B12 /* TechnicBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = TechnicBold.ttf; sourceTree = "<group>"; };
 		B3708CB72B5954BC00357B12 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		B3708CC02B5D41D000357B12 /* TCFonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TCFonts.swift; sourceTree = "<group>"; };
@@ -127,6 +129,7 @@
 				B3BF58912C65CBC800AD72DF /* ContentView+Layouts.swift */,
 				B3BF58952C65CC6300AD72DF /* ContentView+Controls.swift */,
 				B3BF58932C65CC0000AD72DF /* ContentView+TicketPreview.swift */,
+				B365AACA2CD0D57400D78107 /* ContentView+Config.swift */,
 				B3708CC22B5D471800357B12 /* TicketView.swift */,
 				B3708CCB2B5E3D7A00357B12 /* EditorView.swift */,
 				B3BF587D2C627AE000AD72DF /* DebugView.swift */,
@@ -233,6 +236,7 @@
 				B3BF58942C65CC0000AD72DF /* ContentView+TicketPreview.swift in Sources */,
 				B3708CCC2B5E3D7A00357B12 /* EditorView.swift in Sources */,
 				B3BF58922C65CBC800AD72DF /* ContentView+Layouts.swift in Sources */,
+				B365AACB2CD0D57E00D78107 /* ContentView+Config.swift in Sources */,
 				B3708CC32B5D471800357B12 /* TicketView.swift in Sources */,
 				B3708CCE2B5E40CA00357B12 /* Helpers.swift in Sources */,
 				B3BF58962C65CC6300AD72DF /* ContentView+Controls.swift in Sources */,
@@ -368,7 +372,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 18;
+				CURRENT_PROJECT_VERSION = 19;
 				DEVELOPMENT_ASSET_PATHS = "\"TicketCollection/Preview Content\"";
 				DEVELOPMENT_TEAM = JS2ME2LTBF;
 				ENABLE_PREVIEWS = YES;
@@ -386,7 +390,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.3.3;
+				MARKETING_VERSION = 1.3.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.wyw.TicketCollection;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -404,7 +408,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 18;
+				CURRENT_PROJECT_VERSION = 19;
 				DEVELOPMENT_ASSET_PATHS = "\"TicketCollection/Preview Content\"";
 				DEVELOPMENT_TEAM = JS2ME2LTBF;
 				ENABLE_PREVIEWS = YES;
@@ -422,7 +426,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.3.3;
+				MARKETING_VERSION = 1.3.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.wyw.TicketCollection;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";

@@ -14,9 +14,9 @@ extension ContentView {
             
             //search bar
             Group {
-                Capsule().fill(Color(UIColor.systemGray5))
-                    .strokeBorder(searchEmpty ? .clear : ticketColor, lineWidth: 4)
-                    .stroke(Color(UIColor.systemBackground), lineWidth: 2)
+                Capsule().fill(Color(UIColor.systemGray6))
+                    .strokeBorder(searchEmpty ? Color(UIColor.systemGray5) : ticketColor, lineWidth: 4)
+                    //.stroke(.systemBackground, lineWidth: 2)
                 TextField("SearchTerm", text: $searchTerm, prompt: Text("搜索"))
                     .textFieldStyle(.plain).submitLabel(.search)
                     .scrollDismissesKeyboard(.never)
@@ -164,6 +164,133 @@ extension ContentView {
             }
         }
         .frame(height: filterOn ? 160 : 48).padding(.top, 60).padding(.horizontal, 30)
+    }
+    
+    @ViewBuilder var emptyTipView: some View {
+        ZStack {
+            RoundedRectangle(cornerRadius: 22).fill(ticketColor)
+                .frame(width: 188, height: 68)
+            Rectangle().fill(ticketColor)
+                .frame(width: 38, height: 38)
+                .rotationEffect(.degrees(45))
+                .offset(y: 30)
+            RoundedRectangle(cornerRadius: 20).fill(ticketColorDarker)
+                .frame(width: 180, height: 60)
+            Rectangle().fill(ticketColorDarker)
+                .frame(width: 30, height: 30)
+                .rotationEffect(.degrees(45))
+                .offset(y: 30)
+            Text("点击此处开始").font(.title3).bold()
+                .foregroundStyle(.white)
+        }
+    }
+    
+    @ViewBuilder var addMenu2: some View {
+        ZStack {
+            RoundedRectangle(cornerRadius: 22).fill(Color(UIColor.systemGray5))
+                .frame(width: 228, height: 128)
+            Rectangle().fill(Color(UIColor.systemGray5))
+                .frame(width: 38, height: 38)
+                .rotationEffect(.degrees(45))
+                .offset(y: 60)
+            RoundedRectangle(cornerRadius: 20).fill(Color(UIColor.systemGray6))
+                .frame(width: 220, height: 120)
+            Rectangle().fill(Color(UIColor.systemGray6))
+                .frame(width: 30, height: 30)
+                .rotationEffect(.degrees(45))
+                .offset(y: 60)
+            VStack(spacing: 15) {
+                Button {
+                    let newItem = TicketItem()
+                    modelContext.insert(newItem)
+                    try! modelContext.save()
+                    withAnimation(.linear(duration: 0.1)) {
+                        showsAddMenu = false
+                    }
+                    withAnimation(.easeInOut(duration: 0.3)) {
+                        selectedTicket = newItem
+                        showsEditor = true
+                    }
+                } label: {
+                    Label("开始设计", systemImage: "pencil.and.outline")
+                }.buttonStyle(TCButtonStyle(filled: false))
+                
+                Button {
+                } label: {
+                    Label("扫描(TBD)", systemImage: "text.viewfinder")
+                }.buttonStyle(TCButtonStyle(filled: false))
+                    .disabled(true)
+                
+            }.frame(width: 180)
+        }.transition(.scale(scale: 0.8).combined(with: .opacity).combined(with: .offset(y: 30)))
+        .padding(.bottom)
+        .background {
+            Rectangle().fill(EllipticalGradient(
+                colors: [.black.opacity(0.6), .clear],
+                startRadiusFraction: 0.0, endRadiusFraction: 0.3
+            )).offset(y: 100)
+            .frame(width: UIScreen.main.bounds.height * 2, height: UIScreen.main.bounds.height * 2)
+            .onTapGesture {
+                withAnimation(.spring(duration: 0.4, bounce: 0.5)) {
+                    showsAddMenu = false
+                }
+            }
+        }
+    }
+    
+    @ViewBuilder var addMenu: some View {
+        HStack(spacing: 20) {
+            
+            Button {
+            } label: {
+                ZStack {
+                    Circle().fill(ticketColorDarker)
+                        .shadow(color: .black.opacity(0.5), radius: 3, y: 3)
+                    Image(systemName: "swift")
+                        .font(.system(size: 30, weight: .semibold)).tint(.white)
+                }.frame(height: 60).aspectRatio(1, contentMode: .fit)
+            }.transition(.scale.combined(with: .offset(x: 50, y: 80)))
+            .offset(y: 30)
+            
+            Button {
+                let newItem = TicketItem()
+                modelContext.insert(newItem)
+                try! modelContext.save()
+                withAnimation(.easeInOut(duration: 0.3)) {
+                    selectedTicket = newItem
+                    showsEditor = true
+                }
+            } label: {
+                ZStack {
+                    Circle().fill(ticketColorDarker)
+                        .shadow(color: .black.opacity(0.5), radius: 3, y: 3)
+                    Image(systemName: "pencil")
+                        .font(.system(size: 30, weight: .semibold)).tint(.white)
+                }.frame(height: 60).aspectRatio(1, contentMode: .fit)
+            }.transition(.scale.combined(with: .offset(y: 80)))
+            
+            Button {
+            } label: {
+                ZStack {
+                    Circle().fill(ticketColorDarker)
+                        .shadow(color: .black.opacity(0.5), radius: 3, y: 3)
+                    Image(systemName: "swift")
+                        .font(.system(size: 30, weight: .semibold)).tint(.white)
+                }.frame(height: 60).aspectRatio(1, contentMode: .fit)
+            }.transition(.scale.combined(with: .offset(x: -50, y: 80)))
+            .offset(y: 30)
+            
+        }.padding(.bottom, 20)
+        .background {
+            Circle().fill(EllipticalGradient(
+                colors: [
+                    .systemBackground,
+                    .systemBackground.opacity(0.8),
+                    .clear
+                ]
+            )).frame(width: 500, height: 500).offset(y: 80)
+            .transition(.scale)
+        }
     }
 }
 

@@ -92,6 +92,28 @@ let overlayGradient = LinearGradient(
     startPoint: .top, endPoint: .bottom
 )
 
+extension Color {
+    init(light: Color, dark: Color) {
+        self.init(light: UIColor(light), dark: UIColor(dark))
+    }
+    
+    init(light: UIColor, dark: UIColor) {
+        self.init(uiColor: UIColor(dynamicProvider: { traits in
+            switch traits.userInterfaceStyle {
+            case .light, .unspecified:
+                return light
+            case .dark:
+                return dark
+            @unknown default:
+                assertionFailure("Unknown userInterfaceStyle: \(traits.userInterfaceStyle)")
+                return light
+            }
+        }))
+    }
+    
+    static let systemBackground = Color(UIColor.systemBackground)
+}
+
 struct TCButtonStyle: ButtonStyle {
     var filled: Bool
     var height: CGFloat = 36
@@ -120,7 +142,7 @@ struct RoundedBtnStyle: ButtonStyle {
                     ? ticketColorDarker
                     : (configuration.isPressed
                        ? Color(UIColor.systemGray5)
-                       : Color(UIColor.systemBackground)
+                       : Color.systemBackground
                     )
                 )
                 .shadow(
@@ -148,6 +170,13 @@ struct ListItemBtnStyle: ButtonStyle {
                     y: configuration.isPressed ? 0 : 2)
             configuration.label
         } // zstack
+    }
+}
+
+struct MinimalistButtonStyle: ButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .scaleEffect(configuration.isPressed ? 0.9 : 1)
     }
 }
 

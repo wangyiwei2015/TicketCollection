@@ -11,26 +11,26 @@ import SwiftData
 @available(iOS 17.0, *)
 @Model final class TicketItem {
     var id: UUID = UUID()
-    var ticketID: String
-    var entrance: String
-    var stationSrcCN: String
-    var stationSrcEN: String
-    var stationDstCN: String
-    var stationDstEN: String
-    var trainNumber: String
-    var departTime: Date
-    var carriage: String //02
-    var seat: String //01A
-    var price: Float
-    var seatLevel: String
+    var ticketID: String = "A888888"
+    var entrance: String = "检票:99AB"
+    var stationSrcCN: String = "城市"
+    var stationSrcEN: String = "pinyin"
+    var stationDstCN: String = "城市"
+    var stationDstEN: String = "pinyin"
+    var trainNumber: String = "G9999"
+    var departTime: Date = Date()
+    var carriage: String = "15"
+    var seat: String = "01A"
+    var price: Float = 0.01
+    var seatLevel: String = "一等座"
     var isOnline: Bool = false
     var isStudent: Bool = false
     var isDiscount: Bool = false
-    var notes: String //仅供报销使用
-    var passengerID: String
-    var passengerName: String
-    var comments: String
-    var ticketSerial: String
+    var notes: String = "仅供报销使用"
+    var passengerID: String = "1234567890****9876"
+    var passengerName: String = "姓名"
+    var comments: String = "报销凭证 遗失不补\n退票改签时须交回车站"
+    var ticketSerial: String = "00000000000000A888888 JM"
     var starred: Bool = false
     
     init(ticketID: String, entrance: String, stationSrcCN: String, stationSrcEN: String, stationDstCN: String, stationDstEN: String, trainNumber: String, departTime: Date, carriage: String, seat: String, price: Float, seatLevel: String, isOnline: Bool = false, isStudent: Bool = false, isDiscount: Bool = false, notes: String = "仅供报销使用", passengerID: String, passengerName: String, comments: String = "报销凭证 遗失不补\n退票改签时须交回车站", ticketSerial: String) {

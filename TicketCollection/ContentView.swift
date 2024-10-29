@@ -38,6 +38,7 @@ struct ContentView: View {
     
     @State var showsAbout = false
     @State var showsConfig = false
+    @State var showsAddMenu = false
     
     let filterNames: [String] = ["已收藏","未出行","学生票","G","D","Z","T","K","C",]
     let filterImages: [String] = ["star","calendar.badge.clock","tag",]
@@ -49,6 +50,13 @@ struct ContentView: View {
         let dx = Double(x)
         return 45 * sin(.pi / 2 / w * dx)
     }
+    
+    let colorForBG: [String : Color] = [
+        "bgn": Color(red: 222/244, green: 200/244, blue: 156/255),
+        "bgp": .systemBackground,
+        "bgw": Color(light: .init(red: 113/255, green: 78/255, blue: 50/255), dark: .init(white: 0.05)),
+        "bgr": Color(red: 182/244, green: 142/244, blue: 112/255),
+    ]
     
     @ViewBuilder func itemActions(for item: TicketItem) -> some View {
         Button {
@@ -78,7 +86,7 @@ struct ContentView: View {
             Group {
                 Spacer().overlay {
                     Image(bgImgName).resizable().scaledToFill()
-                        .opacity(0.5)
+                        .opacity(0.8)
                 }.ignoresSafeArea()
             }.zIndex(0)
             
@@ -102,45 +110,31 @@ struct ContentView: View {
                     Text("无符合条件的车票").font(.title2).foregroundStyle(.gray)
                 }
                 Spacer()
-                if tickets.isEmpty {
-                    ZStack {
-                        RoundedRectangle(cornerRadius: 22).fill(ticketColor)
-                            .frame(width: 188, height: 68)
-                        Rectangle().fill(ticketColor)
-                            .frame(width: 38, height: 38)
-                            .rotationEffect(.degrees(45))
-                            .offset(y: 30)
-                        RoundedRectangle(cornerRadius: 20).fill(ticketColorDarker)
-                            .frame(width: 180, height: 60)
-                        Rectangle().fill(ticketColorDarker)
-                            .frame(width: 30, height: 30)
-                            .rotationEffect(.degrees(45))
-                            .offset(y: 30)
-                        Text("点击此处开始").font(.title3).bold()
-                            .foregroundStyle(.white)
-                    }.offset(y: -25)
-                        .transition(.opacity.combined(with: .scale(0.8, anchor: .bottom)))
+                if showsAddMenu {
+                    addMenu2
+                } else if tickets.isEmpty {
+                    emptyTipView.offset(y: -25)
+                    .transition(.opacity.combined(with: .scale(0.8, anchor: .bottom)))
                 }
                 
                 HStack {
                     Button {
-                        let newItem = TicketItem()
-                        modelContext.insert(newItem)
-                        try! modelContext.save()
-                        withAnimation(.easeInOut(duration: 0.3)) {
-                            selectedTicket = newItem
-                            showsEditor = true
+                        withAnimation(.spring(duration: 0.4, bounce: 0.5)) {
+                            showsAddMenu.toggle()
                         }
                     } label: {
                         ZStack {
                             Circle().fill(
                                 ticketColorDarker
                                     .shadow(.inner(color: .white.opacity(0.3), radius: 4, y: 4))
-                                ).shadow(color: .black.opacity(0.5), radius: 3, y: 3)
+                                    .shadow(.inner(color: .black.opacity(0.3), radius: 4, y: -4))
+                            ).shadow(color: .black.opacity(showsAddMenu ? 0.1 : 0.5), radius: 3, y: 3)
                             Image(systemName: "plus")
-                                .font(.system(size: 30, weight: .semibold)).tint(ticketColor)
+                                .font(.system(size: 30, weight: .semibold)).foregroundStyle(ticketColor)
+                                .rotationEffect(showsAddMenu ? .degrees(135) : .zero)
                         }.frame(height: 60).aspectRatio(1, contentMode: .fit)
-                    }
+                    }.buttonStyle(MinimalistButtonStyle())
+                    .scaleEffect(showsAddMenu ? 0.8 : 1.0)
                     //Button("debug") { showsDebug = true }
                 }.padding(.bottom, 20)
             }.blur(radius: selectedTicket == nil && !showsAbout && !showsConfig ? 0 : 5)
@@ -148,7 +142,11 @@ struct ContentView: View {
             
             VStack {
                 LinearGradient(
-                    colors: [Color(UIColor.systemBackground), Color(UIColor.systemBackground), .clear],
+                    colors: [
+                        colorForBG[bgImgName] ?? Color.systemBackground,
+                        colorForBG[bgImgName] ?? Color.systemBackground,
+                        .clear
+                    ],
                     startPoint: .top, endPoint: .bottom)
                 .frame(height: 150)
                 Spacer()
@@ -163,7 +161,7 @@ struct ContentView: View {
                     }
                 }.zIndex(10)
                 ZStack {
-                    RoundedRectangle(cornerRadius: 20).fill(Color(UIColor.systemBackground))
+                    RoundedRectangle(cornerRadius: 20).fill(Color.systemBackground)
                     aboutView
                 }.padding(.horizontal)
                 .padding(.vertical, 148)
@@ -181,7 +179,7 @@ struct ContentView: View {
                     }
                 }.zIndex(10)
                 ZStack {
-                    RoundedRectangle(cornerRadius: 20).fill(Color(UIColor.systemBackground))
+                    RoundedRectangle(cornerRadius: 20).fill(Color.systemBackground)
                     configView
                 }.padding(.horizontal)
                 .padding(.vertical, 80)

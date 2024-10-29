@@ -52,7 +52,8 @@ extension ContentView {
                     Text("空白").tag("nil")
                     Text("皮革").tag("bgp")
                     Text("牛皮纸").tag("bgn")
-                    Text("木板").tag("bgw")
+                    Text("木纹").tag("bgw")
+                    Text("软木板").tag("bgr")
                 } label: {
                     Label("background", systemImage: "swift")
                 }

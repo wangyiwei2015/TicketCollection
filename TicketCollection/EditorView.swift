@@ -41,14 +41,14 @@ struct EditorView: View {
                         try! modelContext.save()
                         dismiss()
                     } label: {
-                        Label("返回", systemImage: "chevron.left")
+                        Label("保存", systemImage: "chevron.left")
                     }.buttonStyle(TCButtonStyle(filled: false))
                         .frame(width: 90)
                     Spacer()
                     Menu {
                         ShareLink("导出为PDF", item: TransferableTicket(ticketItem), preview: exportPreview)
                     } label: {
-                        Label("导出", systemImage: "square.and.arrow.up")
+                        Label("分享", systemImage: "square.and.arrow.up")
                     }.buttonStyle(TCButtonStyle(filled: true))
                     .frame(width: 90)
                 }.ignoresSafeArea().padding(.bottom)
@@ -120,7 +120,7 @@ struct EditorView: View {
         .textFieldStyle(.roundedBorder)
         .padding()
         .background(
-            Color(UIColor.systemBackground)
+            Color(UIColor.systemGray6).ignoresSafeArea()
                 .onTapGesture { selectedSection = 0 }
         )
         .onSubmit { ticketItem.price = Float(priceStr) ?? 0.0 }

@@ -13,6 +13,9 @@ struct EditorView: View {
     @Environment(\.dismiss) var dismiss
     @Environment(\.modelContext) var modelContext
     @Bindable var ticketItem: TicketItem
+    var allFolders: [TicketFolder]
+    
+    @State var isSettingFolder = false
 
     @State var selectedSection: Int = 0
     @State var notesTemplate: Int = 1
@@ -106,7 +109,7 @@ struct EditorView: View {
                         switch selectedSection {
                         case 1: 站台信息.padding()
                         case 2: 列车信息.padding()
-                        case 3: 元数据.padding()
+                        case 3: 元数据.padding([.horizontal, .top])
                         default: Text("未选择项目").padding()
                         }
                     }.frame(height: 300)
@@ -217,7 +220,7 @@ struct EditorView: View {
     }
     
     @ViewBuilder var 元数据: some View {
-        VStack {
+        VStack(spacing: 8) {
             HStack {
                 Text("顶部编号")
                 TextField("Ticket ID", text: $ticketItem.ticketID, prompt: Text("车票编号")).foregroundColor(.pink)
@@ -225,7 +228,7 @@ struct EditorView: View {
             HStack {
                 Text("底部编号")
                 TextField("Serial", text: $ticketItem.ticketSerial, prompt: Text("底部编号")).foregroundColor(.primary)
-            }.padding(.bottom)
+            }.padding(.bottom, 6)
             
             HStack {
                 Text("提示文字")
@@ -241,19 +244,109 @@ struct EditorView: View {
                 }
             }
             
-            //if notesTemplate == 0 {
-                Group {
-                    TextField("Notes", text: $ticketItem.notes, prompt: Text("备注"))
-                        .foregroundColor(notesTemplate == 0 ? .secondary : .gray)
-                        .bold()
-                    TextField("Comments", text: $ticketItem.comments, prompt: Text("提示"), axis: .vertical)
-                        .lineLimit(2, reservesSpace: true)
-                        .foregroundColor(notesTemplate == 0 ? ticketColorDarker : .gray)
-                }.disabled(notesTemplate != 0) //.transition(.opacity)
-                .opacity(notesTemplate == 0 ? 1.0 : 0.5)
-            //}
+            Group {
+                TextField("Notes", text: $ticketItem.notes, prompt: Text("备注"))
+                    .foregroundColor(notesTemplate == 0 ? .secondary : .gray)
+                    .bold()
+                TextField("Comments", text: $ticketItem.comments, prompt: Text("提示"), axis: .vertical)
+                    .lineLimit(2, reservesSpace: true)
+                    .foregroundColor(notesTemplate == 0 ? ticketColorDarker : .gray)
+            }.disabled(notesTemplate != 0) //.transition(.opacity)
+            .opacity(notesTemplate == 0 ? 1.0 : 0.5)
+            
+            HStack(spacing: 16) {
+                Button {
+                    ticketItem.starred.toggle()
+                    Task { try! modelContext.save() }
+                } label: {
+                    Image(systemName: ticketItem.starred ? "star.fill" : "star.slash")
+                }.buttonStyle(TCButtonStyle(
+                    filled: false, height: 32,
+                    tint: ticketItem.starred ? .yellow : .gray
+                )).frame(width: 50)
+                
+                Button {
+                    dismissKeyboard()
+                    withAnimation(.spring(duration: 0.4, bounce: 0.5)) {
+                        isSettingFolder = true
+                    }
+                } label: {
+                    Label(ticketItem.inFolder?.name ?? "收进文件夹…", systemImage: "wallet.bifold")
+                }.buttonStyle(TCButtonStyle(
+                    filled: ticketItem.inFolder != nil, height: 32
+                ))
+                .overlay {
+                    if isSettingFolder {
+                        addFolderMenu.ignoresSafeArea()
+                    }
+                }
+            }.padding(.top, 6)
             
             Spacer()
+        }
+    }
+    
+    @ViewBuilder var addFolderMenu: some View {
+        ZStack {
+            RoundedRectangle(cornerRadius: 22).fill(Color(UIColor.systemGray5))
+                .frame(width: 268, height: 208)
+            Rectangle().fill(Color(UIColor.systemGray5))
+                .frame(width: 38, height: 38)
+                .rotationEffect(.degrees(45))
+                .offset(y: 100)
+            RoundedRectangle(cornerRadius: 20).fill(Color(UIColor.systemGray6))
+                .frame(width: 260, height: 200)
+            Rectangle().fill(Color(UIColor.systemGray6))
+                .frame(width: 30, height: 30)
+                .rotationEffect(.degrees(45))
+                .offset(y: 100)
+            if allFolders.isEmpty {
+                VStack(spacing: 10) {
+                    Image(systemName: "viewfinder.rectangular")
+                        .font(.title2).bold()
+                    Text("没有文件夹").font(.title3)
+                }.foregroundStyle(.gray)
+            } else {
+                ScrollView(showsIndicators: false) {
+                    VStack(spacing: 10) {
+                        Button {
+                            ticketItem.inFolder = nil
+                            try! modelContext.save()
+                            withAnimation(.easeOut(duration: 0.2)) {
+                                isSettingFolder = false
+                            }
+                        } label: {
+                            Label("从文件夹移出", systemImage: "circle.slash")
+                                .bold().foregroundStyle(.gray).padding(.vertical, 8)
+                        }
+                        ForEach(allFolders) { folderItem in
+                            Button(folderItem.name) {
+                                ticketItem.inFolder = folderItem
+                                try! modelContext.save()
+                                withAnimation(.easeOut(duration: 0.2)) {
+                                    isSettingFolder = false
+                                }
+                            }.buttonStyle(TCButtonStyle(filled: ticketItem.inFolder == folderItem))
+                        }
+                        
+                    }.padding(.vertical, 10).padding(.horizontal, 4)
+                }.padding(.vertical, 8).frame(width: 240)
+            }
+        }
+        .offset(y: -130)
+        .transition(.scale(scale: 0.8).combined(with: .opacity).combined(with: .offset(y: 10)))
+        .padding(.bottom)
+        .background {
+            Rectangle().fill(EllipticalGradient(
+                colors: [.black.opacity(0.6), .clear],
+                startRadiusFraction: 0.0, endRadiusFraction: 0.3
+            )).offset(y: 120)
+                .frame(width: UIScreen.main.bounds.height * 2, height: UIScreen.main.bounds.height * 2)
+                .onTapGesture {
+                    withAnimation(.easeOut(duration: 0.2)) {
+                        isSettingFolder = false
+                    }
+                }
         }
     }
 }
@@ -265,7 +358,11 @@ struct EditorView: View {
     let t = TicketItem()
     t.departTime = Date(timeIntervalSinceNow: TimeInterval(60))
     container.mainContext.insert(t)
+    var f: [TicketFolder] = []
+    for i in 1...7 {
+        f.append(TicketFolder(name: UUID().uuidString, starred: i % 3 == 1))
+    }
     
-    return EditorView(ticketItem: t, selectedSection: 3, notesTemplate: 0)
+    return EditorView(ticketItem: t, allFolders: f, selectedSection: 3, notesTemplate: 0)
         .modelContainer(container)
 }

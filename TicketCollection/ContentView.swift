@@ -66,6 +66,7 @@ struct ContentView: View {
     @State var showsConfig = false
     @State var showsAddMenu = false
     @State var showsFolderView = false
+    @State var previewAddingFolder = false
     
     // - MARK: 输入状态
     @State var searchTerm: String = ""
@@ -250,7 +251,7 @@ struct ContentView: View {
         })
         
         .fullScreenCover(isPresented: $showsEditor) {
-            EditorView(ticketItem: selectedTicket!)
+            EditorView(ticketItem: selectedTicket!, allFolders: allFolders)
         }
         .sheet(isPresented: $showsDebug) {
             DebugView()
@@ -265,7 +266,7 @@ struct ContentView: View {
     let config = ModelConfiguration(isStoredInMemoryOnly: true)
     let container = try! ModelContainer(for: TicketItem.self, configurations: config)
     
-    for i in 1...153 {
+    for i in 1...15 {
         let t = TicketItem()
         t.departTime = Date(timeIntervalSinceNow: TimeInterval(3303 * i))
         container.mainContext.insert(t)

@@ -193,7 +193,7 @@ extension ContentView {
             Rectangle().fill(Color(UIColor.systemGray5))
                 .frame(width: 38, height: 38)
                 .rotationEffect(.degrees(45))
-                .offset(y: 60)
+                .offset(y: 80)
             RoundedRectangle(cornerRadius: 20).fill(Color(UIColor.systemGray6))
                 .frame(width: 220, height: 160)
             Rectangle().fill(Color(UIColor.systemGray6))

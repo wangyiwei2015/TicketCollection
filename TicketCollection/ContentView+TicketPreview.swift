@@ -52,6 +52,10 @@ extension ContentView {
                     perspective: 0.4
                 )
                 .zIndex(4)
+            
+            if previewAddingFolder {
+                previewAddFolderMenu.ignoresSafeArea().zIndex(99)
+            }
         }
         
         if let showingTicket = selectedTicket {
@@ -81,6 +85,28 @@ extension ContentView {
                     }.buttonStyle(TCButtonStyle(filled: true, height: 48))
                     .frame(width: 80)
                     Spacer()
+                    
+                    Button {
+                        dismissKeyboard()
+                        withAnimation(.spring(duration: 0.4, bounce: 0.5)) {
+                            previewAddingFolder = true
+                        }
+                    } label: {
+                        Image(systemName: "wallet.bifold")
+                    }.buttonStyle(TCButtonStyle(
+                        filled: selectedTicket?.inFolder != nil, height: 48
+                    )).frame(width: 80)
+                    .overlay {
+                        Button {
+                            itemToDelete = showingTicket
+                            showsDelWarning = true
+                        } label: {
+                            Image(systemName: "trash")
+                        }.buttonStyle(TCButtonStyle(filled: false, height: 48, tint: .red))
+                            .frame(width: 80).offset(y: -88)
+                    }
+                    
+                    Spacer()
                     Button {
                         withAnimation(.linear(duration: 0.2)) {
                             showingTicket.starred.toggle()
@@ -88,16 +114,11 @@ extension ContentView {
                         }
                     } label: {
                         Image(systemName: showingTicket.starred ? "star.fill" : "star.slash")
-                    }.buttonStyle(TCButtonStyle(filled: showingTicket.starred, height: 48, tint: .yellow))
+                    }.buttonStyle(TCButtonStyle(
+                        filled: showingTicket.starred, height: 48, tint: showingTicket.starred ? .yellow : ticketColorDarker
+                    ))
                     .frame(width: 80)
-                    Spacer()
-                    Button {
-                        itemToDelete = showingTicket
-                        showsDelWarning = true
-                    } label: {
-                        Image(systemName: "trash")
-                    }.buttonStyle(TCButtonStyle(filled: false, height: 48, tint: .red))
-                    .frame(width: 80)
+                    
                 }.padding(.horizontal, 40)
                 
                 Spacer().frame(height: 300)
@@ -115,10 +136,76 @@ extension ContentView {
                         preview: exportPreview
                     ).buttonStyle(TCButtonStyle(filled: true, height: 48)).frame(width: 130)
                 }.padding(.horizontal, 40)
-                
                 Spacer()
             }.zIndex(3)
         } // end if
+    }
+    
+    @ViewBuilder var previewAddFolderMenuBg: some View {
+        RoundedRectangle(cornerRadius: 22).fill(Color(UIColor.systemGray5))
+            .frame(width: 268, height: 208)
+        Rectangle().fill(Color(UIColor.systemGray5))
+            .frame(width: 38, height: 38)
+            .rotationEffect(.degrees(45))
+            .offset(y: -100)
+        RoundedRectangle(cornerRadius: 20).fill(Color(UIColor.systemGray6))
+            .frame(width: 260, height: 200)
+        Rectangle().fill(Color(UIColor.systemGray6))
+            .frame(width: 30, height: 30)
+            .rotationEffect(.degrees(45))
+            .offset(y: -100)
+    }
+    
+    @ViewBuilder var previewAddFolderMenu: some View {
+        ZStack {
+            previewAddFolderMenuBg
+            if allFolders.isEmpty {
+                VStack(spacing: 10) {
+                    Image(systemName: "viewfinder.rectangular")
+                        .font(.title2).bold()
+                    Text("没有文件夹").font(.title3)
+                }.foregroundStyle(.gray)
+            } else {
+                ScrollView(showsIndicators: false) {
+                    VStack(spacing: 10) {
+                        Button {
+                            selectedTicket?.inFolder = nil
+                            try! modelContext.save()
+                            withAnimation(.easeOut(duration: 0.2)) {
+                                previewAddingFolder = false
+                            }
+                        } label: {
+                            Label("从文件夹移出", systemImage: "circle.slash")
+                                .bold().foregroundStyle(.gray).padding(.vertical, 8)
+                        }
+                        ForEach(allFolders) { folderItem in
+                            Button(folderItem.name) {
+                                selectedTicket?.inFolder = folderItem
+                                try! modelContext.save()
+                                withAnimation(.easeOut(duration: 0.2)) {
+                                    previewAddingFolder = false
+                                }
+                            }.buttonStyle(TCButtonStyle(filled: selectedTicket?.inFolder == folderItem))
+                        }
+                        
+                    }.padding(.vertical, 10).padding(.horizontal, 4)
+                }.padding(.vertical, 8).frame(width: 240, height: 208)
+            }
+        }
+        .transition(.scale(scale: 0.8).combined(with: .opacity).combined(with: .offset(y: -40)))
+        .padding(.bottom)
+        .background {
+            Rectangle().fill(EllipticalGradient(
+                colors: [.black.opacity(0.6), .clear],
+                startRadiusFraction: 0.0, endRadiusFraction: 0.3
+            ))
+            .frame(width: UIScreen.main.bounds.height * 2, height: UIScreen.main.bounds.height * 2)
+            .onTapGesture {
+                withAnimation(.easeOut(duration: 0.2)) {
+                    previewAddingFolder = false
+                }
+            }
+        }
     }
 }
 
@@ -133,7 +220,11 @@ import SwiftData
         t.departTime = Date(timeIntervalSinceNow: TimeInterval(60 * i))
         container.mainContext.insert(t)
     }
+    let ts = TicketItem()
+    let fs = TicketFolder(name: "folder")
+    ts.inFolder = fs
+    container.mainContext.insert(ts)
     
-    return ContentView()
+    return ContentView(selectedTicket: ts)
         .modelContainer(container)
 }

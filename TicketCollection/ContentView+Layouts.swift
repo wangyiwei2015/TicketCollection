@@ -123,8 +123,8 @@ extension ContentView {
                             ZStack {
                                 RoundedRectangle(cornerRadius: 4, style: .continuous)
                                     .fill(ticketColor)
+                                    .matchedGeometryEffect(id: selectedTicket == item ? "ticket" : "", in: namespace, properties: .position, isSource: false)
                                     .frame(width: 87/2, height: 54/2)
-                                    .matchedGeometryEffect(id: selectedTicket == item ? "ticket" : "", in: namespace, properties: .frame, isSource: false)
                                 VStack(spacing: 0) {
                                     Spacer()
                                     RoundedRectangle(cornerRadius: 3)
@@ -231,7 +231,9 @@ extension ContentView {
                             ZStack {
                                 ticketColor
                                 HStack {
-                                    Button(item.id.uuidString) {}
+                                    Button(item.id.uuidString) {
+                                        selectedTicket = item
+                                    }
                                 }
                             }.id(item.id)
                         }
@@ -261,7 +263,9 @@ extension ContentView {
                                 ZStack {
                                     ticketColor
                                     HStack {
-                                        Button(item.id.uuidString) {}
+                                        Button(item.id.uuidString) {
+                                            selectedTicket = item
+                                        }
                                     }
                                 }.id(item.id)
                             }

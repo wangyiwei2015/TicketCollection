@@ -82,7 +82,10 @@ extension ContentView {
                     .frame(width: 80)
                     Spacer()
                     Button {
-                        withAnimation(.linear(duration: 0.2)) { showingTicket.starred.toggle() }
+                        withAnimation(.linear(duration: 0.2)) {
+                            showingTicket.starred.toggle()
+                            Task { try! modelContext.save() }
+                        }
                     } label: {
                         Image(systemName: showingTicket.starred ? "star.fill" : "star.slash")
                     }.buttonStyle(TCButtonStyle(filled: showingTicket.starred, height: 48, tint: .yellow))

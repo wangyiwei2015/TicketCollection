@@ -7,6 +7,14 @@
 
 import SwiftUI
 
+// - MARK: Globals
+
+//let defaults = UserDefaults.standard
+//let idForAllFolder = UUID(uuidString: "FFFFFFFF-FFFF-FFFF-FFFF-FFFFFFFFFFFF")
+func dismissKeyboard() {
+    UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+}
+
 // - MARK: Date Formatter
 
 let df: DateFormatter = {
@@ -206,3 +214,8 @@ infix operator &&=
 func &&=(lhs: inout Bool, rhs: Bool) -> Void {
     lhs = lhs && rhs
 }
+
+//infix operator <-?
+//func <-?<T: Equatable>(lhs: inout T?, rhs: T?) -> Void {
+//    lhs = lhs == rhs ? nil : rhs
+//}

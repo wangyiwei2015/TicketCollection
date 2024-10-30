@@ -10,53 +10,76 @@ import SwiftData
 
 @MainActor
 struct ContentView: View {
+    // - MARK: SwiftData的数据库
     @Environment(\.modelContext) var modelContext
     @Query(
         //filter: #Predicate<TicketItem> { ticket in },
         sort: [SortDescriptor(\TicketItem.departTime, order: .reverse)]
     ) var tickets: [TicketItem]
-    @State var selectedTicket: TicketItem? = nil
+    @Query(
+        sort: [SortDescriptor(\TicketFolder.name)]
+    ) var allFolders: [TicketFolder]
     
+    // - MARK: 颜色与显示模式
     @Environment(\.colorScheme) var colorScheme
+    let ticketColorAuto = Color(light: ticketColorDarker, dark: ticketColor)
     
+    // - MARK: 命名空间为了Geometry匹配动画
     @Namespace var namespace
-    
+
+    // - MARK: 持久化设置数据
     @AppStorage("ViewMode") var viewMode: Int = 2
-    let viewModeIcons: [String] = ["list.bullet", "circle.grid.2x2.fill", "square.stack"]
     @AppStorage("BackgroundImage") var bgImgName: String = "nil"
     
-    @State var topBarHidden = true
-    @State var filterOn = false
-    @State var searchTerm: String = ""
-    @State var searchEmpty: Bool = true
-    @State var appliedSearchTerm: String = ""
-    
-    @State var showsEditor = false
-    @State var showsDebug = false
-    @State var showsDelWarning = false
-    @State var itemToDelete: TicketItem? = nil
-    
-    @State var showsAbout = false
-    @State var showsConfig = false
-    @State var showsAddMenu = false
-    
+    // - MARK: 样式相关常量
+    let viewModeIcons: [String] = ["list.bullet", "circle.grid.2x2.fill", "square.stack", "scroll"]
     let filterNames: [String] = ["已收藏","未出行","学生票","G","D","Z","T","K","C",]
     let filterImages: [String] = ["star","calendar.badge.clock","tag",]
-    @State var filters: [Bool] = Array(repeating: false, count: 9)
-    
-    @State var dragOffset: CGSize = .zero
-    func translation2Degrees(_ x: CGFloat) -> Double {
-        let w = Double(UIScreen.main.bounds.width)
-        let dx = Double(x)
-        return 45 * sin(.pi / 2 / w * dx)
-    }
-    
     let colorForBG: [String : Color] = [
         "bgn": Color(red: 222/244, green: 200/244, blue: 156/255),
         "bgp": .systemBackground,
         "bgw": Color(light: .init(red: 113/255, green: 78/255, blue: 50/255), dark: .init(white: 0.05)),
         "bgr": Color(red: 182/244, green: 142/244, blue: 112/255),
     ]
+
+    // - MARK: 状态：Ticket列表信息
+    @State var selectedTicket: TicketItem? = nil
+    @State var itemToDelete: TicketItem? = nil
+    @State var filters: [Bool] = Array(repeating: false, count: 9)
+//    typealias FolderRecord = [String : String]
+//    @State var folders: FolderRecord = defaults.dictionary(
+//        forKey: "TicketFolders"
+//    ) as? FolderRecord ?? [:] {
+//        willSet { defaults.set(newValue, forKey: "TicketFolders") }
+//    }
+//    @State var selectedFolder: UUID? = nil
+    @State var openedFolder: TicketFolder? = nil
+    @State var showAllTickets = false
+    
+    // - MARK: UI界面状态
+    @State var topBarHidden = true
+    @State var filterOn = false
+    @State var showsEditor = false
+    @State var showsDebug = false
+    @State var showsDelWarning = false
+    @State var showsAbout = false
+    @State var showsConfig = false
+    @State var showsAddMenu = false
+    @State var showsFolderView = false
+    
+    // - MARK: 输入状态
+    @State var searchTerm: String = ""
+    @State var searchEmpty: Bool = true
+    @State var appliedSearchTerm: String = ""
+    @State var newFolderNameEntry: String = ""
+    
+    // - MARK: 拖动手势状态
+    @State var dragOffset: CGSize = .zero
+    func translation2Degrees(_ x: CGFloat) -> Double {
+        let w = Double(UIScreen.main.bounds.width)
+        let dx = Double(x)
+        return 45 * sin(.pi / 2 / w * dx)
+    }
     
     @ViewBuilder func itemActions(for item: TicketItem) -> some View {
         Button {
@@ -95,6 +118,7 @@ struct ContentView: View {
                 case 0: listView
                 case 1: gridView
                 case 2: flowView
+                case 3: experimentalLayout
                 default: Spacer()
                 }
             }.scrollDisabled(selectedTicket != nil)
@@ -106,7 +130,7 @@ struct ContentView: View {
             VStack {
                 topBar
                 Spacer()
-                if filteredTickets.isEmpty {
+                if filteredTickets.isEmpty && !showsAddMenu {
                     Text("无符合条件的车票").font(.title2).foregroundStyle(.gray)
                 }
                 Spacer()
@@ -189,13 +213,33 @@ struct ContentView: View {
                 ))
                 .zIndex(11)
             }
+            
+            if showsFolderView {
+                overlayGradient.onTapGesture {
+                    withAnimation(.easeOut(duration: 0.3)) {
+                        showsFolderView = false
+                    }
+                }.zIndex(10)
+                ZStack {
+                    RoundedRectangle(cornerRadius: 20).fill(Color.systemBackground)
+                    folderView
+                }.padding(.horizontal)
+                    .padding(.vertical, 148)
+                    .transition(.asymmetric(
+                        insertion: .opacity.combined(with: .scale(scale: 0.6).combined(with: .offset(y: -60))),
+                        removal: .opacity.combined(with: .scale(scale: 0.6).combined(with: .move(edge: .bottom)))
+                    ))
+                    .zIndex(11)
+            }
+            
+            //end of overlays
         }
         .ignoresSafeArea()
         
         .alert("删除确认", isPresented: $showsDelWarning, actions: {
             Button("取消", role: .cancel) { itemToDelete = nil }
             Button("删除此车票", role: .destructive) {
-                withAnimation(.easeInOut) {
+                withAnimation(.easeInOut(duration: 0.3)) {
                     modelContext.delete(itemToDelete!)
                     itemToDelete = nil
                     selectedTicket = nil

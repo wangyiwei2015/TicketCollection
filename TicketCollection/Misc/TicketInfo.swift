@@ -11,6 +11,9 @@ import SwiftData
 @available(iOS 17.0, *)
 @Model final class TicketItem {
     var id: UUID = UUID()
+    //var folder: UUID? = nil
+    //@Relationship(deleteRule: .noAction)
+    var inFolder: TicketFolder?
     var ticketID: String = "A888888"
     var entrance: String = "检票:99AB"
     var stationSrcCN: String = "城市"
@@ -33,8 +36,9 @@ import SwiftData
     var ticketSerial: String = "00000000000000A888888 JM"
     var starred: Bool = false
     
-    init(ticketID: String, entrance: String, stationSrcCN: String, stationSrcEN: String, stationDstCN: String, stationDstEN: String, trainNumber: String, departTime: Date, carriage: String, seat: String, price: Float, seatLevel: String, isOnline: Bool = false, isStudent: Bool = false, isDiscount: Bool = false, notes: String = "仅供报销使用", passengerID: String, passengerName: String, comments: String = "报销凭证 遗失不补\n退票改签时须交回车站", ticketSerial: String) {
+    init(ticketID: String, inFolder: TicketFolder? = nil, entrance: String, stationSrcCN: String, stationSrcEN: String, stationDstCN: String, stationDstEN: String, trainNumber: String, departTime: Date, carriage: String, seat: String, price: Float, seatLevel: String, isOnline: Bool = false, isStudent: Bool = false, isDiscount: Bool = false, notes: String = "仅供报销使用", passengerID: String, passengerName: String, comments: String = "报销凭证 遗失不补\n退票改签时须交回车站", ticketSerial: String) {
         self.ticketID = ticketID
+        self.inFolder = inFolder
         self.entrance = entrance
         self.stationSrcCN = stationSrcCN
         self.stationSrcEN = stationSrcEN
@@ -67,6 +71,21 @@ import SwiftData
             passengerName: "姓名", comments: "报销凭证 遗失不补\n退票改签时须交回车站",
             ticketSerial: "00000000000000A888888 JM"
         )
+    }
+}
+
+@available(iOS 17.0, *)
+@Model final class TicketFolder {
+    var id: UUID = UUID()
+    var date: Date = Date()
+    var name: String = ""
+    var starred: Bool = false
+    @Relationship(deleteRule: .nullify, inverse: \TicketItem.inFolder) var tickets: [TicketItem]?
+    
+    init(name: String = "", starred: Bool = false, tickets: [TicketItem] = []) {
+        self.name = name
+        self.starred = starred
+        self.tickets = tickets
     }
 }
 

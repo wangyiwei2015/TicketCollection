@@ -59,7 +59,7 @@ extension ContentView {
                 RoundedRectangle(cornerRadius: 24, style: .continuous)
                     .fill(Color(UIColor.systemGray6))
                     .frame(maxWidth: topBarHidden ? 48 : .infinity)
-                    .shadow(color: .black.opacity(0.5), radius: 4, y: 2)
+                    .shadow(color: .black.opacity(topBarHidden ? 0.1 : 0.5), radius: 4, y: 2)
                 if topBarHidden {
                     Spacer()
                 }
@@ -127,6 +127,7 @@ extension ContentView {
                                 Label("列表", systemImage: viewModeIcons[0]).tag(0)
                                 Label("网格", systemImage: viewModeIcons[1]).tag(1)
                                 Label("透视", systemImage: viewModeIcons[2]).tag(2)
+                                Label("试验性", systemImage: viewModeIcons[3]).tag(3)
                             }
                         } label: {
                             Image(systemName: viewModeIcons[viewMode])
@@ -188,18 +189,18 @@ extension ContentView {
     @ViewBuilder var addMenu2: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 22).fill(Color(UIColor.systemGray5))
-                .frame(width: 228, height: 128)
+                .frame(width: 228, height: 168)
             Rectangle().fill(Color(UIColor.systemGray5))
                 .frame(width: 38, height: 38)
                 .rotationEffect(.degrees(45))
                 .offset(y: 60)
             RoundedRectangle(cornerRadius: 20).fill(Color(UIColor.systemGray6))
-                .frame(width: 220, height: 120)
+                .frame(width: 220, height: 160)
             Rectangle().fill(Color(UIColor.systemGray6))
                 .frame(width: 30, height: 30)
                 .rotationEffect(.degrees(45))
-                .offset(y: 60)
-            VStack(spacing: 15) {
+                .offset(y: 80)
+            VStack(spacing: 10) {
                 Button {
                     let newItem = TicketItem()
                     modelContext.insert(newItem)
@@ -211,15 +212,29 @@ extension ContentView {
                         selectedTicket = newItem
                         showsEditor = true
                     }
+                    for t in tickets {
+                        print(t.id)
+                    }
                 } label: {
-                    Label("开始设计", systemImage: "pencil.and.outline")
-                }.buttonStyle(TCButtonStyle(filled: false))
+                    Label("开始新设计", systemImage: "pencil.and.outline")
+                }.buttonStyle(TCButtonStyle(filled: true))
                 
                 Button {
                 } label: {
-                    Label("扫描(TBD)", systemImage: "text.viewfinder")
+                    Label("扫描(暂无)", systemImage: "text.viewfinder")
                 }.buttonStyle(TCButtonStyle(filled: false))
                     .disabled(true)
+                
+                Button {
+                    withAnimation(.spring(duration: 0.3, bounce: 0.4)) {
+                        showsFolderView = true
+                    }
+                    withAnimation(.linear(duration: 0.1)) {
+                        showsAddMenu = false
+                    }
+                } label: {
+                    Label("管理文件夹", systemImage: "wallet.bifold")
+                }.buttonStyle(TCButtonStyle(filled: false))
                 
             }.frame(width: 180)
         }.transition(.scale(scale: 0.8).combined(with: .opacity).combined(with: .offset(y: 30)))
@@ -231,65 +246,10 @@ extension ContentView {
             )).offset(y: 100)
             .frame(width: UIScreen.main.bounds.height * 2, height: UIScreen.main.bounds.height * 2)
             .onTapGesture {
-                withAnimation(.spring(duration: 0.4, bounce: 0.5)) {
+                withAnimation(.easeOut(duration: 0.2)) {
                     showsAddMenu = false
                 }
             }
-        }
-    }
-    
-    @ViewBuilder var addMenu: some View {
-        HStack(spacing: 20) {
-            
-            Button {
-            } label: {
-                ZStack {
-                    Circle().fill(ticketColorDarker)
-                        .shadow(color: .black.opacity(0.5), radius: 3, y: 3)
-                    Image(systemName: "swift")
-                        .font(.system(size: 30, weight: .semibold)).tint(.white)
-                }.frame(height: 60).aspectRatio(1, contentMode: .fit)
-            }.transition(.scale.combined(with: .offset(x: 50, y: 80)))
-            .offset(y: 30)
-            
-            Button {
-                let newItem = TicketItem()
-                modelContext.insert(newItem)
-                try! modelContext.save()
-                withAnimation(.easeInOut(duration: 0.3)) {
-                    selectedTicket = newItem
-                    showsEditor = true
-                }
-            } label: {
-                ZStack {
-                    Circle().fill(ticketColorDarker)
-                        .shadow(color: .black.opacity(0.5), radius: 3, y: 3)
-                    Image(systemName: "pencil")
-                        .font(.system(size: 30, weight: .semibold)).tint(.white)
-                }.frame(height: 60).aspectRatio(1, contentMode: .fit)
-            }.transition(.scale.combined(with: .offset(y: 80)))
-            
-            Button {
-            } label: {
-                ZStack {
-                    Circle().fill(ticketColorDarker)
-                        .shadow(color: .black.opacity(0.5), radius: 3, y: 3)
-                    Image(systemName: "swift")
-                        .font(.system(size: 30, weight: .semibold)).tint(.white)
-                }.frame(height: 60).aspectRatio(1, contentMode: .fit)
-            }.transition(.scale.combined(with: .offset(x: -50, y: 80)))
-            .offset(y: 30)
-            
-        }.padding(.bottom, 20)
-        .background {
-            Circle().fill(EllipticalGradient(
-                colors: [
-                    .systemBackground,
-                    .systemBackground.opacity(0.8),
-                    .clear
-                ]
-            )).frame(width: 500, height: 500).offset(y: 80)
-            .transition(.scale)
         }
     }
 }

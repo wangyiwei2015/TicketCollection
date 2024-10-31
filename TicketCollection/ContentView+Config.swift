@@ -48,7 +48,6 @@ extension ContentView {
                     .frame(width: 50, height: 40)
             }.padding()
             ScrollView(.vertical) {
-                
                 Button("about") {
                     withAnimation(.easeOut(duration: 0.3)) {
                         showsConfig = false
@@ -66,6 +65,8 @@ extension ContentView {
                 } label: {
                     Label("background", systemImage: "swift")
                 }
+                
+                Toggle("编辑器扩展选项", isOn: $extEnabled).tint(ticketColorAuto)
             }
         }
     }
@@ -88,7 +89,7 @@ extension ContentView {
             }.padding()
             ScrollView(.vertical) {
                 VStack {
-                    Text("共有\(allFolders.count)个文件夹")
+                    Text("共有\(allFolders.count)个文件夹").bold().foregroundStyle(.gray)
                     //add new
                     HStack {
                         ZStack {
@@ -102,6 +103,14 @@ extension ContentView {
                                     .font(.system(size: 20)).lineLimit(1)
                                     .foregroundStyle(ticketColorAuto)
                                     .padding(.horizontal)
+                                    .onSubmit(of: .text) {
+                                        withAnimation(.snappy) {
+                                            let newItem = TicketFolder(name: newFolderNameEntry)
+                                            modelContext.insert(newItem)
+                                            newFolderNameEntry = ""
+                                            Task { try! modelContext.save() }
+                                        }
+                                    }
                                 Button {
                                     dismissKeyboard()
                                     withAnimation(.snappy) {
@@ -138,7 +147,8 @@ extension ContentView {
                                             Label(item.starred ? "取消收藏" : "收藏", systemImage: item.starred ? "star.slash.fill" : "star")
                                         }
                                         Button(role: .destructive) {
-                                            //
+                                            folderToDelete = item
+                                            alertFolderDel = true
                                         } label: {
                                             Label("解散并删除", systemImage: "trash")
                                         }
@@ -151,7 +161,8 @@ extension ContentView {
                         }.frame(height: 36+12)
                     }
                     if allFolders.isEmpty {
-                        Text("当前没有文件夹，请在上方创建")
+                        Text("当前没有文件夹，请在上方创建").foregroundStyle(ticketColorDarker)
+                            .padding(.top)
                     }
                 }.padding(.horizontal)
             }
@@ -192,6 +203,6 @@ struct FolderItemView: View {
         container.mainContext.insert(f)
     }
     
-    return ContentView(showsFolderView: true)
+    return ContentView(showsConfig: true)
         .modelContainer(container)
 }

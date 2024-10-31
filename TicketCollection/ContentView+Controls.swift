@@ -94,6 +94,14 @@ extension ContentView {
                             } label: {
                                 Label("偏好设置", systemImage: "gearshape")
                             }
+                            
+                            if extEnabled {
+                                Button {
+                                    goHome()
+                                } label: {
+                                    Label("回到桌面", systemImage: "square.circle")
+                                }
+                            }
                         } label: {
                             Image(systemName: "gearshape")
                         }.buttonStyle(RoundedBtnStyle(filled: false))

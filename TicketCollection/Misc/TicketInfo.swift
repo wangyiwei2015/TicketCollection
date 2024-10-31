@@ -35,6 +35,8 @@ import SwiftData
     var comments: String = "报销凭证 遗失不补\n退票改签时须交回车站"
     var ticketSerial: String = "00000000000000A888888 JM"
     var starred: Bool = false
+    var creationDate: Date = Date()
+    var lastModified: Date = Date()
     
     init(ticketID: String, inFolder: TicketFolder? = nil, entrance: String, stationSrcCN: String, stationSrcEN: String, stationDstCN: String, stationDstEN: String, trainNumber: String, departTime: Date, carriage: String, seat: String, price: Float, seatLevel: String, isOnline: Bool = false, isStudent: Bool = false, isDiscount: Bool = false, notes: String = "仅供报销使用", passengerID: String, passengerName: String, comments: String = "报销凭证 遗失不补\n退票改签时须交回车站", ticketSerial: String) {
         self.ticketID = ticketID
@@ -59,18 +61,8 @@ import SwiftData
         self.comments = comments
         self.ticketSerial = ticketSerial
     }
-    convenience init() {
-        self.init(
-            ticketID: "A888888", entrance: "检票:99AB",
-            stationSrcCN: "城市", stationSrcEN: "pinyin",
-            stationDstCN: "城市", stationDstEN: "pinyin",
-            trainNumber: "G9999", departTime: Date(),
-            carriage: "15", seat: "01A", price: 0.01, seatLevel: "一等座",
-            isOnline: false, isStudent: false, isDiscount: false,
-            notes: "仅供报销使用", passengerID: "1234567890****9876",
-            passengerName: "姓名", comments: "报销凭证 遗失不补\n退票改签时须交回车站",
-            ticketSerial: "00000000000000A888888 JM"
-        )
+    init() {
+        self.creationDate = Date()
     }
 }
 

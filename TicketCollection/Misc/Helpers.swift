@@ -14,6 +14,9 @@ import SwiftUI
 func dismissKeyboard() {
     UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
 }
+func goHome() {
+    UIApplication.shared.perform(#selector(NSXPCConnection.suspend))
+}
 
 // - MARK: Date Formatter
 

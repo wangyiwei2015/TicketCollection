@@ -30,6 +30,7 @@ struct ContentView: View {
     // - MARK: 持久化设置数据
     @AppStorage("ViewMode") var viewMode: Int = 2
     @AppStorage("BackgroundImage") var bgImgName: String = "nil"
+    @AppStorage("ExtendedOptions") var extEnabled = false
     
     // - MARK: 样式相关常量
     let viewModeIcons: [String] = ["list.bullet", "circle.grid.2x2.fill", "square.stack", "scroll"]
@@ -46,6 +47,7 @@ struct ContentView: View {
     @State var selectedTicket: TicketItem? = nil
     @State var itemToDelete: TicketItem? = nil
     @State var filters: [Bool] = Array(repeating: false, count: 9)
+    @State var folderToDelete: TicketFolder? = nil
 //    typealias FolderRecord = [String : String]
 //    @State var folders: FolderRecord = defaults.dictionary(
 //        forKey: "TicketFolders"
@@ -67,6 +69,7 @@ struct ContentView: View {
     @State var showsAddMenu = false
     @State var showsFolderView = false
     @State var previewAddingFolder = false
+    @State var alertFolderDel = false
     
     // - MARK: 输入状态
     @State var searchTerm: String = ""
@@ -242,6 +245,7 @@ struct ContentView: View {
             Button("删除此车票", role: .destructive) {
                 withAnimation(.easeInOut(duration: 0.3)) {
                     modelContext.delete(itemToDelete!)
+                    Task { try! modelContext.save() }
                     itemToDelete = nil
                     selectedTicket = nil
                 }
@@ -250,8 +254,26 @@ struct ContentView: View {
             Text("即将删除这张\(itemToDelete?.trainNumber ?? "nil")的车票，删除后无法恢复。")
         })
         
+        .alert("删除确认", isPresented: $alertFolderDel, actions: {
+            Button("取消", role: .cancel) { folderToDelete = nil }
+            Button("删除文件夹", role: .destructive) {
+                withAnimation(.easeInOut(duration: 0.3)) {
+                    modelContext.delete(folderToDelete!)
+                    Task { try! modelContext.save() }
+                    folderToDelete = nil
+                    openedFolder = nil
+                }
+            }
+        }, message: {
+            Text("即将删除文件夹\(folderToDelete?.name ?? "nil")，删除后无法恢复。")
+        })
+        
         .fullScreenCover(isPresented: $showsEditor) {
-            EditorView(ticketItem: selectedTicket!, allFolders: allFolders)
+            EditorView(ticketItem: selectedTicket!, allFolders: allFolders, extEnabled: extEnabled)
+//            EditorView(
+//                ticketItemID: selectedTicket!.id, in: modelContext.container,
+//                allFolders: allFolders, extEnabled: extEnabled
+//            )
         }
         .sheet(isPresented: $showsDebug) {
             DebugView()

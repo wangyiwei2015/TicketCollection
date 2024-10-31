@@ -14,9 +14,9 @@ struct EditorView: View {
     @Environment(\.modelContext) var modelContext
     @Bindable var ticketItem: TicketItem
     var allFolders: [TicketFolder]
+    var extEnabled: Bool
     
     @State var isSettingFolder = false
-
     @State var selectedSection: Int = 0
     @State var notesTemplate: Int = 1
     @State var priceStr: String = "0.01" {
@@ -30,6 +30,8 @@ struct EditorView: View {
         return 45 * sin(.pi / 2 / w * dx)
     }
     
+    @State var showsQuitAlert = false
+    
     var body: some View {
         ZStack {
             VStack(spacing: 10) {
@@ -40,13 +42,50 @@ struct EditorView: View {
                      try! data.write(to: file, options: .atomic)
                      return file.path()
                      }()) */
-                    Button {
-                        try! modelContext.save()
-                        dismiss()
-                    } label: {
-                        Label("保存", systemImage: "chevron.left")
-                    }.buttonStyle(TCButtonStyle(filled: false))
-                        .frame(width: 90)
+                    if extEnabled {
+                        Menu {
+                            Button {
+                                //show info
+                                
+                            } label: {
+                                Label("详细信息", systemImage: "info.circle")
+                            }
+                            
+                            Button {
+                                try! modelContext.save()
+                            } label: {
+                                Label("保存", systemImage: "square.and.arrow.down.fill")
+                            }.disabled(!modelContext.hasChanges)
+                            
+                            Button {
+                                //no imp
+                            } label: {
+                                Label("另存为…", systemImage: "square.and.arrow.down.on.square")
+                            }
+                            
+                            Button(role: modelContext.hasChanges ? .destructive : .cancel) {
+                                if modelContext.hasChanges {
+                                    showsQuitAlert = true
+                                } else { dismiss() }
+                            } label: {
+                                Label("关闭", systemImage: "xmark")
+                            }
+                            
+                            Text("创建于\(ticketItem.creationDate.formatted(date: .numeric, time: .shortened))")
+                            Text("更新于\(ticketItem.lastModified.formatted(date: .numeric, time: .shortened))")
+                        } label: {
+                            Label("文件", systemImage: "list.dash")
+                        }.buttonStyle(TCButtonStyle(filled: false))
+                            .frame(width: 90)
+                    } else {
+                        Button {
+                            try! modelContext.save()
+                            dismiss()
+                        } label: {
+                            Label("完成", systemImage: "chevron.left")
+                        }.buttonStyle(TCButtonStyle(filled: false))
+                            .frame(width: 90)
+                    }
                     Spacer()
                     Menu {
                         ShareLink("导出为PDF", item: TransferableTicket(ticketItem), preview: exportPreview)
@@ -129,8 +168,19 @@ struct EditorView: View {
         .onSubmit { ticketItem.price = Float(priceStr) ?? 0.0 }
         .onChange(of: scenePhase) { _, newValue in
             if newValue == .inactive {
-                try! modelContext.save()
+                //try! modelContext.save()
             }
+        }
+        .alert("当前有未保存的更改", isPresented: $showsQuitAlert) {
+            Button("保存后关闭", role: .none) {
+                try! modelContext.save()
+                dismiss()
+            }
+            Button("丢弃修改内容并关闭", role: .destructive) {
+                modelContext.rollback()
+                dismiss()
+            }
+            Button("取消", role: .cancel) {}
         }
     }
     
@@ -147,6 +197,7 @@ struct EditorView: View {
             }
             DatePicker("发车时间：", selection: $ticketItem.departTime, displayedComponents: [.date, .hourAndMinute])
                 .tint(ticketColorDarker).padding(.bottom)
+                .datePickerStyle(.compact)
             HStack(spacing: 40) {
                 VStack {
                     Text("—— 出发 ——")
@@ -257,7 +308,7 @@ struct EditorView: View {
             HStack(spacing: 16) {
                 Button {
                     ticketItem.starred.toggle()
-                    Task { try! modelContext.save() }
+                    //Task { try! modelContext.save() }
                 } label: {
                     Image(systemName: ticketItem.starred ? "star.fill" : "star.slash")
                 }.buttonStyle(TCButtonStyle(
@@ -266,7 +317,7 @@ struct EditorView: View {
                 )).frame(width: 50)
                 
                 Button {
-                    dismissKeyboard()
+                    //dismissKeyboard()
                     withAnimation(.spring(duration: 0.4, bounce: 0.5)) {
                         isSettingFolder = true
                     }
@@ -311,7 +362,7 @@ struct EditorView: View {
                     VStack(spacing: 10) {
                         Button {
                             ticketItem.inFolder = nil
-                            try! modelContext.save()
+                            //try! modelContext.save()
                             withAnimation(.easeOut(duration: 0.2)) {
                                 isSettingFolder = false
                             }
@@ -322,7 +373,7 @@ struct EditorView: View {
                         ForEach(allFolders) { folderItem in
                             Button(folderItem.name) {
                                 ticketItem.inFolder = folderItem
-                                try! modelContext.save()
+                                //try! modelContext.save()
                                 withAnimation(.easeOut(duration: 0.2)) {
                                     isSettingFolder = false
                                 }
@@ -363,6 +414,8 @@ struct EditorView: View {
         f.append(TicketFolder(name: UUID().uuidString, starred: i % 3 == 1))
     }
     
-    return EditorView(ticketItem: t, allFolders: f, selectedSection: 3, notesTemplate: 0)
-        .modelContainer(container)
+    return EditorView(
+        ticketItem: t, allFolders: f, extEnabled: true,
+        selectedSection: 3, notesTemplate: 0
+    ).modelContainer(container)
 }

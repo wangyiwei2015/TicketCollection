@@ -15,6 +15,7 @@ struct EditorView: View {
     @Bindable var ticketItem: TicketItem
     var allFolders: [TicketFolder]
     var extEnabled: Bool
+    @State var showsQuitAlert = false
     
     @State var isSettingFolder = false
     @State var selectedSection: Int = 0
@@ -22,15 +23,18 @@ struct EditorView: View {
     @State var priceStr: String = "0.01" {
         willSet { ticketItem.price = Float(newValue) ?? 0.0 }
     }
-    @State private var dragOffset: CGSize = .zero
     
+    @State private var dragOffset: CGSize = .zero
     func translation2Degrees(_ x: CGFloat) -> Double {
         let w = Double(UIScreen.main.bounds.width)
         let dx = Double(x)
         return 45 * sin(.pi / 2 / w * dx)
     }
     
-    @State var showsQuitAlert = false
+    let ticketColorAuto = Color(light: ticketColorDarker, dark: ticketColor)
+    
+    @State var bedPosition: String = ""
+    @State var bedHeight: String = ""
     
     var body: some View {
         ZStack {
@@ -52,7 +56,7 @@ struct EditorView: View {
                             }
                             
                             Button {
-                                try! modelContext.save()
+                                saveData(async: false)
                             } label: {
                                 Label("保存", systemImage: "square.and.arrow.down.fill")
                             }.disabled(!modelContext.hasChanges)
@@ -71,15 +75,15 @@ struct EditorView: View {
                                 Label("关闭", systemImage: "xmark")
                             }
                             
-                            Text("创建于\(ticketItem.creationDate.formatted(date: .numeric, time: .shortened))")
-                            Text("更新于\(ticketItem.lastModified.formatted(date: .numeric, time: .shortened))")
+                            //Text("创建于\(ticketItem.creationDate.formatted(date: .numeric, time: .shortened))")
+                            //Text("更新于\(ticketItem.lastModified.formatted(date: .numeric, time: .shortened))")
                         } label: {
                             Label("文件", systemImage: "list.dash")
                         }.buttonStyle(TCButtonStyle(filled: false))
                             .frame(width: 90)
                     } else {
                         Button {
-                            try! modelContext.save()
+                            saveData(async: false)
                             dismiss()
                         } label: {
                             Label("完成", systemImage: "chevron.left")
@@ -127,6 +131,11 @@ struct EditorView: View {
                         perspective: 0.4
                     )
                     .padding(.bottom).ignoresSafeArea()
+                
+                Group {
+                    Text("创建于 \(ticketItem.creationDate.formatted(date: .long, time: .shortened))")
+                    Text("上次保存 \(ticketItem.lastModified.formatted(date: .long, time: .shortened))")
+                }.foregroundStyle(.gray)
                 Spacer()
             }
             
@@ -168,12 +177,12 @@ struct EditorView: View {
         .onSubmit { ticketItem.price = Float(priceStr) ?? 0.0 }
         .onChange(of: scenePhase) { _, newValue in
             if newValue == .inactive {
-                //try! modelContext.save()
+                //saveData
             }
         }
         .alert("当前有未保存的更改", isPresented: $showsQuitAlert) {
             Button("保存后关闭", role: .none) {
-                try! modelContext.save()
+                saveData(async: false)
                 dismiss()
             }
             Button("丢弃修改内容并关闭", role: .destructive) {
@@ -189,25 +198,32 @@ struct EditorView: View {
             HStack {
                 Text("车次：")
                 TextField("Train", text: $ticketItem.trainNumber, prompt: Text("车次"))
-                    .multilineTextAlignment(.center).foregroundColor(ticketColorDarker).frame(width: 80)
+                    .autocorrectionDisabled()
+                    .multilineTextAlignment(.center).foregroundColor(ticketColorAuto).frame(width: 80)
                 Spacer()
                 Text("检票：")
                 TextField("Entrance", text: $ticketItem.entrance, prompt: Text("检票/候车"))
-                    .foregroundColor(ticketColorDarker).frame(width: 110)
+                    .autocorrectionDisabled()
+                    .foregroundColor(ticketColorAuto).frame(width: 110)
             }
-            DatePicker("发车时间：", selection: $ticketItem.departTime, displayedComponents: [.date, .hourAndMinute])
-                .tint(ticketColorDarker).padding(.bottom)
+            DatePicker("发车：", selection: $ticketItem.departTime, displayedComponents: [.date, .hourAndMinute])
+                .tint(ticketColorAuto).padding(.bottom)
                 .datePickerStyle(.compact)
+            Divider()
             HStack(spacing: 40) {
                 VStack {
                     Text("—— 出发 ——")
-                    TextField("Src CN", text: $ticketItem.stationSrcCN, prompt: Text("发站")).foregroundColor(ticketColorDarker)
+                    TextField("Src CN", text: $ticketItem.stationSrcCN, prompt: Text("发站")).foregroundColor(ticketColorAuto)
+                        .autocorrectionDisabled()
                     TextField("Src EN", text: $ticketItem.stationSrcEN, prompt: Text("发站en")).foregroundColor(.gray)
+                        .autocorrectionDisabled()
                 }
                 VStack {
                     Text("—— 到达 ——")
-                    TextField("Dst CN", text: $ticketItem.stationDstCN, prompt: Text("到站")).foregroundColor(ticketColorDarker)
+                    TextField("Dst CN", text: $ticketItem.stationDstCN, prompt: Text("到站")).foregroundColor(ticketColorAuto)
+                        .autocorrectionDisabled()
                     TextField("Dst EN", text: $ticketItem.stationDstEN, prompt: Text("到站en")).foregroundColor(.gray)
+                        .autocorrectionDisabled()
                 }
             }.multilineTextAlignment(.center).padding(.top)
             Spacer()
@@ -223,49 +239,116 @@ struct EditorView: View {
     @ViewBuilder var 列车信息: some View {
         VStack {
             HStack {
-                Text("座位：")
-                TextField("Carriage", text: $ticketItem.carriage, prompt: Text("车厢"))
-                    .multilineTextAlignment(.center).foregroundColor(ticketColorDarker).frame(width: 50)
-                Text("车")
-                TextField("Seat", text: $ticketItem.seat, prompt: Text("座位"))
-                    .multilineTextAlignment(.center).foregroundColor(ticketColorDarker).frame(width: 60)
-                Text("号")
-                Spacer()
-            }
-            HStack {
                 Text("座位席别：")
                 TextField("Type", text: $ticketItem.seatLevel, prompt: Text("类型"))
-                    .multilineTextAlignment(.center).foregroundColor(ticketColorDarker).frame(width: 100)
+                    .autocorrectionDisabled()
+                    .multilineTextAlignment(.center).foregroundColor(ticketColorAuto)//.frame(width: 100)
                 Text("¥")
                 TextField("Price", text: $priceStr, prompt: Text("价格"))
-                    .multilineTextAlignment(.center).foregroundColor(ticketColorDarker).frame(width: 90)
+                    .autocorrectionDisabled()
+                    .multilineTextAlignment(.center).foregroundColor(ticketColorAuto).frame(width: 80)
                 Spacer()
             }
+            
+            HStack {
+                Text("类型：")
+                Picker("TicketType", selection: $ticketItem.ticketType) {
+                    Text("坐票(座号)").tag(TicketType.seat)
+                    Text("卧票(铺号)").tag(TicketType.bed)
+                    Text("站票(无座)").tag(TicketType.noSeat)
+                    Text("自定义…").tag(TicketType.custom)
+                }.pickerStyle(.menu).tint(ticketColorAuto)
+                Spacer()
+                Group {
+                    switch ticketItem.ticketType {
+                    case .noSeat:
+                        Text("\"无座\"")
+                    case .seat:
+                        Text("\"01车01A号\"")
+                    case .bed:
+                        Text("\"01车001号下铺\"")
+                    case .custom:
+                        Text("自定义内容")
+                    }
+                }.foregroundStyle(.gray)
+                .onChange(of: ticketItem.ticketType) {
+                    ticketItem.seat = "001"
+                }
+                Spacer()
+            }
+            
+            HStack {
+                if ticketItem.ticketType == .custom {
+                    TextField("Seat", text: $ticketItem.seat, prompt: Text("自定义内容"))
+                        .autocorrectionDisabled()
+                        .multilineTextAlignment(.leading).foregroundColor(ticketColorAuto)
+                } else {
+                    if ticketItem.ticketType != .noSeat {
+                        Text("车厢：")
+                        TextField("Carriage", text: $ticketItem.carriage, prompt: Text("车厢"))
+                            .autocorrectionDisabled()
+                            .multilineTextAlignment(.center).foregroundColor(ticketColorAuto).frame(width: 36)
+                        Text("车")
+                        
+                        TextField("Seat", text: $bedPosition, prompt: Text("位置"))
+                            .autocorrectionDisabled()
+                            .multilineTextAlignment(.center).foregroundColor(ticketColorAuto).frame(width: 50)
+                        Text("号")
+                    } else {
+                        Text(" ")
+                    }
+                    if ticketItem.ticketType == .bed {
+                        Picker("BedHeight", selection: $bedHeight, content: {
+                            Text("上").tag("上铺")
+                            Text("中").tag("中铺")
+                            Text("下").tag("下铺")
+                        })
+                        .pickerStyle(.segmented)
+                        .onChange(of: bedHeight) {
+                            ticketItem.seat = "\(bedPosition)号\(bedHeight)"
+                        }
+                        .onChange(of: bedPosition) {
+                            ticketItem.seat = "\(bedPosition)号\(bedHeight)"
+                        }
+                    }
+                    Spacer()
+                }
+            }
+            
+            Divider()
             
             HStack {
                 Text("乘客：")
+                Button("选择已保存的信息…") {
+                    //
+                }.tint(ticketColorAuto)
                 Spacer()
             }
             HStack {
-                TextField("User Name", text: $ticketItem.passengerName, prompt: Text("姓名")).foregroundColor(ticketColorDarker)
-                    .frame(width: 88)
-                TextField("User ID", text: $ticketItem.passengerID, prompt: Text("身份证")).foregroundColor(ticketColorDarker)
-                    .frame(width: 210)
+                TextField("User Name", text: $ticketItem.passengerName, prompt: Text("姓名"))
+                    .autocorrectionDisabled()
+                    .foregroundColor(ticketColorAuto)
+                    .frame(width: 92)
+                TextField("User ID", text: $ticketItem.passengerID, prompt: Text("身份证"))
+                    .autocorrectionDisabled()
+                    .foregroundColor(ticketColorAuto)
+                    //.frame(width: 210)
                 Spacer()
-            }.padding(.bottom)
+            }.padding(.bottom, 10)
             
             VStack {
                 HStack {
-                    Toggle("网购票", isOn: $ticketItem.isOnline).frame(width: 120)
-                    Spacer()
+                    Button("网购票") { ticketItem.isOnline.toggle()
+                    }.buttonStyle(TCButtonStyle(filled: ticketItem.isOnline, height: 30))
+                        .padding(.horizontal, 6)
+                    Button("学生票") { ticketItem.isStudent.toggle()
+                    }.buttonStyle(TCButtonStyle(filled: ticketItem.isStudent, height: 30))
+                        .padding(.horizontal, 6)
+                    Button("优惠票") { ticketItem.isDiscount.toggle()
+                    }.buttonStyle(TCButtonStyle(filled: ticketItem.isDiscount, height: 30))
+                        .padding(.horizontal, 6)
                 }
-                HStack {
-                    Toggle("学生票", isOn: $ticketItem.isStudent).frame(width: 120)
-                    Spacer()
-                    Toggle("优惠票", isOn: $ticketItem.isDiscount).frame(width: 120)
-                    Spacer()
-                }
-            }.tint(ticketColor)
+            }.tint(ticketColorAuto)
             Spacer()
         }
     }
@@ -274,16 +357,19 @@ struct EditorView: View {
         VStack(spacing: 8) {
             HStack {
                 Text("顶部编号")
-                TextField("Ticket ID", text: $ticketItem.ticketID, prompt: Text("车票编号")).foregroundColor(.pink)
+                TextField("Ticket ID", text: $ticketItem.ticketID, prompt: Text("车票编号"))
+                    .autocorrectionDisabled().foregroundColor(.pink)
             }
             HStack {
                 Text("底部编号")
-                TextField("Serial", text: $ticketItem.ticketSerial, prompt: Text("底部编号")).foregroundColor(.primary)
+                TextField("Serial", text: $ticketItem.ticketSerial, prompt: Text("底部编号"))
+                    .autocorrectionDisabled().foregroundColor(.primary)
             }.padding(.bottom, 6)
             
             HStack {
                 Text("提示文字")
                 Picker("NotesGen", selection: $notesTemplate) {
+                    Text("旧车票").tag(2)
                     Text("报销凭证").tag(1)
                     //Others
                     Text("自定义").tag(0)
@@ -292,23 +378,27 @@ struct EditorView: View {
                 if newValue == 1 {
                     ticketItem.notes = "仅供报销使用"
                     ticketItem.comments = "报销凭证 遗失不补\n退票改签时须交回车站"
+                } else if newValue == 2 {
+                    ticketItem.notes = "限乘当日当次车"
+                    ticketItem.comments = "买票请到12306 发货请到95306\n中国铁路祝您路途愉快"
                 }
             }
             
             Group {
                 TextField("Notes", text: $ticketItem.notes, prompt: Text("备注"))
+                    .autocorrectionDisabled()
                     .foregroundColor(notesTemplate == 0 ? .secondary : .gray)
                     .bold()
                 TextField("Comments", text: $ticketItem.comments, prompt: Text("提示"), axis: .vertical)
+                    .autocorrectionDisabled()
                     .lineLimit(2, reservesSpace: true)
-                    .foregroundColor(notesTemplate == 0 ? ticketColorDarker : .gray)
+                    .foregroundColor(notesTemplate == 0 ? ticketColorAuto : .gray)
             }.disabled(notesTemplate != 0) //.transition(.opacity)
             .opacity(notesTemplate == 0 ? 1.0 : 0.5)
             
             HStack(spacing: 16) {
                 Button {
                     ticketItem.starred.toggle()
-                    //Task { try! modelContext.save() }
                 } label: {
                     Image(systemName: ticketItem.starred ? "star.fill" : "star.slash")
                 }.buttonStyle(TCButtonStyle(
@@ -362,7 +452,6 @@ struct EditorView: View {
                     VStack(spacing: 10) {
                         Button {
                             ticketItem.inFolder = nil
-                            //try! modelContext.save()
                             withAnimation(.easeOut(duration: 0.2)) {
                                 isSettingFolder = false
                             }
@@ -373,7 +462,6 @@ struct EditorView: View {
                         ForEach(allFolders) { folderItem in
                             Button(folderItem.name) {
                                 ticketItem.inFolder = folderItem
-                                //try! modelContext.save()
                                 withAnimation(.easeOut(duration: 0.2)) {
                                     isSettingFolder = false
                                 }
@@ -400,6 +488,15 @@ struct EditorView: View {
                 }
         }
     }
+    
+    func saveData(async: Bool = true) {
+        ticketItem.lastModified = .now
+        if async {
+            Task { try! modelContext.save() }
+        } else {
+            try! modelContext.save()
+        }
+    }
 }
 
 #Preview {
@@ -416,6 +513,6 @@ struct EditorView: View {
     
     return EditorView(
         ticketItem: t, allFolders: f, extEnabled: true,
-        selectedSection: 3, notesTemplate: 0
+        selectedSection: 2, notesTemplate: 0
     ).modelContainer(container)
 }

@@ -11,8 +11,6 @@ import SwiftData
 @available(iOS 17.0, *)
 @Model final class TicketItem {
     var id: UUID = UUID()
-    //var folder: UUID? = nil
-    //@Relationship(deleteRule: .noAction)
     var inFolder: TicketFolder?
     var ticketID: String = "A888888"
     var entrance: String = "检票:99AB"
@@ -22,10 +20,11 @@ import SwiftData
     var stationDstEN: String = "pinyin"
     var trainNumber: String = "G9999"
     var departTime: Date = Date()
-    var carriage: String = "15"
-    var seat: String = "01A"
+    var ticketType: TicketType = TicketType.seat
+    var carriage: String = "15" // 可能无座
+    var seat: String = "01A" // 可能有上下铺
     var price: Float = 0.01
-    var seatLevel: String = "一等座"
+    var seatLevel: String = "一等座" // 可能更长的字符串
     var isOnline: Bool = false
     var isStudent: Bool = false
     var isDiscount: Bool = false
@@ -64,6 +63,10 @@ import SwiftData
     init() {
         self.creationDate = Date()
     }
+}
+
+enum TicketType: Int, Codable {
+    case noSeat = 0, seat, bed, custom
 }
 
 @available(iOS 17.0, *)

@@ -77,7 +77,11 @@ extension String {
             if !带空格 {
                 result.removeAll(where: {$0 == " "})
             }
-            return result
+            
+            if result.isEmpty { return nil }
+            
+            let r0 = String.Index.init(utf16Offset: 0, in: result)
+            return result.replacingCharacters(in: r0...r0, with: result.first!.uppercased())
         } else {
             return nil
         }

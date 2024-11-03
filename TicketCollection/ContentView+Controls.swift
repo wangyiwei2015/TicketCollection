@@ -19,7 +19,7 @@ extension ContentView {
                     //.stroke(.systemBackground, lineWidth: 2)
                 TextField("SearchTerm", text: $searchTerm, prompt: Text("搜索"))
                     .textFieldStyle(.plain).submitLabel(.search)
-                    .scrollDismissesKeyboard(.never)
+                    .scrollDismissesKeyboard(.never).autocorrectionDisabled()
                     .multilineTextAlignment(searchEmpty ? .center : .leading)
                     .font(.system(size: 22))
                     .foregroundStyle(searchEmpty ? .gray : ticketColorDarker)

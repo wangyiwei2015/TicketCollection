@@ -98,7 +98,7 @@ extension ContentView {
                             HStack {
                                 TextField("AddNewName", text: $newFolderNameEntry, prompt: Text("在此输入来创建"))
                                     .textFieldStyle(.plain).submitLabel(.done)
-                                    .scrollDismissesKeyboard(.never)
+                                    .scrollDismissesKeyboard(.never).autocorrectionDisabled()
                                     .multilineTextAlignment(.leading)
                                     .font(.system(size: 20)).lineLimit(1)
                                     .foregroundStyle(ticketColorAuto)
@@ -183,7 +183,7 @@ struct FolderItemView: View {
     var body: some View {
         TextField("EditName", text: $folderItem.name, prompt: Text("未命名"))
             .textFieldStyle(.plain).submitLabel(.done)
-            .scrollDismissesKeyboard(.never)
+            .scrollDismissesKeyboard(.never).autocorrectionDisabled()
             .multilineTextAlignment(.leading)
             .font(.system(size: 20)).lineLimit(1)
     }

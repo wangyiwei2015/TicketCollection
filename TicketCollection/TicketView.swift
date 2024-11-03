@@ -135,19 +135,39 @@ struct TicketView: View {
             Text("日").font(.tc宋体(9)).padding(.trailing, 6)
             Text(String(format: "%02d:%02d", hour, minute)).font(.tcTechnicBold(16))
             Text("开").font(.tc宋体(9))
+            //Spacer()
+            seats//.frame(width: 109)
+                //.offset(x: 10)
+                .padding(.leading, 50)
             Spacer()
-            seats.frame(width: 100)
         }
     }
     
     @ViewBuilder var seats: some View {
         HStack(spacing: 0) {
-            Text(ticketInfo.carriage).font(.tcTechnicBold(16))
-            Text("车").font(.tc宋体(9)).padding(.trailing, 4)
-            Text(ticketInfo.seat.prefix(2)).font(.tcTechnicBold(16))
-            Text(ticketInfo.seat.suffix(1)).font(.tcTechnicBold(12))
-            Text("号").font(.tc宋体(9))
-            Spacer()
+            switch ticketInfo.ticketType {
+            case .noSeat:
+                Text("无座").font(.tc宋体(14))
+            case .seat: // 01车01A号
+                Text(ticketInfo.carriage).font(.tcTechnicBold(16))
+                Text("车").font(.tc宋体(9)).padding(.trailing, 4)
+                Text(ticketInfo.seat.prefix(2)).font(.tcTechnicBold(16))
+                Text(ticketInfo.seat.suffix(1)).font(.tcTechnicBold(12))
+                Text("号").font(.tc宋体(9))
+            case .bed: // 01车001号下铺
+                Text(ticketInfo.carriage).font(.tcTechnicBold(16))
+                Text("车").font(.tc宋体(9)).padding(.trailing, 4)
+                if ticketInfo.seat.count > 3 {
+                    Text(ticketInfo.seat.prefix(3)).font(.tcTechnicBold(16))
+                    Text(ticketInfo.seat.suffix(
+                        from: .init(utf16Offset: 3, in: ticketInfo.seat)
+                    )).font(.tc宋体(14))
+                }
+            case .custom:
+                Text(ticketInfo.seat).font(.tc宋体(14))
+            @unknown default:
+                Text(ticketInfo.seat).font(.tc宋体(14))
+            }
         }
     }
     
@@ -166,13 +186,14 @@ struct TicketView: View {
                 Spacer()
             }.frame(width: 100)
             Spacer()
-            if ticketInfo.isOnline { circledText("网") }
-            if ticketInfo.isStudent { circledText("学").padding(.horizontal, 4) }
-            if ticketInfo.isDiscount { circledText("惠") }
+            if ticketInfo.isOnline { circledText("网").padding(.horizontal, 2) }
+            if ticketInfo.isStudent { circledText("学").padding(.horizontal, 2) }
+            if ticketInfo.isDiscount { circledText("惠").padding(.horizontal, 2) }
             Spacer()
             HStack(spacing: 0) {
                 Text(ticketInfo.seatLevel).font(.tc宋体(14))
-            }.frame(width: 100)
+            }//.frame(width: 100)
+            .padding(.horizontal, 48)
         }
     }
     
@@ -291,21 +312,9 @@ let exportPreview = SharePreview(
 )
 
 #Preview {
-    TicketView(ticketInfo: .init()
-//        ticketInfo: .constant(
-//            TicketInfo(
-//                ticketID: "Z156N032758",entrance: "检票:90AB",
-//                stationSrcCN: "上海", stationSrcEN: "Shanghai",
-//                stationDstCN: "上海虹桥", stationDstEN: "Shanghaihongqiao",
-//                trainNumber: "G7631", departTime: 202401311405,
-//                carriage: "02", seat: "01A",
-//                price: 9876.54, seatLevel: "一等座",
-//                isOnline: false, isStudent: true, isDiscount: false,
-//                notes: "仅供报销使用", passengerID: "1234567890****9876",
-//                passengerName: "姓名",
-//                comments: "报销凭证 遗失不补\n退票改签时须交回车站",
-//                ticketSerial: "26468311140823K009985 JM"
-//            )
-//        )
-    )
+    let exampleItem = TicketItem()
+    exampleItem.ticketType = .seat
+    exampleItem.carriage = "88"
+    exampleItem.seat = "88A号"
+    return TicketView(ticketInfo: exampleItem)
 }

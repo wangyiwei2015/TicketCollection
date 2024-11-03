@@ -269,6 +269,8 @@ struct EditorView: View {
                         Text("\"01车001号下铺\"")
                     case .custom:
                         Text("自定义内容")
+                    default:
+                        Text("请选择")
                     }
                 }.foregroundStyle(.gray)
                 .onChange(of: ticketItem.ticketType) {

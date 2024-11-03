@@ -20,7 +20,7 @@ import SwiftData
     var stationDstEN: String = "pinyin"
     var trainNumber: String = "G9999"
     var departTime: Date = Date()
-    var ticketType: TicketType = TicketType.seat
+    var ticketType: TicketType? = TicketType.seat
     var carriage: String = "15" // 可能无座
     var seat: String = "01A" // 可能有上下铺
     var price: Float = 0.01
@@ -62,6 +62,7 @@ import SwiftData
     }
     init() {
         self.creationDate = Date()
+        self.ticketType = .seat
     }
 }
 

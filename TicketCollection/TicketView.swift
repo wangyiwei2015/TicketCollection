@@ -96,7 +96,7 @@ struct TicketView: View {
                     }
                 }.font(.tc黑体(20))
                     
-                Text("站").font(.tc宋体(12)).padding(.leading, 5)
+                Text("站").font(.tc宋体(15)).padding(.leading, 5)
             }
             Text(en).font(.tc宋体(12))
         }.frame(width: 108)
@@ -121,19 +121,20 @@ struct TicketView: View {
             }
             Spacer()
             station(ticketInfo.stationDstCN, ticketInfo.stationDstEN)
+                .padding(.trailing, 18)
         }
     }
 
     @ViewBuilder func departime(_ t: Date) -> some View {
         let (year, month, day, hour, minute) = t.components
         HStack(spacing: 0) {
-            Text(String(year)).font(.tcTechnicBold(16))
+            Text(String(year)).font(.tcTechnicBold(17))
             Text("年").font(.tc宋体(9)).padding(.trailing, 6)
-            Text(String(month)).font(.tcTechnicBold(16))
+            Text(String(month)).font(.tcTechnicBold(17))
             Text("月").font(.tc宋体(9)).padding(.trailing, 6)
-            Text(String(day)).font(.tcTechnicBold(16))
+            Text(String(day)).font(.tcTechnicBold(17))
             Text("日").font(.tc宋体(9)).padding(.trailing, 6)
-            Text(String(format: "%02d:%02d", hour, minute)).font(.tcTechnicBold(16))
+            Text(String(format: "%02d:%02d", hour, minute)).font(.tcTechnicBold(17))
             Text("开").font(.tc宋体(9))
             //Spacer()
             seats//.frame(width: 109)
@@ -165,7 +166,7 @@ struct TicketView: View {
                 }
             case .custom:
                 Text(ticketInfo.seat).font(.tc宋体(14))
-            @unknown default:
+            default:
                 Text(ticketInfo.seat).font(.tc宋体(14))
             }
         }
@@ -311,10 +312,43 @@ let exportPreview = SharePreview(
     image: Image("export")
 )
 
+struct PreviewTickets: View {
+    @State var opac: Double = 0.5
+    
+    var body: some View {
+        let exampleItem1 = TicketItem()
+        exampleItem1.ticketType = .bed
+        exampleItem1.carriage = "88"
+        exampleItem1.seat = "88A号"
+        let t1 = TicketView(ticketInfo: exampleItem1)
+        
+        let exampleItem2 = TicketItem()
+        exampleItem2.ticketType = .bed
+        exampleItem2.carriage = "88"
+        exampleItem2.seat = "88A号"
+        let t2 = TicketView(ticketInfo: exampleItem2)
+        
+        let exampleItem3 = TicketItem()
+        exampleItem3.ticketType = .seat
+        exampleItem3.carriage = "10"
+        exampleItem3.seat = "09A"
+        let t3 = TicketView(ticketInfo: exampleItem3)
+        
+        return VStack {
+            Slider(value: $opac, in: 0...1)
+            t1.overlay {
+                Image("devref1").resizable().scaledToFit().opacity(opac)
+            }
+            t2.overlay {
+                Image("devref2").resizable().scaledToFit().opacity(opac)
+            }
+            t3.overlay {
+                Image("devref3").resizable().scaledToFit().opacity(opac)
+            }
+        }
+    }
+}
+
 #Preview {
-    let exampleItem = TicketItem()
-    exampleItem.ticketType = .seat
-    exampleItem.carriage = "88"
-    exampleItem.seat = "88A号"
-    return TicketView(ticketInfo: exampleItem)
+    PreviewTickets()
 }

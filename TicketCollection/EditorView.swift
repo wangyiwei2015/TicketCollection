@@ -287,14 +287,14 @@ struct EditorView: View {
                 } else {
                     if ticketItem.ticketType != .noSeat {
                         Text("车厢：")
-                        TextField("Carriage", text: $ticketItem.carriage, prompt: Text("车厢"))
+                        TextField("Carriage", text: $ticketItem.carriage, prompt: Text("车厢"), axis: .horizontal)
                             .autocorrectionDisabled()
-                            .multilineTextAlignment(.center).foregroundColor(ticketColorAuto).frame(width: 36)
+                            .multilineTextAlignment(.center).foregroundColor(ticketColorAuto).frame(width: 40)
                         Text("车")
                         
                         TextField("Seat", text: $bedPosition, prompt: Text("位置"))
                             .autocorrectionDisabled()
-                            .multilineTextAlignment(.center).foregroundColor(ticketColorAuto).frame(width: 50)
+                            .multilineTextAlignment(.center).foregroundColor(ticketColorAuto).frame(width: 60)
                         Text("号")
                     } else {
                         Text(" ")

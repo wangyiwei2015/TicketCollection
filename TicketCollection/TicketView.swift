@@ -137,7 +137,7 @@ struct TicketView: View {
             Text(String(format: "%02d:%02d", hour, minute)).font(.tcTechnicBold(17))
             Text("开").font(.tc宋体(9))
             //Spacer()
-            seats.padding(.leading, 50)
+            seats.padding(.leading, 30)
             Spacer()
         }
     }
@@ -165,9 +165,9 @@ struct TicketView: View {
             case .custom:
                 Text(ticketInfo.seat).font(.tc宋体(14)).frame(maxWidth: .infinity)
             default:
-                Text(ticketInfo.seat).font(.tc宋体(14))
+                Text("INVALID")
             }
-        }
+        }.frame(maxWidth: .infinity)
     }
     
     @ViewBuilder func circledText(_ txt: String) -> some View {
@@ -192,7 +192,7 @@ struct TicketView: View {
             HStack(spacing: 0) {
                 Text(ticketInfo.seatLevel).font(.tc黑体(13))
             }//.frame(width: 100)
-            .padding(.horizontal, 48)
+            .padding(.horizontal, 32)
         }
     }
     
@@ -325,7 +325,7 @@ struct PreviewTickets: View {
         let exampleItem2 = TicketItem()
         exampleItem2.ticketType = .bed
         exampleItem2.carriage = "88"
-        exampleItem2.seat = "88A号"
+        exampleItem2.seat = "88A号上铺"
         let t2 = TicketView(ticketInfo: exampleItem2)
         
         let exampleItem3 = TicketItem()

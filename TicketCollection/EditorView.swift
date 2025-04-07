@@ -253,9 +253,9 @@ struct EditorView: View {
             HStack {
                 Text("类型：")
                 Picker("TicketType", selection: $ticketItem.ticketType) {
-                    Text("坐票(座号)").tag(TicketType.seat)
-                    Text("卧票(铺号)").tag(TicketType.bed)
-                    Text("站票(无座)").tag(TicketType.noSeat)
+                    Text("坐票").tag(TicketType.seat)
+                    Text("卧票").tag(TicketType.bed)
+                    Text("无座").tag(TicketType.noSeat)
                     Text("自定义…").tag(TicketType.custom)
                 }.pickerStyle(.menu).tint(ticketColorAuto)
                 Spacer()
@@ -389,9 +389,9 @@ struct EditorView: View {
             Group {
                 HStack {
                     TextField("Notes", text: $ticketItem.notes, prompt: Text("备注"))
-                        .autocorrectionDisabled()
+                        .autocorrectionDisabled().bold()
                         .foregroundColor(notesTemplate == 0 ? .secondary : .gray)
-                        .bold()
+                        .disabled(notesTemplate != 0).opacity(notesTemplate == 0 ? 1.0 : 0.5)
                     Toggle("越站补票", isOn: $ticketItem.isExtended)
                         .padding(.leading).frame(width: 154)
                 }
@@ -399,8 +399,8 @@ struct EditorView: View {
                     .autocorrectionDisabled()
                     .lineLimit(2, reservesSpace: true)
                     .foregroundColor(notesTemplate == 0 ? ticketColorAuto : .gray)
-            }.disabled(notesTemplate != 0) //.transition(.opacity)
-            .opacity(notesTemplate == 0 ? 1.0 : 0.5)
+                    .disabled(notesTemplate != 0).opacity(notesTemplate == 0 ? 1.0 : 0.5)
+            }
             
             HStack(spacing: 16) {
                 Button {

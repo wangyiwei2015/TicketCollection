@@ -125,10 +125,10 @@ extension ContentView {
                 
                 HStack {
                     Button {
-                        //
+                        // TODO: Save image
                     } label: {
-                        Label("保存图像", systemImage: "tray.and.arrow.down.fill")
-                    }.buttonStyle(TCButtonStyle(filled: true, height: 48))
+                        Label("保存图像(X)", systemImage: "tray.and.arrow.down.fill")
+                    }.buttonStyle(TCButtonStyle(filled: false, height: 48))
                         .frame(width: 130)
                     Spacer()
                     ShareLink(

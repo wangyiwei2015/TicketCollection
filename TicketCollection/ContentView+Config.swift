@@ -166,7 +166,7 @@ extension ContentView {
                     }
                 }.padding(.horizontal)
             }
-        }
+        }.padding(.bottom, 10)
     }
 
 //    func bindingString(_ id: String) -> Binding<String> {

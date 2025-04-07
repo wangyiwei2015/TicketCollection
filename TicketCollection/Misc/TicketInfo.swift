@@ -25,9 +25,10 @@ import SwiftData
     var seat: String = "01A" // 可能有上下铺
     var price: Float = 0.01
     var seatLevel: String = "一等座" // 可能更长的字符串
-    var isOnline: Bool = false
-    var isStudent: Bool = false
-    var isDiscount: Bool = false
+    var isOnline: Bool = false // 网购
+    var isStudent: Bool = false // 学生
+    var isDiscount: Bool = false // 优惠
+    var isExtended: Bool = false // 越站补票
     var notes: String = "仅供报销使用"
     var passengerID: String = "1234567890****9876"
     var passengerName: String = "姓名"

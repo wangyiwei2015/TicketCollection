@@ -125,6 +125,9 @@ extension ContentView {
                                     .fill(ticketColor)
                                     .matchedGeometryEffect(id: selectedTicket == item ? "ticket" : "", in: namespace, properties: .position, isSource: false)
                                     .frame(width: 87/2, height: 54/2)
+                                    .scaleEffect(
+                                        selectedTicket == item ? 3.0 : 1.0
+                                    )
                                 VStack(spacing: 0) {
                                     Spacer()
                                     RoundedRectangle(cornerRadius: 3)
@@ -183,7 +186,9 @@ extension ContentView {
                                         selectedTicket = item
                                     }
                                 }
-                                .scaleEffect(x: 0.4, y: 0.4)
+                                .scaleEffect(
+                                    selectedTicket == item ? 1.0 : 0.4
+                                )
                                 .background(
                                     RoundedRectangle(cornerRadius: 10, style: .continuous)
                                         .fill(.black.opacity(0.9))

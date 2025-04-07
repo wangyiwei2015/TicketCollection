@@ -137,9 +137,7 @@ struct TicketView: View {
             Text(String(format: "%02d:%02d", hour, minute)).font(.tcTechnicBold(17))
             Text("开").font(.tc宋体(9))
             //Spacer()
-            seats//.frame(width: 109)
-                //.offset(x: 10)
-                .padding(.leading, 50)
+            seats.padding(.leading, 50)
             Spacer()
         }
     }
@@ -148,7 +146,7 @@ struct TicketView: View {
         HStack(spacing: 0) {
             switch ticketInfo.ticketType {
             case .noSeat:
-                Text("无座").font(.tc宋体(14))
+                Text("无座").font(.tc宋体(14)).frame(maxWidth: .infinity)
             case .seat: // 01车01A号
                 Text(ticketInfo.carriage).font(.tcTechnicBold(16))
                 Text("车").font(.tc宋体(9)).padding(.trailing, 4)
@@ -165,7 +163,7 @@ struct TicketView: View {
                     )).font(.tc宋体(14))
                 }
             case .custom:
-                Text(ticketInfo.seat).font(.tc宋体(14))
+                Text(ticketInfo.seat).font(.tc宋体(14)).frame(maxWidth: .infinity)
             default:
                 Text(ticketInfo.seat).font(.tc宋体(14))
             }
@@ -192,7 +190,7 @@ struct TicketView: View {
             if ticketInfo.isDiscount { circledText("惠").padding(.horizontal, 2) }
             Spacer()
             HStack(spacing: 0) {
-                Text(ticketInfo.seatLevel).font(.tc宋体(14))
+                Text(ticketInfo.seatLevel).font(.tc黑体(13))
             }//.frame(width: 100)
             .padding(.horizontal, 48)
         }
@@ -203,9 +201,11 @@ struct TicketView: View {
     @ViewBuilder var passengerInfo: some View {
         VStack(spacing: 0) {
             HStack {
-                Text(ticketInfo.notes).font(.tc华文宋体(12))
+                Text("\(ticketInfo.notes)\(ticketInfo.isExtended ? "\n越站" : "")").font(.tc华文宋体(12))
                 Spacer()
             }
+            .fixedSize(horizontal: false, vertical: true)
+            .frame(height: ticketInfo.isExtended ? 22 : 18)
             HStack {
                 VStack {
                     HStack {
@@ -313,11 +313,11 @@ let exportPreview = SharePreview(
 )
 
 struct PreviewTickets: View {
-    @State var opac: Double = 0.5
+    @State var opac: Double = 0.1
     
     var body: some View {
         let exampleItem1 = TicketItem()
-        exampleItem1.ticketType = .bed
+        exampleItem1.ticketType = .noSeat
         exampleItem1.carriage = "88"
         exampleItem1.seat = "88A号"
         let t1 = TicketView(ticketInfo: exampleItem1)
@@ -332,18 +332,19 @@ struct PreviewTickets: View {
         exampleItem3.ticketType = .seat
         exampleItem3.carriage = "10"
         exampleItem3.seat = "09A"
+        exampleItem3.isExtended = true
         let t3 = TicketView(ticketInfo: exampleItem3)
         
         return VStack {
             Slider(value: $opac, in: 0...1)
             t1.overlay {
-                Image("devref1").resizable().scaledToFit().opacity(opac)
+                //Image("devref1").resizable().scaledToFit().opacity(opac)
             }
             t2.overlay {
-                Image("devref2").resizable().scaledToFit().opacity(opac)
+                //Image("devref2").resizable().scaledToFit().opacity(opac)
             }
             t3.overlay {
-                Image("devref3").resizable().scaledToFit().opacity(opac)
+                //Image("devref3").resizable().scaledToFit().opacity(opac)
             }
         }
     }

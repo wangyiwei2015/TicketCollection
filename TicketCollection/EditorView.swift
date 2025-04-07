@@ -274,7 +274,7 @@ struct EditorView: View {
                     }
                 }.foregroundStyle(.gray)
                 .onChange(of: ticketItem.ticketType) {
-                    ticketItem.seat = "001"
+                    ticketItem.seat = "01A"
                 }
                 Spacer()
             }
@@ -387,10 +387,14 @@ struct EditorView: View {
             }
             
             Group {
-                TextField("Notes", text: $ticketItem.notes, prompt: Text("备注"))
-                    .autocorrectionDisabled()
-                    .foregroundColor(notesTemplate == 0 ? .secondary : .gray)
-                    .bold()
+                HStack {
+                    TextField("Notes", text: $ticketItem.notes, prompt: Text("备注"))
+                        .autocorrectionDisabled()
+                        .foregroundColor(notesTemplate == 0 ? .secondary : .gray)
+                        .bold()
+                    Toggle("越站补票", isOn: $ticketItem.isExtended)
+                        .padding(.leading).frame(width: 154)
+                }
                 TextField("Comments", text: $ticketItem.comments, prompt: Text("提示"), axis: .vertical)
                     .autocorrectionDisabled()
                     .lineLimit(2, reservesSpace: true)
@@ -515,6 +519,6 @@ struct EditorView: View {
     
     return EditorView(
         ticketItem: t, allFolders: f, extEnabled: true,
-        selectedSection: 2, notesTemplate: 0
+        selectedSection: 3, notesTemplate: 0
     ).modelContainer(container)
 }

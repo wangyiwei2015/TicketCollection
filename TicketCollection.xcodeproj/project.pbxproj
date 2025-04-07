@@ -131,9 +131,9 @@
 		B3C339F42B00FE540003BEF4 /* TicketCollection */ = {
 			isa = PBXGroup;
 			children = (
+				B3708CAF2B59548500357B12 /* fonts */,
 				B365AACC2CD1043300D78107 /* TicketCollection.entitlements */,
 				B3708CB72B5954BC00357B12 /* Info.plist */,
-				B3708CAF2B59548500357B12 /* fonts */,
 				B3C339F52B00FE540003BEF4 /* TicketCollectionApp.swift */,
 				B3C339F72B00FE540003BEF4 /* ContentView.swift */,
 				B3FA3C6B2DA3EA7900200E22 /* ContentView+Filter.swift */,

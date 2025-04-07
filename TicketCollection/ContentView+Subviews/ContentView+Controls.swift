@@ -229,7 +229,7 @@ extension ContentView {
                 
                 Button {
                 } label: {
-                    Label("扫描/导入 (暂无)", systemImage: "text.viewfinder")
+                    Label("扫描/导入 (x)", systemImage: "text.viewfinder")
                 }.buttonStyle(TCButtonStyle(filled: false))
                     .disabled(true)
                 

@@ -201,7 +201,7 @@ struct TicketView: View {
     @ViewBuilder var passengerInfo: some View {
         VStack(spacing: 0) {
             HStack {
-                Text("\(ticketInfo.notes)\(ticketInfo.isExtended ? "\n越站" : "")").font(.tc华文宋体(12))
+                Text("\(ticketInfo.isRefunded ? "退票\n" : "")\(ticketInfo.notes)\(ticketInfo.isExtended ? "\n越站" : "")").font(.tc华文宋体(12))
                 Spacer()
             }
             .fixedSize(horizontal: false, vertical: true)
@@ -332,7 +332,7 @@ struct PreviewTickets: View {
         exampleItem3.ticketType = .seat
         exampleItem3.carriage = "10"
         exampleItem3.seat = "09A"
-        exampleItem3.isExtended = true
+        exampleItem3.isRefunded = true
         let t3 = TicketView(ticketInfo: exampleItem3)
         
         return VStack {

@@ -29,6 +29,7 @@ import SwiftData
     var isStudent: Bool = false // 学生
     var isDiscount: Bool = false // 优惠
     var isExtended: Bool = false // 越站补票
+    var isRefunded: Bool = false // 退票
     var notes: String = "仅供报销使用"
     var passengerID: String = "1234567890****9876"
     var passengerName: String = "姓名"

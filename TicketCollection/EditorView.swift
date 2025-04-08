@@ -20,6 +20,7 @@ struct EditorView: View {
     @State var isSettingFolder = false
     @State var selectedSection: Int = 0
     @State var notesTemplate: Int = 1
+    @State var specialType: Int = 0
     @State var priceStr: String = "0.01" {
         willSet { ticketItem.price = Float(newValue) ?? 0.0 }
     }
@@ -177,7 +178,7 @@ struct EditorView: View {
         .onSubmit { ticketItem.price = Float(priceStr) ?? 0.0 }
         .onChange(of: scenePhase) { _, newValue in
             if newValue == .inactive {
-                //saveData
+                //TODO: saveData
             }
         }
         .alert("当前有未保存的更改", isPresented: $showsQuitAlert) {
@@ -196,6 +197,11 @@ struct EditorView: View {
     @ViewBuilder var 站台信息: some View {
         VStack {
             HStack {
+                Text("顶部编号")
+                TextField("Ticket ID", text: $ticketItem.ticketID, prompt: Text("车票编号"))
+                    .autocorrectionDisabled().foregroundColor(.pink)
+            }
+            HStack {
                 Text("车次：")
                 TextField("Train", text: $ticketItem.trainNumber, prompt: Text("车次"))
                     .autocorrectionDisabled()
@@ -209,7 +215,7 @@ struct EditorView: View {
             DatePicker("发车：", selection: $ticketItem.departTime, displayedComponents: [.date, .hourAndMinute])
                 .tint(ticketColorAuto).padding(.bottom)
                 .datePickerStyle(.compact)
-            Divider()
+            //Divider()
             HStack(spacing: 40) {
                 VStack {
                     Text("—— 出发 ——")
@@ -225,7 +231,7 @@ struct EditorView: View {
                     TextField("Dst EN", text: $ticketItem.stationDstEN, prompt: Text("到站en")).foregroundColor(.gray)
                         .autocorrectionDisabled()
                 }
-            }.multilineTextAlignment(.center).padding(.top)
+            }.multilineTextAlignment(.center)//.padding(.top)
             Spacer()
         }
         .onChange(of: ticketItem.stationSrcCN) { oldValue, newValue in
@@ -297,7 +303,7 @@ struct EditorView: View {
                             .multilineTextAlignment(.center).foregroundColor(ticketColorAuto).frame(width: 60)
                         Text("号")
                     } else {
-                        Text(" ")
+                        Text("站票不指定座位")
                     }
                     if ticketItem.ticketType == .bed {
                         Picker("BedHeight", selection: $bedHeight, content: {
@@ -309,14 +315,18 @@ struct EditorView: View {
                         .onChange(of: bedHeight) {
                             ticketItem.seat = "\(bedPosition)号\(bedHeight)"
                         }
-                        .onChange(of: bedPosition) {
-                            ticketItem.seat = "\(bedPosition)号\(bedHeight)"
-                        }
                     }
                     Spacer()
                 }
+            }.onChange(of: bedPosition) {
+                if ticketItem.ticketType == .bed {
+                    ticketItem.seat = "\(bedPosition)号\(bedHeight)"
+                } else if ticketItem.ticketType == .seat {
+                    ticketItem.seat = "\(bedPosition)"
+                }
             }
             
+            Spacer()
             Divider()
             
             HStack {
@@ -357,11 +367,11 @@ struct EditorView: View {
     
     @ViewBuilder var 元数据: some View {
         VStack(spacing: 8) {
-            HStack {
-                Text("顶部编号")
-                TextField("Ticket ID", text: $ticketItem.ticketID, prompt: Text("车票编号"))
-                    .autocorrectionDisabled().foregroundColor(.pink)
-            }
+//            HStack {
+//                Text("顶部编号")
+//                TextField("Ticket ID", text: $ticketItem.ticketID, prompt: Text("车票编号"))
+//                    .autocorrectionDisabled().foregroundColor(.pink)
+//            }
             HStack {
                 Text("底部编号")
                 TextField("Serial", text: $ticketItem.ticketSerial, prompt: Text("底部编号"))
@@ -386,21 +396,44 @@ struct EditorView: View {
                 }
             }
             
-            Group {
-                HStack {
-                    TextField("Notes", text: $ticketItem.notes, prompt: Text("备注"))
-                        .autocorrectionDisabled().bold()
-                        .foregroundColor(notesTemplate == 0 ? .secondary : .gray)
-                        .disabled(notesTemplate != 0).opacity(notesTemplate == 0 ? 1.0 : 0.5)
-                    Toggle("越站补票", isOn: $ticketItem.isExtended)
-                        .padding(.leading).frame(width: 154)
+            HStack {
+                Text("特殊标记")
+                Picker("NotesGen", selection: $specialType) {
+                    Text("无（常规）").tag(0)
+                    Text("越站补票").tag(1)
+                    Text("退票凭证").tag(2)
+                }.pickerStyle(.segmented)
+            }.onChange(of: specialType) { _, newValue in
+                switch newValue {
+                case 1:
+                    ticketItem.isExtended = true
+                    ticketItem.isRefunded = false
+                case 2:
+                    ticketItem.isExtended = false
+                    ticketItem.isRefunded = true
+                default:
+                    ticketItem.isExtended = false
+                    ticketItem.isRefunded = false
                 }
+            }
+            
+//            HStack {
+//                Toggle("越站补票", isOn: $ticketItem.isExtended)
+//                    .tint(ticketColorAuto).frame(width: 140)
+//                Spacer()
+//                Toggle("退票", isOn: $ticketItem.isExtended)
+//                    .tint(ticketColorAuto).frame(width: 100)
+//            }
+            
+            Group {
+                TextField("Notes", text: $ticketItem.notes, prompt: Text("备注"))
+                    .autocorrectionDisabled().bold()
+                    .foregroundColor(notesTemplate == 0 ? .secondary : .gray)
                 TextField("Comments", text: $ticketItem.comments, prompt: Text("提示"), axis: .vertical)
                     .autocorrectionDisabled()
                     .lineLimit(2, reservesSpace: true)
                     .foregroundColor(notesTemplate == 0 ? ticketColorAuto : .gray)
-                    .disabled(notesTemplate != 0).opacity(notesTemplate == 0 ? 1.0 : 0.5)
-            }
+            }.disabled(notesTemplate != 0).opacity(notesTemplate == 0 ? 1.0 : 0.5)
             
             HStack(spacing: 16) {
                 Button {

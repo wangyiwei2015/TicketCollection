@@ -235,10 +235,10 @@ struct EditorView: View {
             Spacer()
         }
         .onChange(of: ticketItem.stationSrcCN) { oldValue, newValue in
-            ticketItem.stationSrcEN = newValue.拼音()!
+            ticketItem.stationSrcEN = newValue.拼音() ?? "Station"
         }
         .onChange(of: ticketItem.stationDstCN) { oldValue, newValue in
-            ticketItem.stationDstEN = newValue.拼音()!
+            ticketItem.stationDstEN = newValue.拼音() ?? "Station"
         }
     }
     

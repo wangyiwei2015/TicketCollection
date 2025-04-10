@@ -28,7 +28,7 @@ struct ContentView: View {
     @Namespace var namespace
 
     // - MARK: 持久化设置数据
-    @AppStorage("ViewMode") var viewMode: Int = 2
+    @AppStorage("ViewMode") var viewMode: Int = 1
     @AppStorage("BackgroundImage") var bgImgName: String = "nil"
     @AppStorage("ExtendedOptions") var extEnabled = false
     
@@ -48,13 +48,6 @@ struct ContentView: View {
     @State var itemToDelete: TicketItem? = nil
     @State var filters: [Bool] = Array(repeating: false, count: 9)
     @State var folderToDelete: TicketFolder? = nil
-//    typealias FolderRecord = [String : String]
-//    @State var folders: FolderRecord = defaults.dictionary(
-//        forKey: "TicketFolders"
-//    ) as? FolderRecord ?? [:] {
-//        willSet { defaults.set(newValue, forKey: "TicketFolders") }
-//    }
-//    @State var selectedFolder: UUID? = nil
     @State var openedFolder: TicketFolder? = nil
     @State var showAllTickets = false
     

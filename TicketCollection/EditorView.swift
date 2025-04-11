@@ -93,7 +93,8 @@ struct EditorView: View {
                     }
                     Spacer()
                     Menu {
-                        ShareLink("导出为PDF", item: TransferableTicket(ticketItem), preview: exportPreview)
+                        ShareLink("导出为PDF", item: TransferableTicket(ticketItem, .pdf), preview: exportPreview)
+                        ShareLink("导出为JPG", item: TransferableTicket(ticketItem, .jpg), preview: exportPreview)
                     } label: {
                         Label("分享", systemImage: "square.and.arrow.up").offset(y: -1)
                     }.buttonStyle(TCButtonStyle(filled: true))

@@ -44,7 +44,9 @@ struct ContentView: View {
     ]
 
     // - MARK: 状态：Ticket列表信息
-    @State var selectedTicket: TicketItem? = nil
+    @State var selectedTicket: TicketItem? = nil {
+        willSet { if newValue == nil { saved = false } }
+    }
     @State var itemToDelete: TicketItem? = nil
     @State var filters: [Bool] = Array(repeating: false, count: 9)
     @State var folderToDelete: TicketFolder? = nil
@@ -63,6 +65,7 @@ struct ContentView: View {
     @State var showsFolderView = false
     @State var previewAddingFolder = false
     @State var alertFolderDel = false
+    @State var saved = false // image saved
     
     // - MARK: 输入状态
     @State var searchTerm: String = ""
@@ -92,7 +95,7 @@ struct ContentView: View {
             Label(item.starred ? "取消收藏" : "收藏", systemImage: item.starred ? "star.slash" : "star")
         }
 
-        ShareLink("分享", item: TransferableTicket(item), preview: exportPreview)
+        ShareLink("分享", item: TransferableTicket(item, .pdf), preview: exportPreview)
         Button(role: .destructive) {
             itemToDelete = item
             showsDelWarning = true

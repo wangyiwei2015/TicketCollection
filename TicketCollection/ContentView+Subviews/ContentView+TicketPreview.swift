@@ -125,14 +125,22 @@ extension ContentView {
                 
                 HStack {
                     Button {
-                        // TODO: Save image
+                        if let t =  selectedTicket {
+                            if let img = TicketView(ticketInfo: t).makeImage() {
+                                UIImageWriteToSavedPhotosAlbum(img, nil, nil, nil)
+                                saved = true
+                            }
+                        }
                     } label: {
-                        Label("保存图像x", systemImage: "tray.and.arrow.down.fill")
-                    }.buttonStyle(TCButtonStyle(filled: false, height: 48))
-                        .frame(width: 130)
+                        Label(
+                            saved ? "" : "保存图像",
+                            systemImage: saved ? "checkmark" : "tray.and.arrow.down.fill"
+                        )
+                    }.buttonStyle(TCButtonStyle(filled: !saved, height: 48))
+                        .frame(width: 130).disabled(saved)
                     Spacer()
                     ShareLink(
-                        "导出PDF", item: TransferableTicket(selectedTicket ?? .init()),
+                        "导出PDF", item: TransferableTicket(selectedTicket ?? .init(), .pdf),
                         preview: exportPreview
                     ).buttonStyle(TCButtonStyle(filled: true, height: 48)).frame(width: 130)
                 }.padding(.horizontal, 40)

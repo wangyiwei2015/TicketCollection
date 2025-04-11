@@ -293,16 +293,41 @@ struct TicketView: View {
         let data = try! Data(contentsOf: url, options: .alwaysMapped)
         return data
     }
+    
+    @MainActor func makeImage() -> UIImage? {
+        let renderer = ImageRenderer(content: TicketView(ticketInfo: ticketInfo))
+        renderer.scale = 8.0
+        let generatedImage = renderer.uiImage
+        return generatedImage
+    }
+    
+    @MainActor func makeJPG() -> Data {
+        let url = FileManager.default.temporaryDirectory.appending(path: "ExportedTicket.jpg")
+        let generatedImage = makeImage()!
+        try? FileManager.default.removeItem(at: url)
+        try! generatedImage.jpegData(compressionQuality: 0.9)!.write(to: url, options: .atomic)
+        let data = try! Data(contentsOf: url, options: .alwaysMapped)
+        return data
+    }
 }
 
 class TransferableTicket: Transferable {
-    init(_ item: TicketItem) {
+    enum FileType {
+        case pdf, jpg
+    }
+    init(_ item: TicketItem, _ fileType: FileType) {
         self.item = item
+        self.fileType = fileType
     }
     let item: TicketItem
+    let fileType: FileType
     static var transferRepresentation: some TransferRepresentation {
         DataRepresentation(exportedContentType: .pdf) { instance in
-            await TicketView(ticketInfo: instance.item).makePDF()
+            switch instance.fileType {
+            case .pdf: await TicketView(ticketInfo: instance.item).makePDF()
+            case .jpg: await TicketView(ticketInfo: instance.item).makeJPG()
+            default: fatalError()
+            }
         }
     }
 }

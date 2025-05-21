@@ -104,6 +104,8 @@ struct ContentView: View {
         }
     }
     
+    let bg = RoundedRectangle(cornerRadius: 14).fill(Color(uiColor: .systemGray6))
+    
     var body: some View {
         ZStack {
             Group {

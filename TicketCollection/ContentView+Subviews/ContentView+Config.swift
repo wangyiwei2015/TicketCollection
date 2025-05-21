@@ -27,7 +27,7 @@ extension ContentView {
             }.padding()
             ScrollView(.vertical) {
                 Text("V\(ver) (\(build))")
-            }
+            }.padding(.horizontal)
         }
     }
     
@@ -48,26 +48,43 @@ extension ContentView {
                     .frame(width: 50, height: 40)
             }.padding()
             ScrollView(.vertical) {
-                Button("about") {
-                    withAnimation(.easeOut(duration: 0.3)) {
-                        showsConfig = false
-                        showsAbout = true
+                VStack(spacing: 20) {
+                    HStack {
+                        Button("about") {
+                            withAnimation(.easeOut(duration: 0.3)) {
+                                showsConfig = false
+                                showsAbout = true
+                            }
+                        }
+                        Spacer()
                     }
-                }
-                
-                Text("主页背景图片")
-                Picker(selection: $bgImgName) {
-                    Text("空白").tag("nil")
-                    Text("皮革").tag("bgp")
-                    Text("牛皮纸").tag("bgn")
-                    Text("木纹").tag("bgw")
-                    Text("软木板").tag("bgr")
-                } label: {
-                    Label("background", systemImage: "swift")
-                }
-                
-                Toggle("编辑器扩展选项", isOn: $extEnabled).tint(ticketColorAuto)
-            }
+                    .padding()
+                    .background(bg)
+                    
+                    HStack {
+                        Text("主页背景图片")
+                        Spacer()
+                        
+                        Picker(selection: $bgImgName) {
+                            Text("空白").tag("nil")
+                            Text("皮革").tag("bgp")
+                            Text("牛皮纸").tag("bgn")
+                            Text("木纹").tag("bgw")
+                            Text("软木板").tag("bgr")
+                        } label: {
+                            Label("background", systemImage: "swift")
+                        }
+                    }
+                    .padding()
+                    .background(bg)
+                    
+                    HStack {
+                        Toggle("编辑器扩展选项", isOn: $extEnabled).tint(ticketColorAuto)
+                    }
+                    .padding()
+                    .background(bg)
+                }.padding(.top) // VStack
+            }.padding(.horizontal)
         }
     }
     

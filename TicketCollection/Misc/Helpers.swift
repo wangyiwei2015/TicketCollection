@@ -130,7 +130,7 @@ extension Color {
 }
 
 struct TCButtonStyle: ButtonStyle {
-    var filled: Bool
+    var filled: Bool = false
     var height: CGFloat = 36
     var tint: Color = ticketColorDarker
     func makeBody(configuration: Configuration) -> some View {

@@ -37,6 +37,8 @@ struct EditorView: View {
     @State var bedPosition: String = ""
     @State var bedHeight: String = ""
     
+    @AppStorage("V1ProAcess") var v1ProAccess = false
+    
     var body: some View {
         ZStack {
             VStack(spacing: 10) {
@@ -93,7 +95,9 @@ struct EditorView: View {
                     }
                     Spacer()
                     Menu {
-                        ShareLink("导出为PDF", item: TransferableTicket(ticketItem, .pdf), preview: exportPreview)
+                        if v1ProAccess {
+                            ShareLink("导出为PDF", item: TransferableTicket(ticketItem, .pdf), preview: exportPreview)
+                        }
                         ShareLink("导出为JPG", item: TransferableTicket(ticketItem, .jpg), preview: exportPreview)
                     } label: {
                         Label("分享", systemImage: "square.and.arrow.up").offset(y: -1)
@@ -332,9 +336,9 @@ struct EditorView: View {
             
             HStack {
                 Text("乘客：")
-                Button("选择已保存的信息…") {
+                //Button("选择已保存的信息…") {
                     //
-                }.tint(ticketColorAuto)
+                //}.tint(ticketColorAuto)
                 Spacer()
             }
             HStack {
@@ -446,19 +450,21 @@ struct EditorView: View {
                     tint: ticketItem.starred ? .yellow : .gray
                 )).frame(width: 50)
                 
-                Button {
-                    //dismissKeyboard()
-                    withAnimation(.spring(duration: 0.4, bounce: 0.5)) {
-                        isSettingFolder = true
-                    }
-                } label: {
-                    Label(ticketItem.inFolder?.name ?? "收进文件夹…", systemImage: "wallet.bifold")
-                }.buttonStyle(TCButtonStyle(
-                    filled: ticketItem.inFolder != nil, height: 32
-                ))
-                .overlay {
-                    if isSettingFolder {
-                        addFolderMenu.ignoresSafeArea()
+                if v1ProAccess {
+                    Button {
+                        //dismissKeyboard()
+                        withAnimation(.spring(duration: 0.4, bounce: 0.5)) {
+                            isSettingFolder = true
+                        }
+                    } label: {
+                        Label(ticketItem.inFolder?.name ?? "收进文件夹…", systemImage: "wallet.bifold")
+                    }.buttonStyle(TCButtonStyle(
+                        filled: ticketItem.inFolder != nil, height: 32
+                    ))
+                    .overlay {
+                        if isSettingFolder {
+                            addFolderMenu.ignoresSafeArea()
+                        }
                     }
                 }
             }.padding(.top, 6)

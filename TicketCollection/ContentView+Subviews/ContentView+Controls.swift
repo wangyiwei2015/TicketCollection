@@ -9,9 +9,61 @@ import SwiftUI
 import SwiftData
 
 extension ContentView {
+    @ViewBuilder var topGradient: some View {
+        VStack {
+            LinearGradient(
+                colors: [
+                    colorForBG[bgImgName] ?? Color.systemBackground,
+                    colorForBG[bgImgName] ?? Color.systemBackground,
+                    .clear
+                ],
+                startPoint: .top, endPoint: .bottom)
+            .frame(height: 150)
+            Spacer()
+        }
+    }
+    
+    @ViewBuilder var mianControls: some View {
+        // controls
+        VStack {
+            topBar
+            Spacer()
+            if filteredTickets.isEmpty && !showsAddMenu {
+                Text("无符合条件的车票").font(.title2).foregroundStyle(.gray)
+            }
+            Spacer()
+            if showsAddMenu {
+                addMenu2
+            } else if tickets.isEmpty {
+                emptyTipView.offset(y: -25)
+                .transition(.opacity.combined(with: .scale(0.8, anchor: .bottom)))
+            }
+            
+            HStack {
+                Button {
+                    withAnimation(.spring(duration: 0.4, bounce: 0.5)) {
+                        showsAddMenu.toggle()
+                    }
+                } label: {
+                    ZStack {
+                        Circle().fill(
+                            ticketColorDarker
+                                .shadow(.inner(color: .white.opacity(0.3), radius: 4, y: 4))
+                                .shadow(.inner(color: .black.opacity(0.3), radius: 4, y: -4))
+                        ).shadow(color: .black.opacity(showsAddMenu ? 0.1 : 0.5), radius: 3, y: 3)
+                        Image(systemName: "plus")
+                            .font(.system(size: 30, weight: .semibold)).foregroundStyle(ticketColor)
+                            .rotationEffect(showsAddMenu ? .degrees(135) : .zero)
+                    }.frame(height: 60).aspectRatio(1, contentMode: .fit)
+                }.buttonStyle(MinimalistButtonStyle())
+                .scaleEffect(showsAddMenu ? 0.8 : 1.0)
+                //Button("debug") { showsDebug = true }
+            }.padding(.bottom, 20)
+        }.blur(radius: selectedTicket == nil && !showsAbout && !showsConfig ? 0 : 5)
+    }
+    
     @ViewBuilder var topBar: some View {
         ZStack {
-            
             //search bar
             Group {
                 Capsule().fill(Color(UIColor.systemGray6))
@@ -208,7 +260,7 @@ extension ContentView {
                 .frame(width: 30, height: 30)
                 .rotationEffect(.degrees(45))
                 .offset(y: 80)
-            VStack(spacing: 10) {
+            VStack(spacing: 32) { // TODO: 实现后改成10
                 Button {
                     let newItem = TicketItem()
                     modelContext.insert(newItem)
@@ -225,13 +277,15 @@ extension ContentView {
                     }
                 } label: {
                     Label("开始新设计", systemImage: "pencil.and.outline")
+                        .frame(height: 50) // TODO: 实现后删除这个
                 }.buttonStyle(TCButtonStyle(filled: true))
                 
-                Button {
-                } label: {
-                    Label("扫描/导入 (x)", systemImage: "text.viewfinder")
-                }.buttonStyle(TCButtonStyle(filled: false))
-                    .disabled(true)
+//                Button {
+//                } label: {
+//                    Label("扫描/导入 (x)", systemImage: "text.viewfinder")
+//                }.buttonStyle(TCButtonStyle(filled: false))
+//                    .disabled(true)
+                // TODO: 待实现功能，下次一定
                 
                 Button {
                     withAnimation(.spring(duration: 0.3, bounce: 0.4)) {
@@ -241,8 +295,10 @@ extension ContentView {
                         showsAddMenu = false
                     }
                 } label: {
-                    Label("管理文件夹", systemImage: "wallet.bifold")
+                    Label("管理文件夹", systemImage: v1ProAccess ? "wallet.bifold" : "lock.fill")
+                        .frame(height: 50) // TODO: 实现后删除这个
                 }.buttonStyle(TCButtonStyle(filled: false))
+                .disabled(!v1ProAccess).opacity(v1ProAccess ? 1.0 : 0.5)
                 
             }.frame(width: 180)
         }.transition(.scale(scale: 0.8).combined(with: .opacity).combined(with: .offset(y: 30)))

@@ -86,16 +86,20 @@ extension ContentView {
                     .frame(width: 80)
                     Spacer()
                     
-                    Button {
-                        dismissKeyboard()
-                        withAnimation(.spring(duration: 0.4, bounce: 0.5)) {
-                            previewAddingFolder = true
-                        }
-                    } label: {
-                        Image(systemName: "wallet.bifold")
-                    }.buttonStyle(TCButtonStyle(
-                        filled: selectedTicket?.inFolder != nil, height: 48
-                    )).frame(width: 80)
+                    Group {
+                        if v1ProAccess {
+                            Button {
+                                dismissKeyboard()
+                                withAnimation(.spring(duration: 0.4, bounce: 0.5)) {
+                                    previewAddingFolder = true
+                                }
+                            } label: {
+                                Image(systemName: "wallet.bifold")
+                            }.buttonStyle(TCButtonStyle(
+                                filled: selectedTicket?.inFolder != nil, height: 48
+                            ))
+                        } else { Spacer() }
+                    }.frame(width: 80)
                     .overlay {
                         Button {
                             itemToDelete = showingTicket
@@ -103,7 +107,7 @@ extension ContentView {
                         } label: {
                             Image(systemName: "trash")
                         }.buttonStyle(TCButtonStyle(filled: false, height: 48, tint: .red))
-                            .frame(width: 80).offset(y: -88)
+                            .frame(width: 80).offset(y: v1ProAccess ? -88 : -30)
                     }
                     
                     Spacer()
@@ -138,11 +142,18 @@ extension ContentView {
                         )
                     }.buttonStyle(TCButtonStyle(filled: !saved, height: 48))
                         .frame(width: 130).disabled(saved)
-                    Spacer()
-                    ShareLink(
-                        "导出PDF", item: TransferableTicket(selectedTicket ?? .init(), .pdf),
-                        preview: exportPreview
-                    ).buttonStyle(TCButtonStyle(filled: true, height: 48)).frame(width: 130)
+                    
+                    if v1ProAccess {
+                        Spacer()
+                        ShareLink(
+                            "导出PDF", item: TransferableTicket(selectedTicket ?? .init(), .pdf),
+                            preview: exportPreview
+                        ).buttonStyle(TCButtonStyle(filled: true, height: 48)).frame(width: 130)
+                    } //else {
+//                        Spacer()
+//                        Label("导出PDF", systemImage: "lock.fill").bold()
+//                            .foregroundStyle(.white).opacity(0.6).frame(width: 130)
+//                    }
                 }.padding(.horizontal, 40)
                 Spacer()
             }.zIndex(3)

@@ -1,0 +1,24 @@
+{
+  "originHash" : "16650c623810e9b61cbb19c7fadda8b2ae77f32f620faf8bfda13ee4eb5e89a9",
+  "pins" : [
+    {
+      "identity" : "purchases-ios-spm",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/RevenueCat/purchases-ios-spm.git",
+      "state" : {
+        "revision" : "709554156bb93c909b362e0b30ec0f2afee3df6e",
+        "version" : "5.33.1"
+      }
+    },
+    {
+      "identity" : "reachability.swift",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/ashleymills/Reachability.swift",
+      "state" : {
+        "revision" : "21d1dc412cfecbe6e34f1f4c4eb88d3f912654a6",
+        "version" : "5.2.4"
+      }
+    }
+  ],
+  "version" : 3
+}

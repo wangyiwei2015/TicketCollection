@@ -7,6 +7,8 @@
 
 import SwiftUI
 import SwiftData
+import RevenueCat
+//import Reachability
 
 @MainActor
 struct ContentView: View {
@@ -24,13 +26,15 @@ struct ContentView: View {
     @Environment(\.colorScheme) var colorScheme
     let ticketColorAuto = Color(light: ticketColorDarker, dark: ticketColor)
     
-    // - MARK: 命名空间为了Geometry匹配动画
+    // - MARK: 命名空间为了Geometry匹配动画 Fucking shit buggy
     @Namespace var namespace
 
     // - MARK: 持久化设置数据
     @AppStorage("ViewMode") var viewMode: Int = 1
     @AppStorage("BackgroundImage") var bgImgName: String = "nil"
     @AppStorage("ExtendedOptions") var extEnabled = false
+    @AppStorage("V1ProAcess") var v1ProAccess = false
+    @AppStorage("SubActive") var subscribingIAP = false
     
     // - MARK: 样式相关常量
     let viewModeIcons: [String] = ["list.bullet", "circle.grid.2x2.fill", "square.stack", "scroll"]
@@ -42,6 +46,9 @@ struct ContentView: View {
         "bgw": Color(light: .init(red: 113/255, green: 78/255, blue: 50/255), dark: .init(white: 0.05)),
         "bgr": Color(red: 182/244, green: 142/244, blue: 112/255),
     ]
+    let bgImgNameShown: [String : String] = [
+        "nil": "空白", "bgp": "皮革", "bgn": "牛皮纸", "bgw": "木纹", "bgr": "软木板",
+    ]
 
     // - MARK: 状态：Ticket列表信息
     @State var selectedTicket: TicketItem? = nil {
@@ -51,7 +58,7 @@ struct ContentView: View {
     @State var filters: [Bool] = Array(repeating: false, count: 9)
     @State var folderToDelete: TicketFolder? = nil
     @State var openedFolder: TicketFolder? = nil
-    @State var showAllTickets = false
+    @State var showAllTickets = true
     
     // - MARK: UI界面状态
     @State var topBarHidden = true
@@ -66,6 +73,9 @@ struct ContentView: View {
     @State var previewAddingFolder = false
     @State var alertFolderDel = false
     @State var saved = false // image saved
+    @Environment(\.openURL) var openURL
+    @State var showsIAP = false
+    @State var paywallShown = false
     
     // - MARK: 输入状态
     @State var searchTerm: String = ""
@@ -120,64 +130,16 @@ struct ContentView: View {
                 case 0: listView
                 case 1: gridView
                 case 2: flowView
-                case 3: experimentalLayout
+                case 3: experimentalLayout // for fucking debug
                 default: Spacer()
                 }
+                Color.clear.frame(height: 80)
             }.scrollDisabled(selectedTicket != nil)
             .blur(radius: selectedTicket == nil ? 0 : 5)
-            .zIndex(0)
-            .padding()
+            .zIndex(0).padding()
             
-            // controls
-            VStack {
-                topBar
-                Spacer()
-                if filteredTickets.isEmpty && !showsAddMenu {
-                    Text("无符合条件的车票").font(.title2).foregroundStyle(.gray)
-                }
-                Spacer()
-                if showsAddMenu {
-                    addMenu2
-                } else if tickets.isEmpty {
-                    emptyTipView.offset(y: -25)
-                    .transition(.opacity.combined(with: .scale(0.8, anchor: .bottom)))
-                }
-                
-                HStack {
-                    Button {
-                        withAnimation(.spring(duration: 0.4, bounce: 0.5)) {
-                            showsAddMenu.toggle()
-                        }
-                    } label: {
-                        ZStack {
-                            Circle().fill(
-                                ticketColorDarker
-                                    .shadow(.inner(color: .white.opacity(0.3), radius: 4, y: 4))
-                                    .shadow(.inner(color: .black.opacity(0.3), radius: 4, y: -4))
-                            ).shadow(color: .black.opacity(showsAddMenu ? 0.1 : 0.5), radius: 3, y: 3)
-                            Image(systemName: "plus")
-                                .font(.system(size: 30, weight: .semibold)).foregroundStyle(ticketColor)
-                                .rotationEffect(showsAddMenu ? .degrees(135) : .zero)
-                        }.frame(height: 60).aspectRatio(1, contentMode: .fit)
-                    }.buttonStyle(MinimalistButtonStyle())
-                    .scaleEffect(showsAddMenu ? 0.8 : 1.0)
-                    //Button("debug") { showsDebug = true }
-                }.padding(.bottom, 20)
-            }.blur(radius: selectedTicket == nil && !showsAbout && !showsConfig ? 0 : 5)
-            .zIndex(1)
-            
-            VStack {
-                LinearGradient(
-                    colors: [
-                        colorForBG[bgImgName] ?? Color.systemBackground,
-                        colorForBG[bgImgName] ?? Color.systemBackground,
-                        .clear
-                    ],
-                    startPoint: .top, endPoint: .bottom)
-                .frame(height: 150)
-                Spacer()
-            }
-            
+            mianControls.zIndex(1)
+            topGradient
             ticketPreview
             
             if showsAbout {
@@ -233,10 +195,22 @@ struct ContentView: View {
                     ))
                     .zIndex(11)
             }
-            
             //end of overlays
+        }.ignoresSafeArea()
+        
+        .onAppear {
+            Task {
+                do {
+                    let info = try await Purchases.shared.customerInfo()
+                    let activePurchases = info.entitlements.active
+                    // V1 behavior: any purchase unlocks everything
+                    v1ProAccess = !activePurchases.isEmpty
+                    subscribingIAP = !info.activeSubscriptions.isEmpty
+                } catch {
+                    print(error.localizedDescription)
+                }
+            }
         }
-        .ignoresSafeArea()
         
         .alert("删除确认", isPresented: $showsDelWarning, actions: {
             Button("取消", role: .cancel) { itemToDelete = nil }

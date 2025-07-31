@@ -7,6 +7,7 @@
 
 import SwiftUI
 import SwiftData
+import RevenueCat
 
 @main
 struct TicketCollectionApp: App {
@@ -17,6 +18,12 @@ struct TicketCollectionApp: App {
 //        let config2 = ModelConfiguration(for: TicketFolder.self)
 //        container = try! ModelContainer(for: TicketItem.self, TicketFolder.self, configurations: config1, config2)
 //    }
+    init() {
+        #if DEBUG
+        Purchases.logLevel = .debug
+        #endif
+        Purchases.configure(withAPIKey: "appl_HHiEKFgRrzfqvoBcwMmcNELGqqb")
+    }
     
     var body: some Scene {
         WindowGroup {

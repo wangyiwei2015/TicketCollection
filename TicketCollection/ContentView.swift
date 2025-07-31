@@ -212,6 +212,15 @@ struct ContentView: View {
             }
         }
         
+        .sensoryFeedback(.alignment, trigger: viewMode)
+        .sensoryFeedback(.selection, trigger: selectedTicket) { $1 != nil }
+        .sensoryFeedback(.success, trigger: v1ProAccess) { $1 }
+        .sensoryFeedback(.start, trigger: showsEditor) { $1 }
+        .sensoryFeedback(.impact, trigger: showsConfig) { $1 }
+        .sensoryFeedback(.impact, trigger: showsAbout) { $1 }
+        .sensoryFeedback(.impact, trigger: showsAddMenu) { $1 }
+        .sensoryFeedback(.success, trigger: saved) { $1 }
+        
         .alert("删除确认", isPresented: $showsDelWarning, actions: {
             Button("取消", role: .cancel) { itemToDelete = nil }
             Button("删除此车票", role: .destructive) {

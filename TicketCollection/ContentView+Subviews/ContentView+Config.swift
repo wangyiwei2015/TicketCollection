@@ -175,6 +175,15 @@ extension ContentView {
                                     }.buttonStyle(TCButtonStyle())
                                 }.frame(height: 46).padding(.horizontal, 10)
                             }
+                            #if DEBUG
+                            HStack(spacing: 16) {
+                                Button {
+                                    v1ProAccess = true
+                                } label: {
+                                    Label("DEBUG: 直接免费搞到", systemImage: "swift")
+                                }.buttonStyle(TCButtonStyle())
+                            }.frame(height: 46).padding(.horizontal, 10)
+                            #endif
                         }
                         .sheet(isPresented: $paywallShown) {
                             PaywallView(displayCloseButton: true)

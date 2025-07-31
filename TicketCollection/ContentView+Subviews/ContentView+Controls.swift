@@ -187,7 +187,9 @@ extension ContentView {
                                 Label("列表", systemImage: viewModeIcons[0]).tag(0)
                                 Label("网格", systemImage: viewModeIcons[1]).tag(1)
                                 Label("透视", systemImage: viewModeIcons[2]).tag(2)
+                                #if DEBUG
                                 Label("试验性", systemImage: viewModeIcons[3]).tag(3)
+                                #endif
                             }
                         } label: {
                             Image(systemName: viewModeIcons[viewMode])

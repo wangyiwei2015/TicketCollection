@@ -18,12 +18,15 @@ struct DebugView: View {
         "STHeitiSC-Medium",
         "Technic-Bold",
         "Technic",
+        "Songti SC",
+        "Heiti SC",
+        "PingFang SC",
     ]
     
     var body: some View {
         VStack {
             ForEach(0..<str.count, id: \.self) {id in
-                Text("\(str[id]) ABCacb123啊")
+                Text("\(str[id]) AIOjlqy123啊中文样式")
                     .font(.custom(str[id], fixedSize: 20))
             }
             Button("all") {

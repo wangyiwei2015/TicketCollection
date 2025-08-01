@@ -70,12 +70,14 @@ struct ContentView: View {
     @State var showsConfig = false
     @State var showsAddMenu = false
     @State var showsFolderView = false
+    @State var showsFonts = false
     @State var previewAddingFolder = false
     @State var alertFolderDel = false
     @State var saved = false // image saved
     @Environment(\.openURL) var openURL
     @State var showsIAP = false
     @State var paywallShown = false
+    @State var selectedIAP: Int = -1
     
     // - MARK: 输入状态
     @State var searchTerm: String = ""
@@ -104,8 +106,9 @@ struct ContentView: View {
         } label: {
             Label(item.starred ? "取消收藏" : "收藏", systemImage: item.starred ? "star.slash" : "star")
         }
-
-        ShareLink("分享", item: TransferableTicket(item, .pdf), preview: exportPreview)
+        if v1ProAccess {
+            ShareLink("分享", item: TransferableTicket(item, .pdf), preview: exportPreview)
+        }
         Button(role: .destructive) {
             itemToDelete = item
             showsDelWarning = true
@@ -164,6 +167,8 @@ struct ContentView: View {
                 overlayGradient.onTapGesture {
                     withAnimation(.easeOut(duration: 0.3)) {
                         showsConfig = false
+                    } completion: {
+                        showsIAP = false
                     }
                 }.zIndex(10)
                 ZStack {
@@ -248,6 +253,8 @@ struct ContentView: View {
         }, message: {
             Text("即将删除文件夹\(folderToDelete?.name ?? "nil")，删除后无法恢复。")
         })
+        
+        .sheet(isPresented: $showsFonts) { FontLoaderView() }
         
         .fullScreenCover(isPresented: $showsEditor) {
             EditorView(ticketItem: selectedTicket!, allFolders: allFolders, extEnabled: extEnabled)

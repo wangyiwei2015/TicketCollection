@@ -36,6 +36,7 @@
 		B3C339FA2B00FE550003BEF4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B3C339F92B00FE550003BEF4 /* Assets.xcassets */; };
 		B3C339FD2B00FE550003BEF4 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B3C339FC2B00FE550003BEF4 /* Preview Assets.xcassets */; };
 		B3DB59852C37D54E00CFC01E /* TicketInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3DB59842C37D54E00CFC01E /* TicketInfo.swift */; };
+		B3EA3B372E3C957100C3FB4E /* FontPrefsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3EA3B362E3C956A00C3FB4E /* FontPrefsView.swift */; };
 		B3FA3C6C2DA3EA8000200E22 /* ContentView+Filter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3FA3C6B2DA3EA7900200E22 /* ContentView+Filter.swift */; };
 		B3FA3C6E2DA3EB0500200E22 /* ContentView+GridLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3FA3C6D2DA3EB0400200E22 /* ContentView+GridLayout.swift */; };
 		B3FA3C702DA3EB1D00200E22 /* ContentView+FlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3FA3C6F2DA3EB1800200E22 /* ContentView+FlowLayout.swift */; };
@@ -72,6 +73,7 @@
 		B3C339F92B00FE550003BEF4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B3C339FC2B00FE550003BEF4 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		B3DB59842C37D54E00CFC01E /* TicketInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketInfo.swift; sourceTree = "<group>"; };
+		B3EA3B362E3C956A00C3FB4E /* FontPrefsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontPrefsView.swift; sourceTree = "<group>"; };
 		B3FA3C6B2DA3EA7900200E22 /* ContentView+Filter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ContentView+Filter.swift"; sourceTree = "<group>"; };
 		B3FA3C6D2DA3EB0400200E22 /* ContentView+GridLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ContentView+GridLayout.swift"; sourceTree = "<group>"; };
 		B3FA3C6F2DA3EB1800200E22 /* ContentView+FlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ContentView+FlowLayout.swift"; sourceTree = "<group>"; };
@@ -159,6 +161,7 @@
 				B3708CC22B5D471800357B12 /* TicketView.swift */,
 				B3708CCB2B5E3D7A00357B12 /* EditorView.swift */,
 				B3BF587D2C627AE000AD72DF /* DebugView.swift */,
+				B3EA3B362E3C956A00C3FB4E /* FontPrefsView.swift */,
 				B3BF58972C65D17100AD72DF /* Misc */,
 				B3C339F92B00FE550003BEF4 /* Assets.xcassets */,
 				B3C339FB2B00FE550003BEF4 /* Preview Content */,
@@ -286,6 +289,7 @@
 				B3BF587E2C627AE000AD72DF /* DebugView.swift in Sources */,
 				B3DB59852C37D54E00CFC01E /* TicketInfo.swift in Sources */,
 				B3BF58942C65CC0000AD72DF /* ContentView+TicketPreview.swift in Sources */,
+				B3EA3B372E3C957100C3FB4E /* FontPrefsView.swift in Sources */,
 				B3FA3C6E2DA3EB0500200E22 /* ContentView+GridLayout.swift in Sources */,
 				B3708CCC2B5E3D7A00357B12 /* EditorView.swift in Sources */,
 				B3BF58922C65CBC800AD72DF /* ContentView+ListLayout.swift in Sources */,

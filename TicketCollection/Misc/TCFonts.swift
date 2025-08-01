@@ -28,3 +28,7 @@ extension Font {
         return .custom("Arial Unicode MS", fixedSize: fixedSize)
     }
 }
+
+#Preview {
+    PreviewTickets()
+}

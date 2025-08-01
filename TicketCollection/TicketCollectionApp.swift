@@ -11,16 +11,10 @@ import RevenueCat
 
 @main
 struct TicketCollectionApp: App {
-    //var container: ModelContainer
     
-//    init() {
-//        let config1 = ModelConfiguration(for: TicketItem.self)
-//        let config2 = ModelConfiguration(for: TicketFolder.self)
-//        container = try! ModelContainer(for: TicketItem.self, TicketFolder.self, configurations: config1, config2)
-//    }
     init() {
         #if DEBUG
-        Purchases.logLevel = .debug
+        Purchases.logLevel = .warn
         #endif
         Purchases.configure(withAPIKey: "appl_HHiEKFgRrzfqvoBcwMmcNELGqqb")
     }
@@ -30,7 +24,6 @@ struct TicketCollectionApp: App {
             //NavigationStack {
             ContentView()
             //}
-        }//.modelContainer(container)
-        .modelContainer(for: TicketItem.self, isAutosaveEnabled: false)
+        }.modelContainer(for: TicketItem.self, isAutosaveEnabled: false)
     }
 }

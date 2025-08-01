@@ -22,8 +22,6 @@ extension ContentView {
                 Button {
                     withAnimation(.easeOut(duration: 0.3)) {
                         showsAbout = false
-                    } completion: {
-                        showsIAP = false
                     }
                 } label: {Image(systemName: "xmark")
                 }.buttonStyle(TCButtonStyle(filled: false))
@@ -69,6 +67,8 @@ extension ContentView {
                 Button {
                     withAnimation(.easeOut(duration: 0.3)) {
                         showsConfig = false
+                    } completion: {
+                        showsIAP = false
                     }
                 } label: {Image(systemName: "xmark")
                 }.buttonStyle(TCButtonStyle(filled: false))
@@ -76,7 +76,6 @@ extension ContentView {
             }.padding()
             ScrollView(.vertical, showsIndicators: false) {
                 VStack(spacing: 20) {
-                    
                     HStack {
                         Text("主页背景图片").bold().font(.title3)
                             .foregroundStyle(v1ProAccess ? ticketColorAuto : .gray)
@@ -121,12 +120,22 @@ extension ContentView {
                     //.background(bg).padding(.horizontal, 10)
                     
                     Button {
+                        showsFonts = true
+                    } label: {
+                        Label("自定义票面字体…", systemImage: "character.book.closed.fill")
+                            .frame(height: 46)
+                    }.buttonStyle(TCButtonStyle())
+                        .padding(.horizontal, 10).padding(.top)
+                    
+                    Button {
                         withAnimation(.easeOut(duration: 0.3)) {
                             showsConfig = false
                             showsAbout = true
+                        } completion: {
+                            showsIAP = false
                         }
                     } label: {
-                        Label("关于TicketBox app", systemImage: "info.circle") //trophy
+                        Label("关于TicketBox app", systemImage: "info.circle")
                             .frame(height: 46)
                     }.buttonStyle(TCButtonStyle())
                         .padding(.horizontal, 10).padding(.vertical)
@@ -136,7 +145,7 @@ extension ContentView {
                             showsIAP.toggle()
                         }
                     } label: {
-                        Label("给开发者打赏", systemImage: "medal.fill") //trophy
+                        Label(v1ProAccess ? "打赏开发者" : "获取所有高级功能", systemImage: "medal.fill")
                             .frame(height: 46)
                     }.buttonStyle(TCButtonStyle(filled: showsIAP))
                         .padding(.horizontal, 10)
@@ -145,42 +154,40 @@ extension ContentView {
                         VStack(spacing: 10) {
                             HStack(spacing: 16) {
                                 Button {
-                                    Task { await payOneTime("com.wyw.ticketbox.donation.1") }
+                                    Task { await payOneTime("com.wyw.ticketbox.v1pro.free", 0) }
                                 } label: {
-                                    Label("¥6", systemImage: "bolt")
-                                }.buttonStyle(TCButtonStyle())
+                                    Label("¥0", systemImage: "bolt.fill")
+                                }.buttonStyle(TCButtonStyle(filled: selectedIAP == 0))
                                 Button {
-                                    Task { await payOneTime("com.wyw.ticketbox.donation.2") }
+                                    Task { await payOneTime("com.wyw.ticketbox.v1pro.1", 1) }
                                 } label: {
-                                    Label("¥12", systemImage: "bolt")
-                                }.buttonStyle(TCButtonStyle())
+                                    Label("¥3", systemImage: "bolt.fill")
+                                }.buttonStyle(TCButtonStyle(filled: selectedIAP == 1))
+                            }.frame(height: 46).padding(.horizontal, 10)
+                            HStack(spacing: 16) {
                                 Button {
-                                    Task { await payOneTime("com.wyw.ticketbox.donation.3") }
+                                    Task { await payOneTime("com.wyw.ticketbox.v1pro.2", 2) }
                                 } label: {
-                                    Label("¥28", systemImage: "bolt")
-                                }.buttonStyle(TCButtonStyle())
+                                    Label("¥12", systemImage: "bolt.fill")
+                                }.buttonStyle(TCButtonStyle(filled: selectedIAP == 2))
+                                Button {
+                                    Task { await payOneTime("com.wyw.ticketbox.v1pro.3", 3) }
+                                } label: {
+                                    Label("¥28", systemImage: "bolt.fill")
+                                }.buttonStyle(TCButtonStyle(filled: selectedIAP == 3))
                             }.frame(height: 46).padding(.horizontal, 10)
                             
-                            if !subscribingIAP {
-                                HStack(spacing: 16) {
-                                    Button {
-                                        Task { await payOneTime("com.wyw.ticketbox.sponsor.1") }
-                                    } label: {
-                                        Label("每月 ¥3", systemImage: "bolt.fill")
-                                    }.buttonStyle(TCButtonStyle())
-                                    Button {
-                                        Task { await payOneTime("com.wyw.ticketbox.sponsor.2") }
-                                    } label: {
-                                        Label("每年 ¥18", systemImage: "bolt.fill")
-                                    }.buttonStyle(TCButtonStyle())
-                                }.frame(height: 46).padding(.horizontal, 10)
-                            }
+//                            if !subscribingIAP {
+//                                HStack(spacing: 16) {
+//                                    Button
+//                                }.frame(height: 46).padding(.horizontal, 10)
+//                            }
                             #if DEBUG
                             HStack(spacing: 16) {
                                 Button {
                                     v1ProAccess = true
                                 } label: {
-                                    Label("DEBUG: 直接免费搞到", systemImage: "swift")
+                                    Label("DEBUG: 直接零元购", systemImage: "swift")
                                 }.buttonStyle(TCButtonStyle())
                             }.frame(height: 46).padding(.horizontal, 10)
                             #endif
@@ -204,15 +211,21 @@ extension ContentView {
                         }
                     }
                     
-                    Text("选择打赏任意金额即可获得：\n- 自定义背景图像\n- 文件夹管理功能\n- 导出无损PDF文件\n\n任意一项订阅可以永久获得订阅结束前上线的全部功能。\n订阅可随时取消，请于下一次收费开始前，在iCloud账户设置或App Store设置的订阅中取消。")
-                        .foregroundStyle(.secondary)
-                        .padding(10)
+                    Group {
+                        if v1ProAccess {
+                            Text("感谢支持！\n您也可以继续打赏来为后续开发提供更多动力～\n")
+                        } else {
+                            Text("选择支付任意金额即可获得目前发布的全部功能：\n- 多种背景图像\n- 文件夹管理功能\n- 导出无损PDF文件\n\n计划开发：\n自定义导入背景图像\n二维码导入导出\n")
+                        }
+                    }.foregroundStyle(.secondary).padding(10)
                 }.padding(.top).padding(.horizontal) // VStack
             }
-        }
+        }.sensoryFeedback(.impact, trigger: selectedIAP) { $1 > -1 }
     }
     
-    func payOneTime(_ id: String) async {
+    func payOneTime(_ id: String, _ sel: Int) async {
+        selectedIAP = sel
+        defer { selectedIAP = -1 }
         if let prod = await Purchases.shared
             .products([id])
             .first {
@@ -220,6 +233,8 @@ extension ContentView {
                 .purchase(product: prod) {
                 v1ProAccess = !result.customerInfo.entitlements.active.isEmpty
                 subscribingIAP = !result.customerInfo.activeSubscriptions.isEmpty
+                showsIAP = false
+                selectedIAP = -1
             } else { print("purchase failed") }
         } else { print("no such product") }
     }

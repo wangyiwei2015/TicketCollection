@@ -46,7 +46,7 @@ struct TicketView: View {
             trainInfo.padding(.horizontal, 20)
             Spacer()
             passengerInfo.padding(.horizontal, 20)
-            Text("CR CR CR CR CR CR CR CR CR CR CR CR CR CR CR CR CR CR CR CR CR CR CR CR CR CR CR CR CR CR CR CR CR CR CR CR CR CR CR CR CR CR CR CR CR CR CR")
+            Text("CR " * 47)
                 .font(.tc背景CR).foregroundColor(ticketBG2)
             bottomLabels.frame(height: 20).padding(.horizontal, 20)
         }
@@ -200,6 +200,29 @@ struct TicketView: View {
         }
     }
     
+    private aa func drawOutlineAttributedString(
+        string: String,
+        fontSize: CGFloat,
+        alignment: NSTextAlignment,
+        textColor: UIColor,
+        strokeWidth: CGFloat,
+        widthColor: UIColor) -> NSAttributedString {
+        let paragraph = NSMutableParagraphStyle()
+        paragraph.alignment = alignment
+        paragraph.lineHeightMultiple = 0.93
+        let dic: [NSAttributedString.Key: Any] = [
+            NSAttributedString.Key.font: UIFont.systemFont(ofSize: fontSize),
+            NSAttributedString.Key.paragraphStyle: paragraph,
+            NSAttributedString.Key.foregroundColor: textColor,
+            NSAttributedString.Key.strokeWidth: strokeWidth,
+            NSAttributedString.Key.strokeColor: widthColor,
+            NSAttributedString.Key.kern: 1
+        ]
+        var attributedText: NSMutableAttributedString!
+        attributedText = NSMutableAttributedString(string: string, attributes: dic)
+        return attributedText
+    }
+    
     // MARK: - Passenger info and QR
     
     @ViewBuilder var passengerInfo: some View {
@@ -215,10 +238,11 @@ struct TicketView: View {
                     HStack {
                         Text(ticketInfo.passengerID)
                             .font(.tc乘客身份证)
+                            .stroke(.black, lineWidth: 0.1)
                         Text(ticketInfo.passengerName)
                             .font(.tc乘客姓名)
                         Spacer()
-                    }
+                    }.frame(height: 10)
                     ZStack {
                         Rectangle().stroke(style: .init(
                             lineWidth: 1.0, lineCap: .butt,
@@ -226,9 +250,15 @@ struct TicketView: View {
                             dash: [5, 2], dashPhase: 0)
                         )
                         .padding(.horizontal, 16)
-                        Text(ticketInfo.comments)
-                            .multilineTextAlignment(.center)
-                            .font(.tc备注框)
+                        //Text(ticketInfo.comments)
+                            //.multilineTextAlignment(.center)
+                            //.font(.tc备注框)
+                        //VStack(spacing: 0) {
+                            Text(ticketInfo.comments.components(separatedBy: "\n").first ?? "")
+                            .font(.tc备注框).offset(y: -7)
+                            Text(ticketInfo.comments.components(separatedBy: "\n").last ?? "")
+                            .font(.tc备注框).offset(y: 7)
+                        //}
                     }.frame(height: 29).padding(.trailing, 16)
                 }
                 Image(uiImage: QRGen.shared.generateQRCode(

@@ -226,3 +226,18 @@ func &&=(lhs: inout Bool, rhs: Bool) -> Void {
 //func <-?<T: Equatable>(lhs: inout T?, rhs: T?) -> Void {
 //    lhs = lhs == rhs ? nil : rhs
 //}
+
+func *(lhs: String, rhs: Int) -> String {
+    guard rhs > 0 else { return "" }
+    return String(repeating: lhs, count: rhs)
+}
+
+prefix operator √
+prefix func √(value: Double) -> Double {
+    return sqrt(value)
+}
+
+//suffix operator °
+//suffix func °(value: Double) -> Angle {
+//    return .degrees(value)
+//}

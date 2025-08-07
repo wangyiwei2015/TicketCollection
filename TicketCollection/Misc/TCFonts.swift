@@ -41,7 +41,7 @@ extension Font {
         return .custom("FreeSerif", fixedSize: 20).weight(.regular)
     }
     static var tc车次数字: Font {
-        //return tc宋体(20);
+        return tc宋体(20);
         return .custom("FreeSerif", fixedSize: 20).weight(.regular)
     }
     static var tc车站中文: Font {
@@ -89,24 +89,22 @@ extension Font {
         //return .custom("", fixedSize: <#T##CGFloat#>).weight(<#T##Font.Weight#>)
     }
     static var tc乘客姓名: Font {
-        return tc宋体(15);
-        //return .custom("", fixedSize: <#T##CGFloat#>).weight(<#T##Font.Weight#>)
+        //return tc宋体(15);
+        return .custom("SourceHanSerifSC-Bold", fixedSize: 14)
     }
     static var tc乘客身份证: Font {
-        return tcTechnicBold(15);
-        //return .custom("", fixedSize: <#T##CGFloat#>).weight(<#T##Font.Weight#>)
+        //return tcTechnicBold(15);
+        return .custom("Gilroy", fixedSize: 14).weight(.bold) // TODO: Gilroy Bold
     }
     static var tc备注框: Font {
-        return tc宋体(11);
-        //return .custom("", fixedSize: <#T##CGFloat#>).weight(<#T##Font.Weight#>)
+        return .custom("SourceHanSerifSC-Bold", fixedSize: 10)
     }
     static var tc左下黑编号: Font {
         //return tc仿宋(14);
-        return .custom("SourceHanSerifSC-Regular", fixedSize: 12).weight(.regular)
+        return .custom("FreeSerif", fixedSize: 13)
     }
     static var tc背景CR: Font {
-        //return tcArialUMS(4.2);
-        return .custom("SourceHanSansSC-Regular", fixedSize: 4.2).weight(.regular)
+        return .custom("PingFang SC", fixedSize: 4.1).weight(.bold)
     }
 }
 

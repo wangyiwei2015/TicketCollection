@@ -47,7 +47,7 @@ struct TicketView: View {
             Spacer()
             passengerInfo.padding(.horizontal, 20)
             Text("CR CR CR CR CR CR CR CR CR CR CR CR CR CR CR CR CR CR CR CR CR CR CR CR CR CR CR CR CR CR CR CR CR CR CR CR CR CR CR CR CR CR CR CR CR CR CR")
-                .font(.tcArialUMS(4.2)).foregroundColor(ticketBG2)
+                .font(.tc背景CR).foregroundColor(ticketBG2)
             bottomLabels.frame(height: 20).padding(.horizontal, 20)
         }
     }
@@ -56,10 +56,10 @@ struct TicketView: View {
     
     @ViewBuilder var topLabels: some View {
         HStack {
-            Text(ticketInfo.ticketID).font(.tcArialUMS(18))
+            Text(ticketInfo.ticketID).font(.tc左上红编号)
                 .foregroundColor(.red).opacity(0.8)
             Spacer()
-            Text(ticketInfo.entrance).font(.tc华文宋体(12))
+            Text(ticketInfo.entrance).font(.tc右上检票)
                 .foregroundColor(.black)
         }
     }
@@ -94,11 +94,11 @@ struct TicketView: View {
                         Spacer(minLength: 0)
                         Text(cn.prefix(strIndex + 1).suffix(1))
                     }
-                }.font(.tc黑体(20))
-                    
-                Text("站").font(.tc宋体(15)).padding(.leading, 5)
+                }.font(.tc车站中文)
+                
+                Text("站").font(.tc站).padding(.leading, 5)
             }
-            Text(en).font(.tc宋体(12))
+            Text(en).font(.tc车站英文)
         }.frame(width: 108)
     }
     
@@ -107,8 +107,12 @@ struct TicketView: View {
             station(ticketInfo.stationSrcCN, ticketInfo.stationSrcEN)
             Spacer()
             VStack(spacing: 0) {
-                //FIXME: WRONG Font
-                Text(ticketInfo.trainNumber).font(.tc宋体(20))
+                HStack(spacing: 0) {
+                    Text(ticketInfo.trainNumber.prefix(1)).font(.tc车次字母)
+                    if ticketInfo.trainNumber.count > 1 {
+                        Text(ticketInfo.trainNumber.dropFirst()).font(.tc车次数字)
+                    }
+                }
                 VStack(spacing: 0) {
                     HStack {
                         Spacer()
@@ -129,13 +133,13 @@ struct TicketView: View {
         let (year, month, day, hour, minute) = t.components
         HStack(spacing: 0) {
             Text(String(year)).font(.tcTechnicBold(17))
-            Text("年").font(.tc宋体(9)).padding(.trailing, 6)
+            Text("年").font(.tc日期中文).padding(.trailing, 6)
             Text(String(month)).font(.tcTechnicBold(17))
-            Text("月").font(.tc宋体(9)).padding(.trailing, 6)
+            Text("月").font(.tc日期中文).padding(.trailing, 6)
             Text(String(day)).font(.tcTechnicBold(17))
-            Text("日").font(.tc宋体(9)).padding(.trailing, 6)
-            Text(String(format: "%02d:%02d", hour, minute)).font(.tcTechnicBold(17))
-            Text("开").font(.tc宋体(9))
+            Text("日").font(.tc日期中文).padding(.trailing, 6)
+            Text(String(format: "%02d:%02d", hour, minute)).font(.tc日期数字英文)
+            Text("开").font(.tc日期中文)
             //Spacer()
             seats.padding(.leading, 30)
             Spacer()
@@ -146,24 +150,24 @@ struct TicketView: View {
         HStack(spacing: 0) {
             switch ticketInfo.ticketType {
             case .noSeat:
-                Text("无座").font(.tc宋体(14)).frame(maxWidth: .infinity)
+                Text("无座").font(.tc座位中文大).frame(maxWidth: .infinity)
             case .seat: // 01车01A号
-                Text(ticketInfo.carriage).font(.tcTechnicBold(16))
-                Text("车").font(.tc宋体(9)).padding(.trailing, 4)
-                Text(ticketInfo.seat.prefix(2)).font(.tcTechnicBold(16))
-                Text(ticketInfo.seat.suffix(1)).font(.tcTechnicBold(12))
-                Text("号").font(.tc宋体(9))
+                Text(ticketInfo.carriage).font(.tc座位数字英文)
+                Text("车").font(.tc座位中文).padding(.trailing, 4)
+                Text(ticketInfo.seat.prefix(2)).font(.tc座位数字英文)
+                Text(ticketInfo.seat.suffix(1)).font(.tc座位数字英文)
+                Text("号").font(.tc座位中文)
             case .bed: // 01车001号下铺
-                Text(ticketInfo.carriage).font(.tcTechnicBold(16))
-                Text("车").font(.tc宋体(9)).padding(.trailing, 4)
+                Text(ticketInfo.carriage).font(.tc座位数字英文)
+                Text("车").font(.tc座位中文).padding(.trailing, 4)
                 if ticketInfo.seat.count > 3 {
-                    Text(ticketInfo.seat.prefix(3)).font(.tcTechnicBold(16))
+                    Text(ticketInfo.seat.prefix(3)).font(.tc座位数字英文)
                     Text(ticketInfo.seat.suffix(
                         from: .init(utf16Offset: 3, in: ticketInfo.seat)
-                    )).font(.tc宋体(14))
+                    )).font(.tc座位中文大)
                 }
             case .custom:
-                Text(ticketInfo.seat).font(.tc宋体(14)).frame(maxWidth: .infinity)
+                Text(ticketInfo.seat).font(.tc座位中文大).frame(maxWidth: .infinity)
             default:
                 Text("INVALID")
             }
@@ -172,16 +176,16 @@ struct TicketView: View {
     
     @ViewBuilder func circledText(_ txt: String) -> some View {
         Text(txt)
-            .font(.tc宋体(13)).frame(width: 15, height: 15)
+            .font(.tc提示标签中文).frame(width: 15, height: 15)
             .background(Circle().stroke(lineWidth: 0.5))
     }
     
     @ViewBuilder var pricelevel: some View {
         HStack(spacing: 0) {
             HStack(spacing: 0) {
-                Text("¥").font(.tc宋体(16)).padding(.trailing, 2)
-                Text(String(format: "%.2f", ticketInfo.price)).font(.tcTechnicBold(16))
-                Text("元").font(.tc宋体(9))
+                Text("¥").font(.tc价格CNY).padding(.trailing, 2)
+                Text(String(format: "%.2f", ticketInfo.price)).font(.tc座位数字英文)
+                Text("元").font(.tc座位中文)
                 Spacer()
             }.frame(width: 100)
             Spacer()
@@ -190,7 +194,7 @@ struct TicketView: View {
             if ticketInfo.isDiscount { circledText("惠").padding(.horizontal, 2) }
             Spacer()
             HStack(spacing: 0) {
-                Text(ticketInfo.seatLevel).font(.tc黑体(13))
+                Text(ticketInfo.seatLevel).font(.tc席别)
             }//.frame(width: 100)
             .padding(.horizontal, 32)
         }
@@ -201,7 +205,7 @@ struct TicketView: View {
     @ViewBuilder var passengerInfo: some View {
         VStack(spacing: 0) {
             HStack {
-                Text("\(ticketInfo.isRefunded ? "退票\n" : "")\(ticketInfo.notes)\(ticketInfo.isExtended ? "\n越站" : "")").font(.tc华文宋体(12))
+                Text("\(ticketInfo.isRefunded ? "退票\n" : "")\(ticketInfo.notes)\(ticketInfo.isExtended ? "\n越站" : "")").font(.tc提示标签中文)
                 Spacer()
             }
             .fixedSize(horizontal: false, vertical: true)
@@ -210,9 +214,9 @@ struct TicketView: View {
                 VStack {
                     HStack {
                         Text(ticketInfo.passengerID)
-                            .font(.tcTechnicBold(15))
+                            .font(.tc乘客身份证)
                         Text(ticketInfo.passengerName)
-                            .font(.tc宋体(15))
+                            .font(.tc乘客姓名)
                         Spacer()
                     }
                     ZStack {
@@ -224,7 +228,7 @@ struct TicketView: View {
                         .padding(.horizontal, 16)
                         Text(ticketInfo.comments)
                             .multilineTextAlignment(.center)
-                            .font(.tc宋体(11))
+                            .font(.tc备注框)
                     }.frame(height: 29).padding(.trailing, 16)
                 }
                 Image(uiImage: QRGen.shared.generateQRCode(
@@ -242,7 +246,7 @@ struct TicketView: View {
     @ViewBuilder var bottomLabels: some View {
         HStack {
             Text(ticketInfo.ticketSerial)
-                .font(.tc仿宋(14)).foregroundColor(.black)
+                .font(.tc左下黑编号).foregroundColor(.black)
             Spacer()
         }
     }

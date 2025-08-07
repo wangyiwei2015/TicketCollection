@@ -14,6 +14,12 @@
 		<string>STSongti-SC-Bold.subset.ttf</string>
 		<string>STSongti-SC-Light.subset.ttf</string>
 		<string>STSongti-SC-Regular.subset.ttf</string>
+		<string>FreeSerif.otf</string>
+		<string>Gilroy-Light.otf</string>
+		<string>SourceHanSansSC-Regular.subset.otf</string>
+		<string>SourceHanSansSC-Bold.subset.otf</string>
+		<string>SourceHanSerifSC-Regular.subset.otf</string>
+		<string>SourceHanSerifSC-Bold.subset.otf</string>
 	</array>
 	<key>UIBackgroundModes</key>
 	<array>

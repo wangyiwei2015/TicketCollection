@@ -42,6 +42,7 @@
 		B3C339F82B00FE540003BEF4 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3C339F72B00FE540003BEF4 /* ContentView.swift */; };
 		B3C339FA2B00FE550003BEF4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B3C339F92B00FE550003BEF4 /* Assets.xcassets */; };
 		B3C339FD2B00FE550003BEF4 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B3C339FC2B00FE550003BEF4 /* Preview Assets.xcassets */; };
+		B3DA41AF2E52414200B5A9A4 /* StringStyles.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3DA41AE2E52413D00B5A9A4 /* StringStyles.swift */; };
 		B3DB59852C37D54E00CFC01E /* TicketInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3DB59842C37D54E00CFC01E /* TicketInfo.swift */; };
 		B3EA3B372E3C957100C3FB4E /* FontPrefsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3EA3B362E3C956A00C3FB4E /* FontPrefsView.swift */; };
 		B3FA3C6C2DA3EA8000200E22 /* ContentView+Filter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3FA3C6B2DA3EA7900200E22 /* ContentView+Filter.swift */; };
@@ -86,6 +87,7 @@
 		B3C339F72B00FE540003BEF4 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		B3C339F92B00FE550003BEF4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B3C339FC2B00FE550003BEF4 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		B3DA41AE2E52413D00B5A9A4 /* StringStyles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringStyles.swift; sourceTree = "<group>"; };
 		B3DB59842C37D54E00CFC01E /* TicketInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketInfo.swift; sourceTree = "<group>"; };
 		B3EA3B362E3C956A00C3FB4E /* FontPrefsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontPrefsView.swift; sourceTree = "<group>"; };
 		B3FA3C6B2DA3EA7900200E22 /* ContentView+Filter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ContentView+Filter.swift"; sourceTree = "<group>"; };
@@ -142,6 +144,7 @@
 		B3BF58972C65D17100AD72DF /* Misc */ = {
 			isa = PBXGroup;
 			children = (
+				B3DA41AE2E52413D00B5A9A4 /* StringStyles.swift */,
 				B3DB59842C37D54E00CFC01E /* TicketInfo.swift */,
 				B3708CC02B5D41D000357B12 /* TCFonts.swift */,
 				B3708CC92B5E395500357B12 /* QRGen.swift */,
@@ -311,6 +314,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B3DA41AF2E52414200B5A9A4 /* StringStyles.swift in Sources */,
 				B3C339F82B00FE540003BEF4 /* ContentView.swift in Sources */,
 				B3708CC12B5D41D000357B12 /* TCFonts.swift in Sources */,
 				B3708CCA2B5E395500357B12 /* QRGen.swift in Sources */,

@@ -97,7 +97,7 @@ struct TicketView: View {
                 }.font(.tc车站中文)
                 
                 Text("站").font(.tc站).padding(.leading, 5)
-            }
+            }.frame(height: 18)
             Text(en).font(.tc车站英文)
         }.frame(width: 108)
     }
@@ -132,14 +132,14 @@ struct TicketView: View {
     @ViewBuilder func departime(_ t: Date) -> some View {
         let (year, month, day, hour, minute) = t.components
         HStack(spacing: 0) {
-            Text(String(year)).font(.tcTechnicBold(17))
-            Text("年").font(.tc日期中文).padding(.trailing, 6)
-            Text(String(month)).font(.tcTechnicBold(17))
-            Text("月").font(.tc日期中文).padding(.trailing, 6)
-            Text(String(day)).font(.tcTechnicBold(17))
-            Text("日").font(.tc日期中文).padding(.trailing, 6)
-            Text(String(format: "%02d:%02d", hour, minute)).font(.tc日期数字英文)
-            Text("开").font(.tc日期中文)
+            Text(String(year)).font(.tc日期数字英文).overlay { Text(String(year)).font(.tc日期数字英文).shadow(color: .black, radius: 0.3) }
+            Text("年").font(.tc日期中文).padding(.trailing, 5).padding(.leading, 2)
+            Text(String(month)).font(.tc日期数字英文).overlay { Text(String(month)).font(.tc日期数字英文).shadow(color: .black, radius: 0.3) }
+            Text("月").font(.tc日期中文).padding(.trailing, 5).padding(.leading, 2)
+            Text(String(day)).font(.tc日期数字英文).overlay { Text(String(day)).font(.tc日期数字英文).shadow(color: .black, radius: 0.3) }
+            Text("日").font(.tc日期中文).padding(.trailing, 5).padding(.leading, 2)
+            Text(String(format: "%02d:%02d", hour, minute)).font(.tc日期数字英文).overlay { Text(String(format: "%02d:%02d", hour, minute)).font(.tc日期数字英文).shadow(color: .black, radius: 0.3) }
+            Text("开").font(.tc日期中文).padding(.leading, 2)
             //Spacer()
             seats.padding(.leading, 30)
             Spacer()
@@ -152,16 +152,16 @@ struct TicketView: View {
             case .noSeat:
                 Text("无座").font(.tc座位中文大).frame(maxWidth: .infinity)
             case .seat: // 01车01A号
-                Text(ticketInfo.carriage).font(.tc座位数字英文)
+                Text(ticketInfo.carriage).font(.tc座位数字英文).overlay { Text(ticketInfo.carriage).font(.tc座位数字英文).shadow(color: .black, radius: 0.3) }
                 Text("车").font(.tc座位中文).padding(.trailing, 4)
-                Text(ticketInfo.seat.prefix(2)).font(.tc座位数字英文)
-                Text(ticketInfo.seat.suffix(1)).font(.tc座位数字英文)
+                Text(ticketInfo.seat.prefix(2)).font(.tc座位数字英文).overlay { Text(ticketInfo.seat.prefix(2)).font(.tc座位数字英文).shadow(color: .black, radius: 0.3) }
+                Text(ticketInfo.seat.suffix(1)).font(.tc座位数字英文).overlay { Text(ticketInfo.seat.suffix(1)).font(.tc座位数字英文).shadow(color: .black, radius: 0.3) }
                 Text("号").font(.tc座位中文)
             case .bed: // 01车001号下铺
-                Text(ticketInfo.carriage).font(.tc座位数字英文)
+                Text(ticketInfo.carriage).font(.tc座位数字英文).overlay { Text(ticketInfo.carriage).font(.tc座位数字英文).shadow(color: .black, radius: 0.3) }
                 Text("车").font(.tc座位中文).padding(.trailing, 4)
                 if ticketInfo.seat.count > 3 {
-                    Text(ticketInfo.seat.prefix(3)).font(.tc座位数字英文)
+                    Text(ticketInfo.seat.prefix(3)).font(.tc座位数字英文).overlay { Text(ticketInfo.seat.prefix(3)).font(.tc座位数字英文).shadow(color: .black, radius: 0.3) }
                     Text(ticketInfo.seat.suffix(
                         from: .init(utf16Offset: 3, in: ticketInfo.seat)
                     )).font(.tc座位中文大)
@@ -185,6 +185,7 @@ struct TicketView: View {
             HStack(spacing: 0) {
                 Text("¥").font(.tc价格CNY).padding(.trailing, 2)
                 Text(String(format: "%.2f", ticketInfo.price)).font(.tc座位数字英文)
+                    .overlay { Text(String(format: "%.2f", ticketInfo.price)).font(.tc座位数字英文).shadow(color: .black, radius: 0.3) }
                 Text("元").font(.tc座位中文)
                 Spacer()
             }.frame(width: 100)
@@ -200,28 +201,42 @@ struct TicketView: View {
         }
     }
     
-    private aa func drawOutlineAttributedString(
-        string: String,
-        fontSize: CGFloat,
-        alignment: NSTextAlignment,
-        textColor: UIColor,
-        strokeWidth: CGFloat,
-        widthColor: UIColor) -> NSAttributedString {
-        let paragraph = NSMutableParagraphStyle()
-        paragraph.alignment = alignment
-        paragraph.lineHeightMultiple = 0.93
-        let dic: [NSAttributedString.Key: Any] = [
-            NSAttributedString.Key.font: UIFont.systemFont(ofSize: fontSize),
-            NSAttributedString.Key.paragraphStyle: paragraph,
-            NSAttributedString.Key.foregroundColor: textColor,
-            NSAttributedString.Key.strokeWidth: strokeWidth,
-            NSAttributedString.Key.strokeColor: widthColor,
-            NSAttributedString.Key.kern: 1
-        ]
-        var attributedText: NSMutableAttributedString!
-        attributedText = NSMutableAttributedString(string: string, attributes: dic)
-        return attributedText
-    }
+//    private aa func drawOutlineAttributedString(
+//        string: String,
+//        fontSize: CGFloat,
+//        alignment: NSTextAlignment,
+//        textColor: UIColor,
+//        strokeWidth: CGFloat,
+//        widthColor: UIColor) -> NSAttributedString {
+//        let paragraph = NSMutableParagraphStyle()
+//        paragraph.alignment = alignment
+//        paragraph.lineHeightMultiple = 0.93
+//        let dic: [NSAttributedString.Key: Any] = [
+//            NSAttributedString.Key.font: UIFont.systemFont(ofSize: fontSize),
+//            NSAttributedString.Key.paragraphStyle: paragraph,
+//            NSAttributedString.Key.foregroundColor: textColor,
+//            NSAttributedString.Key.strokeWidth: strokeWidth,
+//            NSAttributedString.Key.strokeColor: widthColor,
+//            NSAttributedString.Key.kern: 1
+//        ]
+//        var attributedText: NSMutableAttributedString!
+//        attributedText = NSMutableAttributedString(string: string, attributes: dic)
+//        return attributedText
+//    }
+//    @inlinable func outlinedString(
+//        _ string: String, fontSize: CGFloat, textColor: UIColor,
+//        strokeWidth: CGFloat, widthColor: UIColor
+//    ) -> NSAttributedString {
+//        let dic: [NSAttributedString.Key: Any] = [
+//            .font: UIFont.systemFont(ofSize: fontSize),
+//            //.paragraphStyle: paragraph,
+//            .foregroundColor: textColor,
+//            .strokeWidth: strokeWidth, .strokeColor: widthColor, .kern: 1
+//        ]
+//        var attributedText: NSMutableAttributedString!
+//        attributedText = NSMutableAttributedString(string: string, attributes: dic)
+//        return attributedText
+//    }
     
     // MARK: - Passenger info and QR
     
@@ -232,13 +247,18 @@ struct TicketView: View {
                 Spacer()
             }
             .fixedSize(horizontal: false, vertical: true)
-            .frame(height: ticketInfo.isExtended ? 22 : 18)
+            .frame(height: 18)
+            .offset(y: ticketInfo.isExtended || ticketInfo.isRefunded ? -6 : 0)
             HStack {
                 VStack {
                     HStack {
                         Text(ticketInfo.passengerID)
                             .font(.tc乘客身份证)
-                            .stroke(.black, lineWidth: 0.1)
+                            .overlay {
+                                Text(ticketInfo.passengerID)
+                                    .font(.tc乘客身份证).shadow(color: .black, radius: 0.3)
+                                // This is shit but works
+                            }
                         Text(ticketInfo.passengerName)
                             .font(.tc乘客姓名)
                         Spacer()

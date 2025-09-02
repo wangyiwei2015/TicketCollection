@@ -41,14 +41,20 @@ struct TicketView: View {
     }
     
     @ViewBuilder var contents: some View {
-        VStack(spacing: 0) {
-            topLabels.frame(height: 26).padding(.horizontal, 20).padding(.top, 6)
-            trainInfo.padding(.horizontal, 20)
-            Spacer()
-            passengerInfo.padding(.horizontal, 20)
-            Text("CR " * 47)
-                .font(.tc背景CR).foregroundColor(ticketBG2)
-            bottomLabels.frame(height: 20).padding(.horizontal, 20)
+        ZStack {
+            VStack(spacing: 0) {
+                topLabels.frame(height: 26).padding(.horizontal, 20).padding(.top, 6)
+                trainInfo.padding(.horizontal, 20)
+                
+                passengerInfo.padding(.horizontal, 20)
+                
+                Spacer()
+            }
+            VStack(spacing: 0) {
+                Spacer()
+                Text("CR " * 47).font(.tc背景CR).foregroundColor(ticketBG2)
+                bottomLabels.frame(height: 20).padding(.horizontal, 20)
+            }
         }
     }
     
@@ -243,12 +249,17 @@ struct TicketView: View {
     @ViewBuilder var passengerInfo: some View {
         VStack(spacing: 0) {
             HStack {
-                Text("\(ticketInfo.isRefunded ? "退票\n" : "")\(ticketInfo.notes)\(ticketInfo.isExtended ? "\n越站" : "")").font(.tc提示标签中文)
+                VStack(alignment: .leading, spacing: 0) {
+                    if ticketInfo.isRefunded { Text("退票").frame(height: 10) }
+                    Text(ticketInfo.notes).frame(height: 16)
+                    if ticketInfo.isExtended { Text("越站").frame(height: 10) }
+                }.font(.tc提示标签中文)
+                //Text("\(ticketInfo.isRefunded ? "退票\n" : "")\(ticketInfo.notes)\(ticketInfo.isExtended ? "\n越站" : "")").font(.tc提示标签中文)
                 Spacer()
             }
             .fixedSize(horizontal: false, vertical: true)
-            .frame(height: 18)
-            .offset(y: ticketInfo.isExtended || ticketInfo.isRefunded ? -6 : 0)
+            .frame(height: 26)
+            //.offset(y: ticketInfo.isExtended || ticketInfo.isRefunded ? -6 : 0)
             HStack {
                 VStack {
                     HStack {
@@ -262,7 +273,7 @@ struct TicketView: View {
                         Text(ticketInfo.passengerName)
                             .font(.tc乘客姓名)
                         Spacer()
-                    }.frame(height: 10)
+                    }.frame(height: 6)
                     ZStack {
                         Rectangle().stroke(style: .init(
                             lineWidth: 1.0, lineCap: .butt,
@@ -287,6 +298,7 @@ struct TicketView: View {
                 ))
                     //.resizable().interpolation(.none).scaledToFit()
                     .frame(width: 56, height: 56)
+                    .offset(y: -4)
             }
         }.foregroundColor(.black)
     }

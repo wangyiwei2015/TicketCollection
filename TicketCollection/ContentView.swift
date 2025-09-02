@@ -47,7 +47,7 @@ struct ContentView: View {
         "bgr": Color(red: 182/244, green: 142/244, blue: 112/255),
     ]
     let bgImgNameShown: [String : String] = [
-        "nil": "空白", "bgp": "皮革", "bgn": "牛皮纸", "bgw": "木纹", "bgr": "软木板",
+        "nil": "空白", "bgp": "皮革", "bgn": "牛皮纸", "bgw": "木纹", "bgr": "软木板", "bgc": "地毯"
     ]
 
     // - MARK: 状态：Ticket列表信息

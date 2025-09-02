@@ -38,6 +38,9 @@ struct FontLoaderView: View {
                 }.buttonStyle(TCButtonStyle(filled: false))
                     .frame(width: 50, height: 40)
             }
+            
+            #if DEBUG
+            
             GeometryReader { geometry in
                 let w = geometry.size.width
                 let h = geometry.size.height
@@ -134,6 +137,11 @@ struct FontLoaderView: View {
                     }
                 }
             }.aspectRatio(0.8, contentMode: .fit)
+            .ignoresSafeArea()
+            
+            #else
+            Text("还在开发🤔")
+            #endif
             
             Spacer()
             

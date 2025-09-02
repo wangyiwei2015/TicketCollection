@@ -89,6 +89,7 @@ extension ContentView {
                                 Button("牛皮纸") { bgImgName = "bgn" }
                                 Button("木纹") { bgImgName = "bgw" }
                                 Button("软木板") { bgImgName = "bgr" }
+                                Button("地毯") { bgImgName = "bgc" }
                             } label: {
                                 Label(bgImgNameShown[bgImgName] ?? "未知", systemImage: "chevron.up.chevron.down")
                                     .frame(height: 46)
@@ -215,8 +216,9 @@ extension ContentView {
                         if v1ProAccess {
                             Text("感谢支持！\n您也可以继续打赏来为后续开发提供更多动力～\n")
                         } else {
-                            Text("选择支付任意金额即可获得目前发布的全部功能：\n- 多种背景图像\n- 文件夹管理功能\n- 导出无损PDF文件\n\n计划开发：\n自定义导入背景图像\n二维码导入导出\n")
+                            Text("选择支付任意金额即可获得目前发布的全部功能：\n- 多种背景图像\n- 文件夹管理功能\n- 导出无损PDF文件")
                         }
+                        Text("*计划中的开发内容*:\n- 自定义导入背景图像\n- 二维码导入导出\n- 桌面小组件/回忆\n- 行程提示实时活动和灵动岛\n")
                     }.foregroundStyle(.secondary).padding(10)
                 }.padding(.top).padding(.horizontal) // VStack
             }

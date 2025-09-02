@@ -107,7 +107,7 @@ struct ContentView: View {
             Label(item.starred ? "取消收藏" : "收藏", systemImage: item.starred ? "star.slash" : "star")
         }
         if v1ProAccess {
-            ShareLink("分享", item: TransferableTicket(item, .pdf), preview: exportPreview)
+            ShareLink("分享", item: TransferableTicketPDF(item), preview: exportPreview)
         }
         Button(role: .destructive) {
             itemToDelete = item

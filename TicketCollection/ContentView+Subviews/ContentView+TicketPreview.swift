@@ -146,7 +146,7 @@ extension ContentView {
                     if v1ProAccess {
                         Spacer()
                         ShareLink(
-                            "导出PDF", item: TransferableTicket(selectedTicket ?? .init(), .pdf),
+                            "导出PDF", item: TransferableTicketPDF(selectedTicket ?? .init()),
                             preview: exportPreview
                         ).buttonStyle(TCButtonStyle(filled: true, height: 48)).frame(width: 130)
                     } //else {

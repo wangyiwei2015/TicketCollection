@@ -30,6 +30,12 @@ extension ContentView {
             Spacer()
             if filteredTickets.isEmpty && !showsAddMenu {
                 Text("无符合条件的车票").font(.title2).foregroundStyle(.gray)
+                Button("添加示例设计") {
+                    for ticket in TicketItem.makeSamples() {
+                        modelContext.insert(ticket)
+                    }
+                    try! modelContext.save()
+                }.tint(ticketColorDarker)
             }
             Spacer()
             if showsAddMenu {

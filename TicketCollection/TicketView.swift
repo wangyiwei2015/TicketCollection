@@ -377,26 +377,46 @@ struct TicketView: View {
     }
 }
 
-class TransferableTicket: Transferable {
-    enum FileType {
-        case pdf, jpg
-    }
-    init(_ item: TicketItem, _ fileType: FileType) {
-        self.item = item
-        self.fileType = fileType
-    }
+class TransferableTicketPDF: Transferable {
     let item: TicketItem
-    let fileType: FileType
+    init(_ item: TicketItem) { self.item = item }
     static var transferRepresentation: some TransferRepresentation {
         DataRepresentation(exportedContentType: .pdf) { instance in
-            switch instance.fileType {
-            case .pdf: await TicketView(ticketInfo: instance.item).makePDF()
-            case .jpg: await TicketView(ticketInfo: instance.item).makeJPG()
-            default: fatalError()
-            }
+            await TicketView(ticketInfo: instance.item).makePDF()
         }
     }
 }
+
+class TransferableTicketJPG: Transferable {
+    let item: TicketItem
+    init(_ item: TicketItem) { self.item = item }
+    static var transferRepresentation: some TransferRepresentation {
+        DataRepresentation(exportedContentType: .jpeg) { instance in
+            await TicketView(ticketInfo: instance.item).makeJPG()
+        }
+    }
+}
+
+//class TransferableTicket: Transferable {
+//    enum FileType {
+//        case pdf, jpg
+//    }
+//    init(_ item: TicketItem, _ fileType: FileType) {
+//        self.item = item
+//        self.fileType = fileType
+//    }
+//    let item: TicketItem
+//    let fileType: FileType
+//    static var transferRepresentation: some TransferRepresentation {
+//        DataRepresentation(exportedContentType: fileType == .pdf ? .pdf : .jpeg) { instance in
+//            switch instance.fileType {
+//            case .pdf: await TicketView(ticketInfo: instance.item).makePDF()
+//            case .jpg: await TicketView(ticketInfo: instance.item).makeJPG()
+//            default: fatalError()
+//            }
+//        }
+//    }
+//}
 
 let exportPreview = SharePreview(
     "已打印1/1张车票，请收好您的证件",

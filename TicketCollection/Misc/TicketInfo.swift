@@ -66,6 +66,13 @@ import SwiftData
         self.creationDate = Date()
         self.ticketType = .seat
     }
+    
+    static func makeSamples() -> [TicketItem] {
+        return [
+            TicketItem(ticketID: "A888888", entrance: "检票:1AB", stationSrcCN: "上海虹桥", stationSrcEN: "Shanghaihongqiao", stationDstCN: "北京南", stationDstEN: "Beijingnan", trainNumber: "G8", departTime: Date.bySetting(2025, 9, 30, 8, 0), carriage: "02", seat: "01A", price: 1060.00, seatLevel: "一等座", isStudent: true, notes: "仅供报销使用", passengerID: "1234567890****9876", passengerName: "姓名", comments: "报销凭证 遗失不补\n退票改签时须交回车站", ticketSerial: "00000000000000A888888 JM"),
+            TicketItem(ticketID: "A000000", entrance: "检票:员工通道", stationSrcCN: "这里", stationSrcEN: "Source", stationDstCN: "那里", stationDstEN: "Destination", trainNumber: "G0000", departTime: .now, carriage: "01", seat: "01A", price: 0.01, seatLevel: "驾驶座", passengerID: "1234567890****9876", passengerName: "乘客", ticketSerial: "01234056780900A987654 JM")
+        ]
+    }
 }
 
 enum TicketType: Int, Codable {

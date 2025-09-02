@@ -52,10 +52,12 @@ extension Font {
         return .custom("SourceHanSansSC-Regular", fixedSize: 13)
     }
     static var tc提示标签中文: Font {
+        return .custom("PingFang SC", fixedSize: 11).weight(.regular)
         return .custom("SourceHanSerifSC-Bold", fixedSize: 12)
     }
     static var tc乘客姓名: Font {
-        return .custom("SourceHanSerifSC-Bold", fixedSize: 14)
+        return .custom("PingFang SC", fixedSize: 12).weight(.regular)
+        //return .custom("SourceHanSerifSC-Bold", fixedSize: 14)
     }
     static var tc乘客身份证: Font {
         return .custom("Gilroy", fixedSize: 14).weight(.bold)

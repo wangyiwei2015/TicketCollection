@@ -52,11 +52,10 @@ struct EditorView: View {
                     if extEnabled {
                         Menu {
                             Button {
-                                //show info
-                                
+                                // TODO: info
                             } label: {
                                 Label("详细信息", systemImage: "info.circle")
-                            }
+                            }.hidden()
                             
                             Button {
                                 saveData(async: false)
@@ -65,10 +64,10 @@ struct EditorView: View {
                             }.disabled(!modelContext.hasChanges)
                             
                             Button {
-                                //no imp
+                                // TODO: Save as
                             } label: {
                                 Label("另存为…", systemImage: "square.and.arrow.down.on.square")
-                            }
+                            }.hidden()
                             
                             Button(role: modelContext.hasChanges ? .destructive : .cancel) {
                                 if modelContext.hasChanges {
@@ -96,9 +95,9 @@ struct EditorView: View {
                     Spacer()
                     Menu {
                         if v1ProAccess {
-                            ShareLink("导出为PDF", item: TransferableTicket(ticketItem, .pdf), preview: exportPreview)
+                            ShareLink("导出为PDF", item: TransferableTicketPDF(ticketItem), preview: exportPreview)
                         }
-                        ShareLink("导出为JPG", item: TransferableTicket(ticketItem, .jpg), preview: exportPreview)
+                        ShareLink("导出为JPG", item: TransferableTicketJPG(ticketItem), preview: exportPreview)
                     } label: {
                         Label("分享", systemImage: "square.and.arrow.up").offset(y: -1)
                     }.buttonStyle(TCButtonStyle(filled: true))

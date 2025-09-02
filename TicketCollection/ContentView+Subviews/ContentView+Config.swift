@@ -153,19 +153,28 @@ extension ContentView {
                     
                     if showsIAP {
                         VStack(spacing: 10) {
+                            if !v1ProAccess {
+                                HStack(spacing: 16) {
+                                    Button {
+                                        Task { await payOneTime("com.wyw.ticketbox.v1pro.free", 0) }
+                                    } label: {
+                                        Label("¥0", systemImage: "bolt.fill")
+                                    }.buttonStyle(TCButtonStyle(filled: selectedIAP == 0))
+                                    Button {
+                                        Task { await payOneTime("com.wyw.ticketbox.v1pro.1", 1) }
+                                    } label: {
+                                        Label("¥3", systemImage: "bolt.fill")
+                                    }.buttonStyle(TCButtonStyle(filled: selectedIAP == 1))
+                                }.frame(height: 46).padding(.horizontal, 10)
+                            }
                             HStack(spacing: 16) {
-                                Button {
-                                    Task { await payOneTime("com.wyw.ticketbox.v1pro.free", 0) }
-                                } label: {
-                                    Label("¥0", systemImage: "bolt.fill")
-                                }.buttonStyle(TCButtonStyle(filled: selectedIAP == 0))
-                                Button {
-                                    Task { await payOneTime("com.wyw.ticketbox.v1pro.1", 1) }
-                                } label: {
-                                    Label("¥3", systemImage: "bolt.fill")
-                                }.buttonStyle(TCButtonStyle(filled: selectedIAP == 1))
-                            }.frame(height: 46).padding(.horizontal, 10)
-                            HStack(spacing: 16) {
+                                if v1ProAccess {
+                                    Button {
+                                        Task { await payOneTime("com.wyw.ticketbox.v1pro.1", 1) }
+                                    } label: {
+                                        Label("¥3", systemImage: "bolt.fill")
+                                    }.buttonStyle(TCButtonStyle(filled: selectedIAP == 1))
+                                }
                                 Button {
                                     Task { await payOneTime("com.wyw.ticketbox.v1pro.2", 2) }
                                 } label: {
@@ -188,7 +197,7 @@ extension ContentView {
                                 Button {
                                     v1ProAccess = true
                                 } label: {
-                                    Label("DEBUG: 直接零元购", systemImage: "swift")
+                                    Label("DEBUG: 零元购", systemImage: "swift")
                                 }.buttonStyle(TCButtonStyle())
                             }.frame(height: 46).padding(.horizontal, 10)
                             #endif

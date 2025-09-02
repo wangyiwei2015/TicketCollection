@@ -263,9 +263,11 @@ struct ContentView: View {
 //                allFolders: allFolders, extEnabled: extEnabled
 //            )
         }
+        #if DEBUG
         .sheet(isPresented: $showsDebug) {
             DebugView()
         }
+        #endif
     }
     
     let ver = Bundle.main.infoDictionary!["CFBundleShortVersionString"] as! String? ?? "0"

@@ -15,7 +15,6 @@
 		B311A58E2E4222E000F2C141 /* SourceHanSerifSC-Regular.subset.otf in Resources */ = {isa = PBXBuildFile; fileRef = B311A58B2E4222E000F2C141 /* SourceHanSerifSC-Regular.subset.otf */; };
 		B311A58F2E4222E000F2C141 /* SourceHanSerifSC-Bold.subset.otf in Resources */ = {isa = PBXBuildFile; fileRef = B311A58A2E4222E000F2C141 /* SourceHanSerifSC-Bold.subset.otf */; };
 		B365AACB2CD0D57E00D78107 /* ContentView+Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = B365AACA2CD0D57400D78107 /* ContentView+Config.swift */; };
-		B3708CBF2B5D413800357B12 /* TechnicBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B3708CB42B59549500357B12 /* TechnicBold.ttf */; };
 		B3708CC12B5D41D000357B12 /* TCFonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3708CC02B5D41D000357B12 /* TCFonts.swift */; };
 		B3708CC32B5D471800357B12 /* TicketView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3708CC22B5D471800357B12 /* TicketView.swift */; };
 		B3708CCA2B5E395500357B12 /* QRGen.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3708CC92B5E395500357B12 /* QRGen.swift */; };
@@ -26,15 +25,6 @@
 		B397CC3D2E3B9010009DA46F /* SampleCatStoreKitConfiguration.storekit in Resources */ = {isa = PBXBuildFile; fileRef = B397CC3C2E3B9010009DA46F /* SampleCatStoreKitConfiguration.storekit */; };
 		B397CC402E3B9B40009DA46F /* Reachability in Frameworks */ = {isa = PBXBuildFile; productRef = B397CC3F2E3B9B40009DA46F /* Reachability */; };
 		B3BF587E2C627AE000AD72DF /* DebugView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3BF587D2C627AE000AD72DF /* DebugView.swift */; };
-		B3BF58882C65236C00AD72DF /* STSongti-SC-Regular.subset.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B3BF587F2C65236C00AD72DF /* STSongti-SC-Regular.subset.ttf */; };
-		B3BF58892C65236C00AD72DF /* STSongti-SC-Light.subset.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B3BF58802C65236C00AD72DF /* STSongti-SC-Light.subset.ttf */; };
-		B3BF588A2C65236C00AD72DF /* STSongti-SC-Black.subset.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B3BF58812C65236C00AD72DF /* STSongti-SC-Black.subset.ttf */; };
-		B3BF588B2C65236C00AD72DF /* ArialUnicode.subset.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B3BF58822C65236C00AD72DF /* ArialUnicode.subset.ttf */; };
-		B3BF588C2C65236C00AD72DF /* SimHei.subset.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B3BF58832C65236C00AD72DF /* SimHei.subset.ttf */; };
-		B3BF588D2C65236C00AD72DF /* FangSong_GB2312.subset.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B3BF58842C65236C00AD72DF /* FangSong_GB2312.subset.ttf */; };
-		B3BF588E2C65236C00AD72DF /* STSongti-SC-Bold.subset.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B3BF58852C65236C00AD72DF /* STSongti-SC-Bold.subset.ttf */; };
-		B3BF588F2C65236C00AD72DF /* SimSun.subset.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B3BF58862C65236C00AD72DF /* SimSun.subset.ttf */; };
-		B3BF58902C65236C00AD72DF /* STSong.subset.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B3BF58872C65236C00AD72DF /* STSong.subset.ttf */; };
 		B3BF58922C65CBC800AD72DF /* ContentView+ListLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3BF58912C65CBC800AD72DF /* ContentView+ListLayout.swift */; };
 		B3BF58942C65CC0000AD72DF /* ContentView+TicketPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3BF58932C65CC0000AD72DF /* ContentView+TicketPreview.swift */; };
 		B3BF58962C65CC6300AD72DF /* ContentView+Controls.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3BF58952C65CC6300AD72DF /* ContentView+Controls.swift */; };
@@ -61,7 +51,6 @@
 		B311A58B2E4222E000F2C141 /* SourceHanSerifSC-Regular.subset.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceHanSerifSC-Regular.subset.otf"; sourceTree = "<group>"; };
 		B365AACA2CD0D57400D78107 /* ContentView+Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ContentView+Config.swift"; sourceTree = "<group>"; };
 		B365AACC2CD1043300D78107 /* TicketCollection.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TicketCollection.entitlements; sourceTree = "<group>"; };
-		B3708CB42B59549500357B12 /* TechnicBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = TechnicBold.ttf; sourceTree = "<group>"; };
 		B3708CB72B5954BC00357B12 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		B3708CC02B5D41D000357B12 /* TCFonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TCFonts.swift; sourceTree = "<group>"; };
 		B3708CC22B5D471800357B12 /* TicketView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketView.swift; sourceTree = "<group>"; };
@@ -70,15 +59,6 @@
 		B3708CCD2B5E40CA00357B12 /* Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
 		B397CC3C2E3B9010009DA46F /* SampleCatStoreKitConfiguration.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = SampleCatStoreKitConfiguration.storekit; sourceTree = "<group>"; };
 		B3BF587D2C627AE000AD72DF /* DebugView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugView.swift; sourceTree = "<group>"; };
-		B3BF587F2C65236C00AD72DF /* STSongti-SC-Regular.subset.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "STSongti-SC-Regular.subset.ttf"; sourceTree = "<group>"; };
-		B3BF58802C65236C00AD72DF /* STSongti-SC-Light.subset.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "STSongti-SC-Light.subset.ttf"; sourceTree = "<group>"; };
-		B3BF58812C65236C00AD72DF /* STSongti-SC-Black.subset.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "STSongti-SC-Black.subset.ttf"; sourceTree = "<group>"; };
-		B3BF58822C65236C00AD72DF /* ArialUnicode.subset.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = ArialUnicode.subset.ttf; sourceTree = "<group>"; };
-		B3BF58832C65236C00AD72DF /* SimHei.subset.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = SimHei.subset.ttf; sourceTree = "<group>"; };
-		B3BF58842C65236C00AD72DF /* FangSong_GB2312.subset.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = FangSong_GB2312.subset.ttf; sourceTree = "<group>"; };
-		B3BF58852C65236C00AD72DF /* STSongti-SC-Bold.subset.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "STSongti-SC-Bold.subset.ttf"; sourceTree = "<group>"; };
-		B3BF58862C65236C00AD72DF /* SimSun.subset.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = SimSun.subset.ttf; sourceTree = "<group>"; };
-		B3BF58872C65236C00AD72DF /* STSong.subset.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = STSong.subset.ttf; sourceTree = "<group>"; };
 		B3BF58912C65CBC800AD72DF /* ContentView+ListLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ContentView+ListLayout.swift"; sourceTree = "<group>"; wrapsLines = 0; };
 		B3BF58932C65CC0000AD72DF /* ContentView+TicketPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ContentView+TicketPreview.swift"; sourceTree = "<group>"; };
 		B3BF58952C65CC6300AD72DF /* ContentView+Controls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ContentView+Controls.swift"; sourceTree = "<group>"; };
@@ -120,16 +100,6 @@
 				B311A58A2E4222E000F2C141 /* SourceHanSerifSC-Bold.subset.otf */,
 				B311A58B2E4222E000F2C141 /* SourceHanSerifSC-Regular.subset.otf */,
 				B311A5852E408C1800F2C141 /* README.md */,
-				B3BF58822C65236C00AD72DF /* ArialUnicode.subset.ttf */,
-				B3BF58842C65236C00AD72DF /* FangSong_GB2312.subset.ttf */,
-				B3BF58832C65236C00AD72DF /* SimHei.subset.ttf */,
-				B3BF58862C65236C00AD72DF /* SimSun.subset.ttf */,
-				B3BF58872C65236C00AD72DF /* STSong.subset.ttf */,
-				B3BF58812C65236C00AD72DF /* STSongti-SC-Black.subset.ttf */,
-				B3BF58852C65236C00AD72DF /* STSongti-SC-Bold.subset.ttf */,
-				B3BF58802C65236C00AD72DF /* STSongti-SC-Light.subset.ttf */,
-				B3BF587F2C65236C00AD72DF /* STSongti-SC-Regular.subset.ttf */,
-				B3708CB42B59549500357B12 /* TechnicBold.ttf */,
 			);
 			path = fonts;
 			sourceTree = "<group>";
@@ -289,21 +259,11 @@
 				B311A58E2E4222E000F2C141 /* SourceHanSerifSC-Regular.subset.otf in Resources */,
 				B311A58F2E4222E000F2C141 /* SourceHanSerifSC-Bold.subset.otf in Resources */,
 				B311A5842E408C1400F2C141 /* FreeSerif.otf in Resources */,
-				B3BF588C2C65236C00AD72DF /* SimHei.subset.ttf in Resources */,
-				B3BF588B2C65236C00AD72DF /* ArialUnicode.subset.ttf in Resources */,
-				B3708CBF2B5D413800357B12 /* TechnicBold.ttf in Resources */,
-				B3BF58902C65236C00AD72DF /* STSong.subset.ttf in Resources */,
 				B3C339FD2B00FE550003BEF4 /* Preview Assets.xcassets in Resources */,
 				B311A5862E408C1E00F2C141 /* README.md in Resources */,
 				B3C339FA2B00FE550003BEF4 /* Assets.xcassets in Resources */,
 				B397CC3D2E3B9010009DA46F /* SampleCatStoreKitConfiguration.storekit in Resources */,
-				B3BF588F2C65236C00AD72DF /* SimSun.subset.ttf in Resources */,
 				B311A5822E4077FB00F2C141 /* Gilroy-Light.otf in Resources */,
-				B3BF588E2C65236C00AD72DF /* STSongti-SC-Bold.subset.ttf in Resources */,
-				B3BF58882C65236C00AD72DF /* STSongti-SC-Regular.subset.ttf in Resources */,
-				B3BF588A2C65236C00AD72DF /* STSongti-SC-Black.subset.ttf in Resources */,
-				B3BF588D2C65236C00AD72DF /* FangSong_GB2312.subset.ttf in Resources */,
-				B3BF58892C65236C00AD72DF /* STSongti-SC-Light.subset.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -465,7 +425,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = TicketCollection/TicketCollection.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 28;
+				CURRENT_PROJECT_VERSION = 29;
 				DEVELOPMENT_ASSET_PATHS = "\"TicketCollection/Preview Content\"";
 				DEVELOPMENT_TEAM = JS2ME2LTBF;
 				ENABLE_PREVIEWS = YES;
@@ -485,7 +445,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.5.6;
+				MARKETING_VERSION = 1.5.7;
 				PRODUCT_BUNDLE_IDENTIFIER = com.wyw.TicketCollection;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -504,7 +464,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = TicketCollection/TicketCollection.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 28;
+				CURRENT_PROJECT_VERSION = 29;
 				DEVELOPMENT_ASSET_PATHS = "\"TicketCollection/Preview Content\"";
 				DEVELOPMENT_TEAM = JS2ME2LTBF;
 				ENABLE_PREVIEWS = YES;
@@ -524,7 +484,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.5.6;
+				MARKETING_VERSION = 1.5.7;
 				PRODUCT_BUNDLE_IDENTIFIER = com.wyw.TicketCollection;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";

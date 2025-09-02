@@ -4,16 +4,6 @@
 <dict>
 	<key>UIAppFonts</key>
 	<array>
-		<string>TechnicBold.ttf</string>
-		<string>ArialUnicode.subset.ttf</string>
-		<string>FangSong_GB2312.subset.ttf</string>
-		<string>SimHei.subset.ttf</string>
-		<string>SimSun.subset.ttf</string>
-		<string>STSong.subset.ttf</string>
-		<string>STSongti-SC-Black.subset.ttf</string>
-		<string>STSongti-SC-Bold.subset.ttf</string>
-		<string>STSongti-SC-Light.subset.ttf</string>
-		<string>STSongti-SC-Regular.subset.ttf</string>
 		<string>FreeSerif.otf</string>
 		<string>Gilroy-Light.otf</string>
 		<string>SourceHanSansSC-Regular.subset.otf</string>

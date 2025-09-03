@@ -44,7 +44,7 @@ extension ContentView {
                 ForEach(allFolders) { folder in
                     Section {
                         if openedFolder == folder {
-                            ForEach(folder.tickets ?? []) { item in
+                            ForEach(filteredTicketsInFolder(folder)) { item in
                                 ticketItemView(item).id(item.id)
                             }
                             Text("共有 \(folder.tickets?.count ?? 0) 项").foregroundStyle(.secondary)
@@ -68,61 +68,6 @@ extension ContentView {
                     }// section other
                 }//foreach folder
             }//endif not show all
-            
-
-//            ForEach(filteredTickets) { item in
-//                HStack {
-//                    Button {
-//                        withAnimation(.easeInOut(duration: 0.3)) {
-//                            selectedTicket = item
-//                        }
-//                    } label: {
-//                        HStack {
-//                            ZStack {
-//                                RoundedRectangle(cornerRadius: 4, style: .continuous)
-//                                    .fill(ticketColor)
-//                                    .matchedGeometryEffect(id: selectedTicket == item ? "ticket" : "", in: namespace, properties: .position, isSource: false)
-//                                    .frame(width: 87/2, height: 54/2)
-//                                    .scaleEffect(
-//                                        selectedTicket == item ? 3.0 : 1.0
-//                                    )
-//                                VStack(spacing: 0) {
-//                                    Spacer()
-//                                    RoundedRectangle(cornerRadius: 3)
-//                                        .fill(Color(colorScheme == .dark ? UIColor.systemGray4 : UIColor.systemBackground))
-//                                        .shadow(color: .black.opacity(0.3), radius: 0, y: -1.2)
-//                                        .shadow(color: .black.opacity(0.2), radius: 3, y: 1)
-//                                        .frame(height: 14)
-//                                }
-//                            }.frame(width: 87/2+2.5, height: 54/2+1).padding(.trailing, 10)
-//                            Text(item.trainNumber).font(.title3).bold().foregroundColor(colorScheme == .dark ? ticketColor : ticketColorDarker)
-//                            
-//                            if item.starred {
-//                                Image(systemName: "star.fill").padding(.leading, 10)
-//                                    .font(.system(size: 12)).foregroundStyle(.gray.opacity(0.5))
-//                            }
-//                            
-//                            Spacer()
-//                            
-//                            Text(defFormatter.string(from: item.departTime))
-//                                .multilineTextAlignment(.trailing)
-//                                .font(.system(size: 14)).lineSpacing(-4)
-//                                .foregroundColor(.gray)
-//                        }.padding(.horizontal)
-//                    }.buttonStyle(ListItemBtnStyle(colorScheme: colorScheme))
-//                    
-//                    Menu {
-//                        itemActions(for: item)
-//                    } label: {
-//                        Image(systemName: "ellipsis")
-//                    }.buttonStyle(RoundedBtnStyle(filled: false))
-//                        .frame(width: 26)
-//                        .padding(.leading, 8)
-//                        .padding(.trailing, 4)
-//                }
-//                .padding(.bottom, 10).padding(.leading, 20)
-//                .frame(height: 60)
-//            } // foreach
         } // vgrid
     }
     

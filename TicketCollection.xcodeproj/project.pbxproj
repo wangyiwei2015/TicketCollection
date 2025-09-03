@@ -24,6 +24,7 @@
 		B397CC3B2E3B8373009DA46F /* RevenueCatUI in Frameworks */ = {isa = PBXBuildFile; productRef = B397CC3A2E3B8373009DA46F /* RevenueCatUI */; };
 		B397CC3D2E3B9010009DA46F /* SampleCatStoreKitConfiguration.storekit in Resources */ = {isa = PBXBuildFile; fileRef = B397CC3C2E3B9010009DA46F /* SampleCatStoreKitConfiguration.storekit */; };
 		B397CC402E3B9B40009DA46F /* Reachability in Frameworks */ = {isa = PBXBuildFile; productRef = B397CC3F2E3B9B40009DA46F /* Reachability */; };
+		B3B0EC7D2E6819DF0018D74A /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3B0EC7C2E6819D90018D74A /* OnboardingView.swift */; };
 		B3BF587E2C627AE000AD72DF /* DebugView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3BF587D2C627AE000AD72DF /* DebugView.swift */; };
 		B3BF58922C65CBC800AD72DF /* ContentView+ListLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3BF58912C65CBC800AD72DF /* ContentView+ListLayout.swift */; };
 		B3BF58942C65CC0000AD72DF /* ContentView+TicketPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3BF58932C65CC0000AD72DF /* ContentView+TicketPreview.swift */; };
@@ -58,6 +59,7 @@
 		B3708CCB2B5E3D7A00357B12 /* EditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorView.swift; sourceTree = "<group>"; };
 		B3708CCD2B5E40CA00357B12 /* Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
 		B397CC3C2E3B9010009DA46F /* SampleCatStoreKitConfiguration.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = SampleCatStoreKitConfiguration.storekit; sourceTree = "<group>"; };
+		B3B0EC7C2E6819D90018D74A /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		B3BF587D2C627AE000AD72DF /* DebugView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugView.swift; sourceTree = "<group>"; };
 		B3BF58912C65CBC800AD72DF /* ContentView+ListLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ContentView+ListLayout.swift"; sourceTree = "<group>"; wrapsLines = 0; };
 		B3BF58932C65CC0000AD72DF /* ContentView+TicketPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ContentView+TicketPreview.swift"; sourceTree = "<group>"; };
@@ -156,6 +158,7 @@
 				B3708CCB2B5E3D7A00357B12 /* EditorView.swift */,
 				B3BF587D2C627AE000AD72DF /* DebugView.swift */,
 				B3EA3B362E3C956A00C3FB4E /* FontPrefsView.swift */,
+				B3B0EC7C2E6819D90018D74A /* OnboardingView.swift */,
 				B3BF58972C65D17100AD72DF /* Misc */,
 				B3C339F92B00FE550003BEF4 /* Assets.xcassets */,
 				B3C339FB2B00FE550003BEF4 /* Preview Content */,
@@ -287,6 +290,7 @@
 				B3BF58922C65CBC800AD72DF /* ContentView+ListLayout.swift in Sources */,
 				B365AACB2CD0D57E00D78107 /* ContentView+Config.swift in Sources */,
 				B3708CC32B5D471800357B12 /* TicketView.swift in Sources */,
+				B3B0EC7D2E6819DF0018D74A /* OnboardingView.swift in Sources */,
 				B3FA3C6C2DA3EA8000200E22 /* ContentView+Filter.swift in Sources */,
 				B3708CCE2B5E40CA00357B12 /* Helpers.swift in Sources */,
 				B3BF58962C65CC6300AD72DF /* ContentView+Controls.swift in Sources */,
@@ -425,7 +429,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = TicketCollection/TicketCollection.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 31;
+				CURRENT_PROJECT_VERSION = 32;
 				DEVELOPMENT_ASSET_PATHS = "\"TicketCollection/Preview Content\"";
 				DEVELOPMENT_TEAM = JS2ME2LTBF;
 				ENABLE_PREVIEWS = YES;
@@ -445,7 +449,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.5.8;
+				MARKETING_VERSION = 1.5.9;
 				PRODUCT_BUNDLE_IDENTIFIER = com.wyw.TicketCollection;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -464,7 +468,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = TicketCollection/TicketCollection.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 31;
+				CURRENT_PROJECT_VERSION = 32;
 				DEVELOPMENT_ASSET_PATHS = "\"TicketCollection/Preview Content\"";
 				DEVELOPMENT_TEAM = JS2ME2LTBF;
 				ENABLE_PREVIEWS = YES;
@@ -484,7 +488,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.5.8;
+				MARKETING_VERSION = 1.5.9;
 				PRODUCT_BUNDLE_IDENTIFIER = com.wyw.TicketCollection;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";

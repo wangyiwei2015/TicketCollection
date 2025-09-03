@@ -30,12 +30,16 @@ extension ContentView {
             Spacer()
             if filteredTickets.isEmpty && !showsAddMenu {
                 Text("无符合条件的车票").font(.title2).foregroundStyle(.gray)
-                Button("添加示例设计") {
-                    for ticket in TicketItem.makeSamples() {
-                        modelContext.insert(ticket)
-                    }
-                    try! modelContext.save()
-                }.tint(ticketColorDarker)
+                if tickets.isEmpty {
+                    Button("添加示例设计") {
+                        withAnimation(.smooth) {
+                            for ticket in TicketItem.makeSamples() {
+                                modelContext.insert(ticket)
+                            }
+                        }
+                        try! modelContext.save()
+                    }.tint(ticketColorDarker)
+                }
             }
             Spacer()
             if showsAddMenu {
@@ -177,6 +181,10 @@ extension ContentView {
                         Button {
                             withAnimation(.easeInOut(duration: 0.2)) {
                                 filterOn.toggle()
+//                                if filterOn {
+//                                    openedFolder = nil
+//                                    showAllTickets = true
+//                                }
                             }
                         } label: {
                             Image(systemName: "line.3.horizontal.decrease") //dot.scope

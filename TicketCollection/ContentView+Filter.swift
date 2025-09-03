@@ -6,9 +6,16 @@
 //
 
 extension ContentView {
-    
     var filteredTickets: [TicketItem] {
-        tickets.filter { item in
+        filteredTicketsFor(tickets)
+    }
+    
+    func filteredTicketsInFolder(_ folder: TicketFolder) -> [TicketItem] {
+        filteredTicketsFor(folder.tickets ?? [])
+    }
+    
+    func filteredTicketsFor(_ src: [TicketItem]) -> [TicketItem] {
+        src.filter { item in
             var matched = true
             
             let starFiltered = !filters[0] || item.starred

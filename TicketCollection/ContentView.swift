@@ -35,6 +35,7 @@ struct ContentView: View {
     @AppStorage("ExtendedOptions") var extEnabled = false
     @AppStorage("V1ProAcess") var v1ProAccess = false
     @AppStorage("SubActive") var subscribingIAP = false
+    @AppStorage("_ONBOARDING_DONE") var onboardingDone = false
     
     // - MARK: 样式相关常量
     let viewModeIcons: [String] = ["list.bullet", "circle.grid.2x2.fill", "square.stack", "scroll"]
@@ -78,6 +79,7 @@ struct ContentView: View {
     @State var showsIAP = false
     @State var paywallShown = false
     @State var selectedIAP: Int = -1
+    @State var showsOnboarding = false
     
     // - MARK: 输入状态
     @State var searchTerm: String = ""
@@ -215,6 +217,7 @@ struct ContentView: View {
                     print(error.localizedDescription)
                 }
             }
+            if !onboardingDone { showsOnboarding = true }
         }
         
         .sensoryFeedback(.alignment, trigger: viewMode)
@@ -263,6 +266,11 @@ struct ContentView: View {
 //                allFolders: allFolders, extEnabled: extEnabled
 //            )
         }
+        
+        .sheet(isPresented: $showsOnboarding) {
+            OnboardingView()
+        }
+        
         #if DEBUG
         .sheet(isPresented: $showsDebug) {
             DebugView()

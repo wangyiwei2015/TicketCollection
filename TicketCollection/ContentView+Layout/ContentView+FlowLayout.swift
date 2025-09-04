@@ -22,7 +22,7 @@ extension ContentView {
                         ForEach(filteredTickets) { item in
                             flowCell(for: item).id(item.id)
                         }
-                        Text("共有 \(tickets.count) 项").foregroundStyle(.secondary)
+                        //Text("共有 \(tickets.count) 项").foregroundStyle(.secondary)
                     }
                 } header: {
                     ZStack {
@@ -51,7 +51,7 @@ extension ContentView {
                             ForEach(filteredTicketsInFolder(folder)) { item in
                                 flowCell(for: item).id(item.id)
                             }
-                            Text("共有 \(folder.tickets?.count ?? 0) 项").foregroundStyle(.secondary)
+                            //Text("共有 \(folder.tickets?.count ?? 0) 项").foregroundStyle(.secondary)
                         }
                     } header: {
                         if openedFolder == folder || openedFolder == nil {

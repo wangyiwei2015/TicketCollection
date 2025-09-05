@@ -11,7 +11,8 @@
 
 **发布链接 / Releases**:
 
-- App Store
+- [App Store](https://apps.apple.com/us/app/ticketboxcr/id6476482890)
+- [TestFlight](https://testflight.apple.com/join/187MQ2QH) (beta)
 
 
 

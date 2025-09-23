@@ -127,21 +127,39 @@ extension ContentView {
                                 .shadow(color: .black.opacity(0.3), radius: 0, y: -1.2)
                                 .shadow(color: .black.opacity(0.2), radius: 3, y: 1)
                                 .frame(height: 14)
+                                .overlay {
+                                    Text("2025.88.88").font(.system(size: 6))
+                                        .foregroundStyle(ticketColorAuto)
+                                }
+                        }
+                        VStack {
+                            Text(item.trainNumber).font(.system(size: 8))
+                                .foregroundStyle(ticketColorDarker).padding(.top, 2)
+                            Spacer()
                         }
                     }.frame(width: 87/2+2.5, height: 54/2+1).padding(.trailing, 10)
-                    Text(item.trainNumber).font(.title3).bold().foregroundColor(colorScheme == .dark ? ticketColor : ticketColorDarker)
                     
-                    if item.starred {
-                        Image(systemName: "star.fill").padding(.leading, 10)
-                            .font(.system(size: 12)).foregroundStyle(.gray.opacity(0.5))
-                    }
+                    Text("\(item.stationSrcCN) → \(item.stationDstCN)").font(.title3).bold()
+                        .foregroundColor(colorScheme == .dark ? ticketColor : ticketColorDarker)
+                        .lineLimit(1)
+                    
+//                    if item.starred {
+//                        Image(systemName: "star.fill").padding(.leading, 10)
+//                            .font(.system(size: 12)).foregroundStyle(.gray.opacity(0.5))
+//                    }
                     
                     Spacer()
                     
-                    Text(defFormatter.string(from: item.departTime))
-                        .multilineTextAlignment(.trailing)
-                        .font(.system(size: 14)).lineSpacing(-4)
-                        .foregroundColor(.gray)
+                    Image(
+                        systemName: item.starred ? "star.fill" : "star"
+                    ).padding(.leading, 10)
+                        .font(.system(size: 16)).foregroundStyle(
+                            item.starred ? .yellow : .gray.opacity(0.3)
+                        )
+//                    Text(defFormatter.string(from: item.departTime))
+//                        .multilineTextAlignment(.trailing)
+//                        .font(.system(size: 14)).lineSpacing(-4)
+//                        .foregroundColor(.gray)
                 }.padding(.horizontal)
             }.buttonStyle(ListItemBtnStyle(colorScheme: colorScheme))
             
@@ -178,6 +196,9 @@ import SwiftData
 //    }
     for i in 1...3 {
         let t = TicketItem()
+        t.stationSrcCN = "四个字站"
+        t.stationDstCN = "四个字站"
+        t.starred = i % 2 == 0
         t.departTime = Date(timeIntervalSinceNow: TimeInterval(60 * i))
         container.mainContext.insert(t)
     }

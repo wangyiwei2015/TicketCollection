@@ -13,19 +13,24 @@ struct OnboardingView: View {
     let ticketColorAuto = Color(light: ticketColorDarker, dark: ticketColor)
     
     var body: some View {
-        VStack {
+        VStack(alignment: .center, spacing: 30) {
             Text("欢迎").font(.title).bold().padding()
             Spacer()
             VStack(alignment: .leading, spacing: 30) {
                 onboardingitem("数字化保存你的回忆", logo: Image(systemName: "filemenu.and.selection"))
                 onboardingitem("集中管理所有收藏", logo: Image(systemName: "tray.full.fill"))
+                    
+            }.padding().background {
+                RoundedRectangle(cornerRadius: 20).fill(Color(UIColor.systemGray6))
+            }
+            VStack(alignment: .leading, spacing: 30) {
                 onboardingitem("自定义设计尽情发挥创意", logo: Image(systemName: "pencil.and.outline"))
                 onboardingitem("导出高清图像分享", logo: Image(systemName: "photo.on.rectangle.angled"))
             }.padding().background {
                 RoundedRectangle(cornerRadius: 20).fill(Color(UIColor.systemGray6))
             }
             Spacer()
-            Text("注意：此App仅用于创作和收藏纪念，不具备票务和提醒功能。相关服务请前往12306官方渠道获取。")
+            Text("注意：此App仅用于创作和收藏纪念，不具备票务和提醒功能，也无法实时更新在线数据。相关服务请前往12306官方渠道获取，以免耽误您的行程。")
                 .font(.system(size: 15)).foregroundStyle(.gray).padding(.vertical)
             Button("-      开始使用      -") {
                 onboardingDone = true

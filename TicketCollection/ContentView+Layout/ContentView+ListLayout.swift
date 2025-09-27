@@ -168,11 +168,11 @@ extension ContentView {
             } label: {
                 Image(systemName: "ellipsis")
             }.buttonStyle(RoundedBtnStyle(filled: false))
-                .frame(width: 26)
+                .frame(width: 30)
                 .padding(.leading, 8)
                 .padding(.trailing, 4)
         }
-        .padding(.bottom, 10).padding(.leading, 20)
+        .padding(.bottom, 4).padding(.leading, 10)
         .frame(height: 60)
     }
 }
